@@ -1,0 +1,10 @@
+{
+  "src": "assets/film/wealth360-hype.mp4",
+  "src720": "assets/film/wealth360-hype-720.mp4",
+  "frag": "assets/film/wealth360-hype.mp4",
+  "frag720": "assets/film/wealth360-hype-720.mp4",
+  "mime": "video/mp4; codecs=\"avc1.640028,mp4a.40.2\"",
+  "duration": 90.0,
+  "width": 1920,
+  "height": 1080
+}

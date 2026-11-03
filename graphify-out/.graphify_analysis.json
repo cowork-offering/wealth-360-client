@@ -44,56 +44,71 @@
       "gsap_3_12_5_min_cd",
       "gsap_3_12_5_min_dd",
       "gsap_3_12_5_min_de",
+      "gsap_3_12_5_min_ec",
       "gsap_3_12_5_min_ed",
+      "gsap_3_12_5_min_fc",
       "gsap_3_12_5_min_fd",
-      "gsap_3_12_5_min_ga",
       "gsap_3_12_5_min_gd",
       "gsap_3_12_5_min_gn",
-      "gsap_3_12_5_min_hb",
       "gsap_3_12_5_min_inheritsloose",
-      "gsap_3_12_5_min_jc",
       "gsap_3_12_5_min_jd",
-      "gsap_3_12_5_min_lc",
       "gsap_3_12_5_min_ma",
+      "gsap_3_12_5_min_matchmedia",
       "gsap_3_12_5_min_md",
       "gsap_3_12_5_min_na",
-      "gsap_3_12_5_min_ob",
       "gsap_3_12_5_min_oc",
+      "gsap_3_12_5_min_od",
       "gsap_3_12_5_min_p",
       "gsap_3_12_5_min_pa",
       "gsap_3_12_5_min_proptween",
       "gsap_3_12_5_min_qb",
       "gsap_3_12_5_min_rb",
-      "gsap_3_12_5_min_u",
+      "gsap_3_12_5_min_sd",
+      "gsap_3_12_5_min_td",
       "gsap_3_12_5_min_wc",
       "gsap_3_12_5_min_yl",
       "gsap_3_12_5_min_zd"
     ],
     "2": [
+      "gsap_3_12_5_min_be",
+      "gsap_3_12_5_min_d",
+      "gsap_3_12_5_min_ee",
+      "gsap_3_12_5_min_ie",
+      "gsap_3_12_5_min_je",
+      "gsap_3_12_5_min_kd",
+      "gsap_3_12_5_min_ke",
+      "gsap_3_12_5_min_ld",
+      "gsap_3_12_5_min_le",
+      "gsap_3_12_5_min_oe",
+      "gsap_3_12_5_min_pd",
+      "gsap_3_12_5_min_ud",
+      "gsap_3_12_5_min_vd",
+      "gsap_3_12_5_min_wd",
+      "gsap_3_12_5_min_we",
+      "gsap_3_12_5_min_xd",
+      "gsap_3_12_5_min_xe",
+      "gsap_3_12_5_min_ya",
+      "gsap_3_12_5_min_yd"
+    ],
+    "3": [
       "gsap_3_12_5_min_a",
       "gsap_3_12_5_min_ac",
-      "gsap_3_12_5_min_bb",
-      "gsap_3_12_5_min_cb",
       "gsap_3_12_5_min_co",
-      "gsap_3_12_5_min_context",
       "gsap_3_12_5_min_db",
+      "gsap_3_12_5_min_ea",
       "gsap_3_12_5_min_eb",
-      "gsap_3_12_5_min_fb",
-      "gsap_3_12_5_min_gb",
-      "gsap_3_12_5_min_gw",
-      "gsap_3_12_5_min_lb",
+      "gsap_3_12_5_min_fa",
+      "gsap_3_12_5_min_ga",
       "gsap_3_12_5_min_oa",
-      "gsap_3_12_5_min_oe",
       "gsap_3_12_5_min_r",
       "gsap_3_12_5_min_s",
       "gsap_3_12_5_min_ta",
+      "gsap_3_12_5_min_u",
       "gsap_3_12_5_min_v",
       "gsap_3_12_5_min_ve",
-      "gsap_3_12_5_min_wa",
-      "gsap_3_12_5_min_y",
-      "gsap_3_12_5_min_ya"
+      "gsap_3_12_5_min_y"
     ],
-    "3": [
+    "4": [
       "scrolltrigger_3_12_5_min_a",
       "scrolltrigger_3_12_5_min_b",
       "scrolltrigger_3_12_5_min_bc",
@@ -108,22 +123,6 @@
       "scrolltrigger_3_12_5_min_wb",
       "scrolltrigger_3_12_5_min_xb",
       "scrolltrigger_3_12_5_min_xc"
-    ],
-    "4": [
-      "gsap_3_12_5_min_be",
-      "gsap_3_12_5_min_d",
-      "gsap_3_12_5_min_ea",
-      "gsap_3_12_5_min_ee",
-      "gsap_3_12_5_min_fa",
-      "gsap_3_12_5_min_ie",
-      "gsap_3_12_5_min_je",
-      "gsap_3_12_5_min_kd",
-      "gsap_3_12_5_min_ke",
-      "gsap_3_12_5_min_ld",
-      "gsap_3_12_5_min_pd",
-      "gsap_3_12_5_min_we",
-      "gsap_3_12_5_min_xd",
-      "gsap_3_12_5_min_xe"
     ],
     "5": [
       "build",
@@ -141,6 +140,20 @@
       "build_src"
     ],
     "6": [
+      "scrolltrigger_3_12_5_min_df",
+      "scrolltrigger_3_12_5_min_ff",
+      "scrolltrigger_3_12_5_min_gf",
+      "scrolltrigger_3_12_5_min_hf",
+      "scrolltrigger_3_12_5_min_jf",
+      "scrolltrigger_3_12_5_min_m",
+      "scrolltrigger_3_12_5_min_o",
+      "scrolltrigger_3_12_5_min_of",
+      "scrolltrigger_3_12_5_min_p",
+      "scrolltrigger_3_12_5_min_pf",
+      "scrolltrigger_3_12_5_min_qf",
+      "scrolltrigger_3_12_5_min_tf"
+    ],
+    "7": [
       "gsap_3_12_5_min_assertthisinitialized",
       "gsap_3_12_5_min_gc",
       "gsap_3_12_5_min_ka",
@@ -153,19 +166,19 @@
       "gsap_3_12_5_min_w",
       "gsap_3_12_5_min_xa"
     ],
-    "7": [
-      "scrolltrigger_3_12_5_min_df",
-      "scrolltrigger_3_12_5_min_ff",
-      "scrolltrigger_3_12_5_min_gf",
-      "scrolltrigger_3_12_5_min_hf",
-      "scrolltrigger_3_12_5_min_jf",
-      "scrolltrigger_3_12_5_min_m",
-      "scrolltrigger_3_12_5_min_of",
-      "scrolltrigger_3_12_5_min_pf",
-      "scrolltrigger_3_12_5_min_qf",
-      "scrolltrigger_3_12_5_min_tf"
-    ],
     "8": [
+      "gsap_3_12_5_min_aa",
+      "gsap_3_12_5_min_animation",
+      "gsap_3_12_5_min_ha",
+      "gsap_3_12_5_min_ia",
+      "gsap_3_12_5_min_ja",
+      "gsap_3_12_5_min_jc",
+      "gsap_3_12_5_min_lc",
+      "gsap_3_12_5_min_ra",
+      "gsap_3_12_5_min_sa",
+      "gsap_3_12_5_min_sb"
+    ],
+    "9": [
       "scrolltrigger_3_12_5_min_cb",
       "scrolltrigger_3_12_5_min_j",
       "scrolltrigger_3_12_5_min_mb",
@@ -175,16 +188,6 @@
       "scrolltrigger_3_12_5_min_tb",
       "scrolltrigger_3_12_5_min_ua",
       "scrolltrigger_3_12_5_min_wc"
-    ],
-    "9": [
-      "gsap_3_12_5_min_aa",
-      "gsap_3_12_5_min_animation",
-      "gsap_3_12_5_min_ha",
-      "gsap_3_12_5_min_ia",
-      "gsap_3_12_5_min_ja",
-      "gsap_3_12_5_min_ra",
-      "gsap_3_12_5_min_sa",
-      "gsap_3_12_5_min_sb"
     ],
     "10": [
       "scrolltrigger_3_12_5_min_db",
@@ -196,12 +199,13 @@
       "scrolltrigger_3_12_5_min_z"
     ],
     "11": [
-      "scrolltrigger_3_12_5_min_n",
-      "scrolltrigger_3_12_5_min_o",
-      "scrolltrigger_3_12_5_min_p",
-      "scrolltrigger_3_12_5_min_pc",
-      "scrolltrigger_3_12_5_min_r",
-      "scrolltrigger_3_12_5_min_sf"
+      "gsap_3_12_5_min_ab",
+      "gsap_3_12_5_min_bb",
+      "gsap_3_12_5_min_cb",
+      "gsap_3_12_5_min_context",
+      "gsap_3_12_5_min_fb",
+      "gsap_3_12_5_min_gw",
+      "gsap_3_12_5_min_zb"
     ],
     "12": [
       "gate",
@@ -212,17 +216,17 @@
       "gate_unlocked"
     ],
     "13": [
-      "gsap_3_12_5_min_le",
-      "gsap_3_12_5_min_ud",
-      "gsap_3_12_5_min_vd",
-      "gsap_3_12_5_min_wd",
-      "gsap_3_12_5_min_yd"
+      "gsap_3_12_5_min_gb",
+      "gsap_3_12_5_min_hb",
+      "gsap_3_12_5_min_lb",
+      "gsap_3_12_5_min_ob",
+      "gsap_3_12_5_min_wa"
     ],
     "14": [
-      "gsap_3_12_5_min_qa",
-      "gsap_3_12_5_min_ua",
-      "gsap_3_12_5_min_wb",
-      "gsap_3_12_5_min_x"
+      "scrolltrigger_3_12_5_min_n",
+      "scrolltrigger_3_12_5_min_pc",
+      "scrolltrigger_3_12_5_min_r",
+      "scrolltrigger_3_12_5_min_sf"
     ],
     "15": [
       "gsap_3_12_5_min_tb",
@@ -231,40 +235,214 @@
       "gsap_3_12_5_min_za"
     ],
     "16": [
-      "gsap_3_12_5_min_ec",
-      "gsap_3_12_5_min_fc",
-      "gsap_3_12_5_min_matchmedia"
+      "gsap_3_12_5_min_qa",
+      "gsap_3_12_5_min_ua",
+      "gsap_3_12_5_min_wb",
+      "gsap_3_12_5_min_x"
     ],
     "17": [
-      "gsap_3_12_5_min_od",
-      "gsap_3_12_5_min_sd",
-      "gsap_3_12_5_min_td"
+      "w035"
     ],
     "18": [
-      "gsap_3_12_5_min_ab",
-      "gsap_3_12_5_min_zb"
+      "w021"
+    ],
+    "19": [
+      "w026"
+    ],
+    "20": [
+      "w006"
+    ],
+    "21": [
+      "w027"
+    ],
+    "22": [
+      "w020"
+    ],
+    "23": [
+      "w010"
+    ],
+    "24": [
+      "w039"
+    ],
+    "25": [
+      "w007"
+    ],
+    "26": [
+      "w043"
+    ],
+    "27": [
+      "w034"
+    ],
+    "28": [
+      "w000"
+    ],
+    "29": [
+      "w032"
+    ],
+    "30": [
+      "w030"
+    ],
+    "31": [
+      "w023"
+    ],
+    "32": [
+      "w040"
+    ],
+    "33": [
+      "w008"
+    ],
+    "34": [
+      "w011"
+    ],
+    "35": [
+      "w015"
+    ],
+    "36": [
+      "w005"
+    ],
+    "37": [
+      "w016"
+    ],
+    "38": [
+      "w018"
+    ],
+    "39": [
+      "w013"
+    ],
+    "40": [
+      "w037"
+    ],
+    "41": [
+      "w045"
+    ],
+    "42": [
+      "w042"
+    ],
+    "43": [
+      "w033"
+    ],
+    "44": [
+      "w002"
+    ],
+    "45": [
+      "w014"
+    ],
+    "46": [
+      "w019"
+    ],
+    "47": [
+      "w028"
+    ],
+    "48": [
+      "w029"
+    ],
+    "49": [
+      "w012"
+    ],
+    "50": [
+      "w031"
+    ],
+    "51": [
+      "w003"
+    ],
+    "52": [
+      "w025"
+    ],
+    "53": [
+      "w024"
+    ],
+    "54": [
+      "w017"
+    ],
+    "55": [
+      "w022"
+    ],
+    "56": [
+      "w038"
+    ],
+    "57": [
+      "w041"
+    ],
+    "58": [
+      "w036"
+    ],
+    "59": [
+      "w009"
+    ],
+    "60": [
+      "w004"
+    ],
+    "61": [
+      "w044"
+    ],
+    "62": [
+      "w001"
     ]
   },
   "cohesion": {
     "0": 0.06,
-    "1": 0.07,
-    "2": 0.14,
-    "3": 0.19,
-    "4": 0.21,
+    "1": 0.08,
+    "2": 0.15,
+    "3": 0.17,
+    "4": 0.19,
     "5": 0.17,
-    "6": 0.29,
-    "7": 0.33,
-    "8": 0.22,
-    "9": 0.46,
+    "6": 0.26,
+    "7": 0.29,
+    "8": 0.33,
+    "9": 0.22,
     "10": 0.43,
     "11": 0.33,
     "12": 0.47,
     "13": 0.4,
     "14": 0.5,
     "15": 0.5,
-    "16": 0.67,
-    "17": 0.67,
-    "18": 1.0
+    "16": 0.5,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0,
+    "51": 1.0,
+    "52": 1.0,
+    "53": 1.0,
+    "54": 1.0,
+    "55": 1.0,
+    "56": 1.0,
+    "57": 1.0,
+    "58": 1.0,
+    "59": 1.0,
+    "60": 1.0,
+    "61": 1.0,
+    "62": 1.0
   },
   "gods": [
     {
@@ -320,6 +498,17 @@
   ],
   "surprises": [
     {
+      "source": "P()",
+      "target": "r()",
+      "source_files": [
+        "assets/vendor/ScrollTrigger-3.12.5.min.js",
+        "assets/vendor/ScrollTrigger-3.12.5.min.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 14 \u2192 community 6"
+    },
+    {
       "source": "K()",
       "target": "z()",
       "source_files": [
@@ -328,7 +517,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 10 \u2192 community 3"
+      "note": "Bridges community 10 \u2192 community 4"
     },
     {
       "source": "Bc()",
@@ -339,7 +528,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 8 \u2192 community 3"
+      "note": "Bridges community 9 \u2192 community 4"
     },
     {
       "source": "ff()",
@@ -350,18 +539,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 3 \u2192 community 7"
-    },
-    {
-      "source": "ff()",
-      "target": "N()",
-      "source_files": [
-        "assets/vendor/ScrollTrigger-3.12.5.min.js",
-        "assets/vendor/ScrollTrigger-3.12.5.min.js"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "note": "Bridges community 11 \u2192 community 7"
+      "note": "Bridges community 4 \u2192 community 6"
     },
     {
       "source": "wc()",
@@ -372,23 +550,23 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "note": "Bridges community 10 \u2192 community 8"
+      "note": "Bridges community 10 \u2192 community 9"
     }
   ],
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `Bc()` connect `Community 3` to `Community 0`, `Community 7`, `Community 8`, `Community 10`, `Community 11`?",
+      "question": "Why does `Bc()` connect `Community 4` to `Community 0`, `Community 6`, `Community 9`, `Community 10`, `Community 14`?",
       "why": "High betweenness centrality (0.002) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `Tween()` connect `Community 6` to `Community 1`, `Community 2`, `Community 4`, `Community 9`, `Community 14`?",
-      "why": "High betweenness centrality (0.002) - this node is a cross-community bridge."
+      "question": "Why does `Tween()` connect `Community 7` to `Community 16`, `Community 1`, `Community 3`, `Community 8`?",
+      "why": "High betweenness centrality (0.001) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `r()` connect `Community 2` to `Community 1`, `Community 6`?",
+      "question": "Why does `r()` connect `Community 3` to `Community 1`, `Community 2`, `Community 7`, `Community 8`, `Community 11`, `Community 13`?",
       "why": "High betweenness centrality (0.001) - this node is a cross-community bridge."
     },
     {
@@ -404,12 +582,7 @@
     {
       "type": "low_cohesion",
       "question": "Should `Community 1` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.07 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `Community 2` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.14 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.08 - nodes in this community are weakly interconnected."
     }
   ]
 }
