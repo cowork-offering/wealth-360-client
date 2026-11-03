@@ -96,7 +96,7 @@ for old, new in zip(titles, TABS):
     cha = cha.replace(f'<span class="tt a">{old}</span>', f'<span class="tt a">{new}</span>', 1)
 cha = cha.replace('<span class="tt b">Credit 360 for my book</span>', '<span class="tt b">Wealth 360 desk</span>')
 cha = re.sub(r'<span class="u1">[^<]*</span>', '<span class="u1">wealth.lightning.force.com/lightning/r/Case/500Hn00002Fm8xQIAR/view?ws=%2Flightning%2Fr%2FAccount%2F001Hn00002Lm4Q2%2Fview</span>', cha)
-cha = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(1, 'A client submits a servicing request. Someone opens eleven tabs.', 'One request, eleven systems, and a morning spent checking each one against the others.') + facts(('Systems', '11', 'open for one request'), ('The request', '1', 'by email, phone, letter or portal'), ('The screen', 'The Wealth 360 desk')), cha, count=1, flags=re.S)
+cha = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(1, 'A client submits a servicing request. Someone opens eleven tabs.', 'One request, eleven systems, and a morning spent checking each one against the others.') + facts(('Systems', '11', 'open for one request'), ('The request', '1', 'by email, phone or letter'), ('The screen', 'The Wealth 360 desk')), cha, count=1, flags=re.S)
 CH = [cha]
 
 # the lifts: the live desk itself, captured from the running product into static HTML
@@ -121,7 +121,7 @@ def src(g, name, what, cls=''):
     mark = f'<svg class="ly-g" aria-hidden="true"><use href="#{g}"/></svg>' if g else '<span class="ly-plus" aria-hidden="true"></span>'
     return f'<div class="ly-src {cls}">{mark}<b>{name}</b><span>{what}</span></div>'
 srcs = ''.join([src('g-sf', 'Salesforce', 'Clients, accounts, KYC, cases'), src('g-ms', 'Microsoft 365', 'Mail, calendar, Teams'),
-    src('g-mail', 'Servicing requests', 'Email, phone, letter, portal'), src('g-shield', 'UK Sanctions List', 'Screening'),
+    src('g-mail', 'Servicing requests', 'Email, phone or letter'), src('g-shield', 'UK Sanctions List', 'Screening'),
     src('g-payee', 'Open banking', 'Who owns an account'), src('g-id', 'Identity', 'Document and liveness'),
     src('g-pin', 'Postcode', 'Address lookup'), src(None, 'Any source', 'Added as the firm needs it', 'add')])
 def node(cls, k, b, sub):

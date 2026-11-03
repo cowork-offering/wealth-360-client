@@ -1,7 +1,7 @@
 # Graph Report - .  (2026-11-03)
 
 ## Corpus Check
-- Large corpus: 68 files · ~4,437,978 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
+- Large corpus: 68 files · ~4,438,123 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
 
 ## Summary
 - 252 nodes · 408 edges · 63 communities detected
@@ -21,16 +21,16 @@
 10. `v()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `P()` --calls--> `r()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 15 → community 5_
 - `K()` --calls--> `z()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 9 → community 3_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 9 → community 4_
 - `Bc()` --calls--> `J()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 10 → community 3_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 8 → community 4_
 - `ff()` --calls--> `K()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 3 → community 5_
-- `wc()` --calls--> `mb()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 10 → community 9_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 4 → community 3_
+- `wc()` --calls--> `La()`  [EXTRACTED]
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 9 → community 8_
+- `lb()` --calls--> `r()`  [EXTRACTED]
+  assets/vendor/gsap-3.12.5.min.js → assets/vendor/gsap-3.12.5.min.js  _Bridges community 1 → community 12_
 
 ## Communities
 
@@ -39,68 +39,68 @@ Cohesion: 0.06
 Nodes (6): gc(), Ja(), Ka(), qb(), rb(), Sb()
 
 ### Community 1 - "Community 1"
-Cohesion: 0.08
-Nodes (7): hb(), ma(), na(), ob(), Od(), Sd(), Td()
+Cohesion: 0.12
+Nodes (31): _a(), Ab(), ac(), _assertThisInitialized(), Bb(), cb(), Co(), Context() (+23 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.11
-Nodes (30): _a(), ac(), _assertThisInitialized(), Co(), db(), ea(), eb(), fa() (+22 more)
+Cohesion: 0.08
+Nodes (4): Jc(), Lc(), ma(), na()
 
 ### Community 3 - "Community 3"
+Cohesion: 0.18
+Nodes (16): df(), ff(), gf(), hf(), jf(), M(), N(), O() (+8 more)
+
+### Community 4 - "Community 4"
 Cohesion: 0.19
 Nodes (14): A(), B(), Bc(), G(), Ia(), K(), ob(), rc() (+6 more)
 
-### Community 4 - "Community 4"
+### Community 5 - "Community 5"
+Cohesion: 0.21
+Nodes (14): be(), _d(), ee(), fa(), ie(), je(), Kd(), ke() (+6 more)
+
+### Community 6 - "Community 6"
 Cohesion: 0.17
 Nodes (3): cap(), chapter(), Builds the Wealth 360 client screening page from the Credit 360 screening page's
 
-### Community 5 - "Community 5"
-Cohesion: 0.26
-Nodes (12): df(), ff(), gf(), hf(), jf(), M(), O(), of() (+4 more)
-
-### Community 6 - "Community 6"
-Cohesion: 0.27
-Nodes (11): be(), _d(), ee(), Kd(), Ld(), oe(), Pd(), we() (+3 more)
-
 ### Community 7 - "Community 7"
-Cohesion: 0.33
-Nodes (10): Aa(), Animation(), ha(), ia(), ja(), Jc(), Lc(), Ra() (+2 more)
+Cohesion: 0.27
+Nodes (12): Aa(), Animation(), ga(), ha(), ia(), ja(), ka(), Ra() (+4 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.25
-Nodes (8): ie(), je(), ke(), le(), Ud(), vd(), wd(), yd()
+Cohesion: 0.22
+Nodes (9): Cb(), J(), mb(), mc(), oc(), Ta(), tb(), Ua() (+1 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.36
-Nodes (8): Db(), Jb(), La(), Ma(), Na(), Qa(), wc(), z()
+Cohesion: 0.43
+Nodes (7): Db(), Jb(), La(), Ma(), Na(), Qa(), z()
 
 ### Community 10 - "Community 10"
-Cohesion: 0.25
-Nodes (8): Cb(), J(), mb(), mc(), oc(), Ta(), tb(), Ua()
-
-### Community 11 - "Community 11"
-Cohesion: 0.33
-Nodes (7): Ab(), Bb(), cb(), Context(), fb(), Gw(), zb()
-
-### Community 12 - "Community 12"
 Cohesion: 0.47
 Nodes (3): digest(), mount(), sha256js()
 
-### Community 13 - "Community 13"
-Cohesion: 0.5
-Nodes (4): tb(), Ub(), Vb(), za()
+### Community 11 - "Community 11"
+Cohesion: 0.4
+Nodes (5): le(), Ud(), vd(), wd(), yd()
 
-### Community 14 - "Community 14"
+### Community 12 - "Community 12"
+Cohesion: 0.5
+Nodes (4): hb(), lb(), ob(), Wa()
+
+### Community 13 - "Community 13"
 Cohesion: 0.5
 Nodes (4): qa(), ua(), wb(), x()
 
-### Community 15 - "Community 15"
+### Community 14 - "Community 14"
 Cohesion: 0.5
-Nodes (4): N(), pc(), r(), sf()
+Nodes (4): tb(), Ub(), Vb(), za()
+
+### Community 15 - "Community 15"
+Cohesion: 0.67
+Nodes (3): Ec(), Fc(), MatchMedia()
 
 ### Community 16 - "Community 16"
 Cohesion: 0.67
-Nodes (3): Ec(), Fc(), MatchMedia()
+Nodes (3): Od(), Sd(), Td()
 
 ### Community 17 - "Community 17"
 Cohesion: 1.0
@@ -385,17 +385,17 @@ Nodes (0):
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Bc()` connect `Community 3` to `Community 0`, `Community 5`, `Community 9`, `Community 10`, `Community 15`?**
+- **Why does `Bc()` connect `Community 4` to `Community 0`, `Community 8`, `Community 3`, `Community 9`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `Tween()` connect `Community 2` to `Community 1`, `Community 14`, `Community 7`?**
+- **Why does `Tween()` connect `Community 1` to `Community 2`, `Community 13`, `Community 7`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `r()` connect `Community 2` to `Community 1`, `Community 11`, `Community 6`, `Community 7`?**
+- **Why does `r()` connect `Community 1` to `Community 2`, `Community 12`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `Builds the Wealth 360 client screening page from the Credit 360 screening page's` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.11 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
