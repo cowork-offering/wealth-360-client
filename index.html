@@ -1589,6 +1589,46 @@ html{scroll-snap-type:y proximity}
 .decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
 .decide.saved .lift.after{opacity:1}
 
+
+/* 03: THE LAYER. Four tiers on one axis: the sources, the connectors, the agents, the desk.
+   Hairlines only; the one moving thing is a violet pulse that rises through the wires once. */
+.layer{width:min(1040px,100%); margin:0 auto; display:flex; flex-direction:column; align-items:stretch}
+.ly-tier{display:flex; flex-direction:column; align-items:center}
+.ly-k{font-size:10.5px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); margin:0 0 10px}
+.ly-srcs{display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px; width:100%}
+.ly-src.add{background:transparent; border-style:dashed}
+.ly-plus{position:relative; width:20px; height:20px; margin-bottom:3px}
+.ly-plus::before,.ly-plus::after{content:""; position:absolute; left:50%; top:50%; background:var(--faint); transform:translate(-50%,-50%)}
+.ly-plus::before{width:12px; height:1.5px}.ly-plus::after{width:1.5px; height:12px}
+.ly-xp{display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); gap:10px; width:100%}
+.ly-node.xp{border-color:var(--ink-max)}
+.ly-node.xp span{max-width:52ch}
+.ly-src{display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px; padding:12px 8px 11px;
+  background:var(--raised,#fff); border:1px solid var(--hair); border-radius:12px}
+.ly-src .ly-g{width:20px; height:20px; margin-bottom:3px}
+.ly-src b{font-size:12.5px; font-weight:600; color:var(--ink-max); letter-spacing:-.005em}
+.ly-src span{font-size:11px; line-height:1.3; color:var(--muted)}
+.ly-row3,.ly-row2,.ly-row1{display:grid; gap:10px; width:100%}
+.ly-row3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ly-row2{grid-template-columns:repeat(2,minmax(0,1fr)); width:min(700px,100%)}
+.ly-row1{grid-template-columns:minmax(0,1fr); width:min(340px,100%)}
+.ly-node{display:flex; flex-direction:column; align-items:center; text-align:center; gap:3px; padding:13px 14px 12px;
+  background:var(--raised,#fff); border:1px solid var(--hair); border-radius:12px}
+.ly-node small{font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--faint)}
+.ly-node b{font-size:15px; font-weight:600; color:var(--ink-max); letter-spacing:-.01em}
+.ly-node span{font-size:12px; color:var(--muted)}
+.ly-node.desk{border-color:var(--brand)}
+.ly-node.desk small{color:var(--brand)}
+.ly-wire{position:relative; height:28px; width:1px; margin:6px auto; background:var(--hair); overflow:hidden}
+.ly-wire i{position:absolute; left:-1px; width:3px; height:12px; border-radius:2px; background:var(--brand); top:100%; opacity:0}
+.layer.in .ly-wire i{animation:lyPulse 1.1s var(--ease-out) both}
+.layer.in .ly-wire:nth-of-type(2) i{animation-delay:.25s}
+.layer.in .ly-wire:nth-of-type(4) i{animation-delay:.75s}
+.layer.in .ly-wire:nth-of-type(6) i{animation-delay:1.25s}
+@keyframes lyPulse{0%{top:100%; opacity:0}20%{opacity:1}100%{top:-14px; opacity:0}}
+@media (max-width:760px){ .ly-srcs{grid-template-columns:repeat(2,minmax(0,1fr))} .ly-xp{grid-template-columns:1fr} .ly-row3{grid-template-columns:1fr} .ly-row2{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ .layer.in .ly-wire i{animation:none} }
+
 /* 04: the activity, every step with its quote and its source */
 .ctl{display:grid; gap:0; min-width:560px}
 .cstep{display:grid; grid-template-columns:52px 104px minmax(0,1fr) auto; column-gap:14px; align-items:baseline;
@@ -1723,6 +1763,7 @@ html{scroll-snap-type:y proximity}
 
     <div class="runrows" id="g-rows" aria-hidden="true">
       <div class="runrow" data-g="g-sf"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; your cases</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-ms"/></svg></span><span class="lbl">Microsoft 365 &middot; mail and calendar</span></div>
       <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-mail"/></svg></span><span class="lbl">Client email &middot; intake</span></div>
       <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-shield"/></svg></span><span class="lbl">UK Sanctions List &middot; screening</span></div>
       <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-payee"/></svg></span><span class="lbl">Payee check &middot; open banking</span></div>
@@ -1797,7 +1838,7 @@ html{scroll-snap-type:y proximity}
 <!-- a ....................................................... -->
 <section class="chapter" id="ch-a">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>01</b><i>/</i>07</p><h2 class="head">A client writes in. Someone opens eleven tabs.</h2><p class="sub">One request, eleven systems, and a morning spent checking each one against the others.</p></div><div class="facts"><div class="fact rise"><span class="fl">Systems</span><span class="fv num">11</span><span class="fs">open for one request</span></div><div class="fact rise"><span class="fl">The request</span><span class="fv num">1</span><span class="fs">a client's email</span></div><div class="fact rise"><span class="fl">The screen</span><span class="fp">The Wealth 360 desk</span></div></div>
+    <div class="cap"><p class="eyebrow chno"><b>01</b><i>/</i>08</p><h2 class="head">A client writes in. Someone opens eleven tabs.</h2><p class="sub">One request, eleven systems, and a morning spent checking each one against the others.</p></div><div class="facts"><div class="fact rise"><span class="fl">Systems</span><span class="fv num">11</span><span class="fs">open for one request</span></div><div class="fact rise"><span class="fl">The request</span><span class="fv num">1</span><span class="fs">a client's email</span></div><div class="fact rise"><span class="fl">The screen</span><span class="fp">The Wealth 360 desk</span></div></div>
     <div class="stage">
       <div class="fit">
         <!-- the window is decorative: the caption above carries the meaning, so
@@ -1838,7 +1879,7 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-b">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>02</b><i>/</i>07</p><h2 class="head">It knows what needs you, and what does not.</h2><p class="sub">The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>02</b><i>/</i>08</p><h2 class="head">It knows what needs you, and what does not.</h2><p class="sub">The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">With you</span><span class="fv num">13</span><span class="fs">cases, each with its reason</span></div><div class="fact rise"><span class="fl">Completed</span><span class="fv num">5</span><span class="fs">one by the agents alone</span></div><div class="fact rise"><span class="fl">Where to start</span><span class="fp">The desk says: the sanctions match</span></div></div>
     <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:1220;--ch:540"><iframe src="assets/desk/board.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:110;--y:66;--vh:900"></iframe></div></div></div>
   </div>
@@ -1850,9 +1891,17 @@ html{scroll-snap-type:y proximity}
   <p class="breath-type" aria-hidden="true" data-seg='[{"t":"Every request, already "},{"t":"gathered","k":1},{"t":"."}]'><span class="t"></span><i class="caret"></i><span class="rest">Every request, already <span class="key">gathered</span>.</span></p>
 </section>
 
+<section class="chapter" id="ch-l">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>03</b><i>/</i>08</p><h2 class="head">Every system, one layer.</h2><p class="sub">The firm&rsquo;s systems stay where they are. The Experience server reads and joins them, Salesforce keeps the record, the agents work on top, and one desk shows the result.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Sources</span><span class="fv num">7+</span><span class="fs">added or swapped as the firm needs</span></div><div class="fact rise"><span class="fl">The join</span><span class="fp">In code, never by the model</span></div><div class="fact rise"><span class="fl">The record</span><span class="fp">Salesforce, with a decision ledger</span></div></div>
+    <div class="stage"><div class="fit"><div class="layer rise" data-rise id="layer"><div class="ly-tier"><p class="ly-k">The sources</p><div class="ly-srcs"><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-sf"/></svg><b>Salesforce</b><span>Clients, accounts, KYC, cases</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-ms"/></svg><b>Microsoft 365</b><span>Mail, calendar, Teams</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-mail"/></svg><b>Client email</b><span>Requests and documents</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-shield"/></svg><b>UK Sanctions List</b><span>Screening</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-payee"/></svg><b>Open banking</b><span>Who owns an account</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-id"/></svg><b>Identity</b><span>Document and liveness</span></div><div class="ly-src "><svg class="ly-g" aria-hidden="true"><use href="#g-pin"/></svg><b>Postcode</b><span>Address lookup</span></div><div class="ly-src add"><span class="ly-plus" aria-hidden="true"></span><b>Any source</b><span>Added as the firm needs it</span></div></div></div><div class="ly-wire"><i></i></div><div class="ly-tier"><p class="ly-k">The layer</p><div class="ly-xp"><div class="ly-node xp"><small>Wealth 360 Experience server</small><b>Every source, joined in code</b><span>Provider-agnostic: a source is added or swapped behind the same tools, and the agents never change. Every check and decision goes on a ledger.</span></div><div class="ly-node "><small>Wealth 360 connector</small><b>Salesforce, as the person</b><span>The record, the rules and the fences</span></div></div></div><div class="ly-wire"><i></i></div><div class="ly-tier"><p class="ly-k">The agents</p><div class="ly-row2"><div class="ly-node "><small>Their own identity</small><b>Case agent</b><span>Works each step and cites its evidence</span></div><div class="ly-node "><small>A fresh context</small><b>Review agent</b><span>Checks the work, blind to the first</span></div></div></div><div class="ly-wire"><i></i></div><div class="ly-tier"><div class="ly-row1"><div class="ly-node desk"><small>One page</small><b>The desk</b><span>For the person who decides</span></div></div></div></div></div></div>
+  </div>
+</section>
+
 <section class="chapter" id="ch-c">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>03</b><i>/</i>07</p><h2 class="head">Every check, already run.</h2><p class="sub">Sanctions, candidate accounts and an independent review, each with its source, before the case reaches you.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>04</b><i>/</i>08</p><h2 class="head">Every check, already run.</h2><p class="sub">Sanctions, candidate accounts and an independent review, each with its source, before the case reaches you.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">Checks</span><span class="fv num">3</span><span class="fs">each with its source</span></div><div class="fact rise"><span class="fl">The match</span><span class="fp">93% against a 90% threshold</span></div><div class="fact rise"><span class="fl">The review</span><span class="fp">A second agent, in a fresh context</span></div></div>
     <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:548"><iframe src="assets/desk/bondarev-checks.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
@@ -1860,7 +1909,7 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-d">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>04</b><i>/</i>07</p><h2 class="head">Every step, on the record.</h2><p class="sub">A daughter writes to say her father has died. The Case agent works the case one step at a time, and every step lands on the record.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>05</b><i>/</i>08</p><h2 class="head">Every step, on the record.</h2><p class="sub">A daughter writes to say her father has died. The Case agent works the case one step at a time, and every step lands on the record.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">Done</span><span class="fv num">8 of 13</span><span class="fs">steps before a person is needed</span></div><div class="fact rise"><span class="fl">The tone</span><span class="fp">Bereavement, by design</span></div><div class="fact rise"><span class="fl">Next</span><span class="fp">An independent check by the Review agent</span></div></div>
     <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:560"><iframe src="assets/desk/hale-activity.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
@@ -1868,7 +1917,7 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-e">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>05</b><i>/</i>07</p><h2 class="head">Say it in one sentence.</h2><p class="sub">A call, a letter, a visit to the office. Write it down in plain words; the case is in Salesforce and the agents start at once.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>06</b><i>/</i>08</p><h2 class="head">Say it in one sentence.</h2><p class="sub">A call, a letter, a visit to the office. Write it down in plain words; the case is in Salesforce and the agents start at once.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">The form</span><span class="fv num">1</span><span class="fs">request, in your own words</span></div><div class="fact rise"><span class="fl">Picked up</span><span class="fp">Within seconds, by the Case agent</span></div><div class="fact rise"><span class="fl">The record</span><span class="fp">A standard case in Salesforce</span></div></div>
     <div class="stage"><div class="fit"><div class="lift rise modal" data-rise style="--cw:540;--ch:669"><iframe src="assets/desk/newcase.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:450;--y:116;--vh:900"></iframe></div></div></div>
   </div>
@@ -1882,7 +1931,7 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-f">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>06</b><i>/</i>07</p><h2 class="head">The letter writes itself, and waits for you.</h2><p class="sub">Drafted for a family, in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>07</b><i>/</i>08</p><h2 class="head">The letter writes itself, and waits for you.</h2><p class="sub">Drafted for a family, in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">Drafted</span><span class="fv num">1</span><span class="fs">letter, in the bereavement tone</span></div><div class="fact rise"><span class="fl">The meeting</span><span class="fp">Four times proposed, one chosen by you</span></div><div class="fact rise"><span class="fl">Sent</span><span class="fp">Only when you approve it</span></div></div>
     <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:560"><iframe src="assets/desk/hale-overview.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
@@ -1896,7 +1945,7 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-g">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>07</b><i>/</i>07</p><h2 class="head">You decide. Salesforce does the rest.</h2><p class="sub">The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.</p></div>
+    <div class="cap"><p class="eyebrow chno"><b>08</b><i>/</i>08</p><h2 class="head">You decide. Salesforce does the rest.</h2><p class="sub">The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.</p></div>
     <div class="facts"><div class="fact rise"><span class="fl">On the record</span><span class="fv num">4</span><span class="fs">steps, from one confirmation</span></div><div class="fact rise"><span class="fl">Confirmed by</span><span class="fp">A named person, never an agent</span></div><div class="fact rise"><span class="fl">The control</span><span class="fp">Staged, read back, then confirmed</span></div></div>
     <div class="stage"><div class="fit"><div class="decide" id="decide"><div class="lift rise " data-rise style="--cw:620;--ch:616"><iframe src="assets/desk/hale-plan.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:640"></iframe></div><div class="lift rise after" data-rise style="--cw:620;--ch:616"><iframe src="assets/desk/hale-saved.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:640"></iframe></div></div></div></div>
   </div>
@@ -2879,7 +2928,7 @@ html{scroll-snap-type:y proximity}
   addEventListener('resize', size); document.addEventListener('DOMContentLoaded', size); size();
 })();
 </script>
-<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
+<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-l"><span>The layer</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
 <script>
 /* the rail follows the chapter in the middle of the screen; it stands only between the hero and the walkthrough */
 (function () {

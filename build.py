@@ -46,7 +46,7 @@ rep('<div class="modelmeta" aria-hidden="true">Fable 5.1<em>Medium</em></div>', 
 rep('assets/film/sf-gate-plate.mp4', 'assets/film/gate-plate.mp4'); rep('assets/film/sf-gate-plate.jpg', 'assets/film/gate-plate.jpg')
 between('<div class="runrows" id="g-rows" aria-hidden="true">', '</div>\n  </div>\n  </div>\n</div>',
   '<div class="runrows" id="g-rows" aria-hidden="true">\n      <div class="runrow" data-g="g-sf"><span class="thread"></span><span class="slot">' + SPIN + '<svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; your cases</span></div>\n      '
-  + '\n      '.join([row('g-mail','Client email &middot; intake'), row('g-shield','UK Sanctions List &middot; screening'), row('g-payee','Payee check &middot; open banking'), row('g-id','Identity &middot; verification'), row('g-pin','Address &middot; postcode')]) + '\n    ')
+  + '\n      '.join([row('g-ms','Microsoft 365 &middot; mail and calendar'), row('g-mail','Client email &middot; intake'), row('g-shield','UK Sanctions List &middot; screening'), row('g-payee','Payee check &middot; open banking'), row('g-id','Identity &middot; verification'), row('g-pin','Address &middot; postcode')]) + '\n    ')
 
 # ---------- hero ----------
 rep('<p class="eyebrow">Dreamforce 2026<span class="dot">&middot;</span>A private screening</p>', '<p class="eyebrow">London<span class="dot">&middot;</span>A private screening</p>')
@@ -63,7 +63,7 @@ def facts(*fs):
         else: out.append(f'<div class="fact rise"><span class="fl">{f[0]}</span><span class="fp">{f[1]}</span></div>')
     return '<div class="facts">' + ''.join(out) + '</div>'
 def cap(n, head, sub):
-    return f'<div class="cap"><p class="eyebrow chno"><b>{n:02d}</b><i>/</i>07</p><h2 class="head">{head}</h2><p class="sub">{sub}</p></div>'
+    return f'<div class="cap"><p class="eyebrow chno"><b>{n:02d}</b><i>/</i>08</p><h2 class="head">{head}</h2><p class="sub">{sub}</p></div>'
 def chapter(cid, n, head, sub, fx, stage, flip=False):
     return f'''<section class="chapter{' flip' if flip else ''}" id="{cid}">
   <div class="wrap">
@@ -116,34 +116,62 @@ CH.append(chapter('ch-b', 2, 'It knows what needs you, and what does not.',
   lift('board', (110, 66, 1220, 540), cls='fade')))
 CH.append(breath(1, 'breather-1.jpg', [('Every request, already ', 0), ('gathered', 1), ('.', 0)], ''))
 
+# c0. the layer: every system behind one desk, joined by the Experience server
+def src(g, name, what, cls=''):
+    mark = f'<svg class="ly-g" aria-hidden="true"><use href="#{g}"/></svg>' if g else '<span class="ly-plus" aria-hidden="true"></span>'
+    return f'<div class="ly-src {cls}">{mark}<b>{name}</b><span>{what}</span></div>'
+srcs = ''.join([src('g-sf', 'Salesforce', 'Clients, accounts, KYC, cases'), src('g-ms', 'Microsoft 365', 'Mail, calendar, Teams'),
+    src('g-mail', 'Client email', 'Requests and documents'), src('g-shield', 'UK Sanctions List', 'Screening'),
+    src('g-payee', 'Open banking', 'Who owns an account'), src('g-id', 'Identity', 'Document and liveness'),
+    src('g-pin', 'Postcode', 'Address lookup'), src(None, 'Any source', 'Added as the firm needs it', 'add')])
+def node(cls, k, b, sub):
+    return f'<div class="ly-node {cls}"><small>{k}</small><b>{b}</b><span>{sub}</span></div>'
+layer_html = ('<div class="layer rise" data-rise id="layer">'
+  '<div class="ly-tier"><p class="ly-k">The sources</p><div class="ly-srcs">' + srcs + '</div></div>'
+  '<div class="ly-wire"><i></i></div>'
+  '<div class="ly-tier"><p class="ly-k">The layer</p><div class="ly-xp">'
+    + node('xp', 'Wealth 360 Experience server', 'Every source, joined in code', 'Provider-agnostic: a source is added or swapped behind the same tools, and the agents never change. Every check and decision goes on a ledger.')
+    + node('', 'Wealth 360 connector', 'Salesforce, as the person', 'The record, the rules and the fences') + '</div></div>'
+  '<div class="ly-wire"><i></i></div>'
+  '<div class="ly-tier"><p class="ly-k">The agents</p><div class="ly-row2">'
+    + node('', 'Their own identity', 'Case agent', 'Works each step and cites its evidence')
+    + node('', 'A fresh context', 'Review agent', 'Checks the work, blind to the first') + '</div></div>'
+  '<div class="ly-wire"><i></i></div>'
+  '<div class="ly-tier"><div class="ly-row1">' + node('desk', 'One page', 'The desk', 'For the person who decides') + '</div></div>'
+  '</div>')
+CH.append(chapter('ch-l', 3, 'Every system, one layer.',
+  'The firm&rsquo;s systems stay where they are. The Experience server reads and joins them, Salesforce keeps the record, the agents work on top, and one desk shows the result.',
+  facts(('Sources', '7+', 'added or swapped as the firm needs'), ('The join', 'In code, never by the model'), ('The record', 'Salesforce, with a decision ledger')),
+  layer_html))
+
 # c. the checks
-CH.append(chapter('ch-c', 3, 'Every check, already run.',
+CH.append(chapter('ch-c', 4, 'Every check, already run.',
   'Sanctions, candidate accounts and an independent review, each with its source, before the case reaches you.',
   facts(('Checks', '3', 'each with its source'), ('The match', '93% against a 90% threshold'), ('The review', 'A second agent, in a fresh context')),
   lift('bondarev-checks', DRAWER + (548,), cls='fade')))
 
 # d. the activity: a bereavement, step by step
-CH.append(chapter('ch-d', 4, 'Every step, on the record.',
+CH.append(chapter('ch-d', 5, 'Every step, on the record.',
   'A daughter writes to say her father has died. The Case agent works the case one step at a time, and every step lands on the record.',
   facts(('Done', '8 of 13', 'steps before a person is needed'), ('The tone', 'Bereavement, by design'), ('Next', 'An independent check by the Review agent')),
   lift('hale-activity', DRAWER + (560,), cls='fade')))
 
 # e. one sentence
-CH.append(chapter('ch-e', 5, 'Say it in one sentence.',
+CH.append(chapter('ch-e', 6, 'Say it in one sentence.',
   'A call, a letter, a visit to the office. Write it down in plain words; the case is in Salesforce and the agents start at once.',
   facts(('The form', '1', 'request, in your own words'), ('Picked up', 'Within seconds, by the Case agent'), ('The record', 'A standard case in Salesforce')),
   lift('newcase', (450, 116, 540, 669), cls='modal')))
 CH.append(breath(2, 'breather-2.jpg', [('Every family, given ', 0), ('time', 1), ('.', 0)], ''))
 
 # f. the letter waits for you
-CH.append(chapter('ch-f', 6, 'The letter writes itself, and waits for you.',
+CH.append(chapter('ch-f', 7, 'The letter writes itself, and waits for you.',
   'Drafted for a family, in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.',
   facts(('Drafted', '1', 'letter, in the bereavement tone'), ('The meeting', 'Four times proposed, one chosen by you'), ('Sent', 'Only when you approve it')),
   lift('hale-overview', DRAWER + (560,), cls='fade')))
 CH.append(breath(3, 'breather-3.jpg', [('Agents prepare. People ', 0), ('decide', 1), ('.', 0)], ''))
 
 # g. the decision: the plan read back, then saved
-CH.append(chapter('ch-g', 7, 'You decide. Salesforce does the rest.',
+CH.append(chapter('ch-g', 8, 'You decide. Salesforce does the rest.',
   'The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.',
   facts(('On the record', '4', 'steps, from one confirmation'), ('Confirmed by', 'A named person, never an agent'), ('The control', 'Staged, read back, then confirmed')),
   '<div class="decide" id="decide">' + lift('hale-plan', DRAWER + (616,), vh=640) + lift('hale-saved', DRAWER + (616,), vh=640, cls='after') + '</div>'))
@@ -273,6 +301,46 @@ CSS = r'''<style id="w360">
 .decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
 .decide.saved .lift.after{opacity:1}
 
+
+/* 03: THE LAYER. Four tiers on one axis: the sources, the connectors, the agents, the desk.
+   Hairlines only; the one moving thing is a violet pulse that rises through the wires once. */
+.layer{width:min(1040px,100%); margin:0 auto; display:flex; flex-direction:column; align-items:stretch}
+.ly-tier{display:flex; flex-direction:column; align-items:center}
+.ly-k{font-size:10.5px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); margin:0 0 10px}
+.ly-srcs{display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px; width:100%}
+.ly-src.add{background:transparent; border-style:dashed}
+.ly-plus{position:relative; width:20px; height:20px; margin-bottom:3px}
+.ly-plus::before,.ly-plus::after{content:""; position:absolute; left:50%; top:50%; background:var(--faint); transform:translate(-50%,-50%)}
+.ly-plus::before{width:12px; height:1.5px}.ly-plus::after{width:1.5px; height:12px}
+.ly-xp{display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); gap:10px; width:100%}
+.ly-node.xp{border-color:var(--ink-max)}
+.ly-node.xp span{max-width:52ch}
+.ly-src{display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px; padding:12px 8px 11px;
+  background:var(--raised,#fff); border:1px solid var(--hair); border-radius:12px}
+.ly-src .ly-g{width:20px; height:20px; margin-bottom:3px}
+.ly-src b{font-size:12.5px; font-weight:600; color:var(--ink-max); letter-spacing:-.005em}
+.ly-src span{font-size:11px; line-height:1.3; color:var(--muted)}
+.ly-row3,.ly-row2,.ly-row1{display:grid; gap:10px; width:100%}
+.ly-row3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ly-row2{grid-template-columns:repeat(2,minmax(0,1fr)); width:min(700px,100%)}
+.ly-row1{grid-template-columns:minmax(0,1fr); width:min(340px,100%)}
+.ly-node{display:flex; flex-direction:column; align-items:center; text-align:center; gap:3px; padding:13px 14px 12px;
+  background:var(--raised,#fff); border:1px solid var(--hair); border-radius:12px}
+.ly-node small{font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--faint)}
+.ly-node b{font-size:15px; font-weight:600; color:var(--ink-max); letter-spacing:-.01em}
+.ly-node span{font-size:12px; color:var(--muted)}
+.ly-node.desk{border-color:var(--brand)}
+.ly-node.desk small{color:var(--brand)}
+.ly-wire{position:relative; height:28px; width:1px; margin:6px auto; background:var(--hair); overflow:hidden}
+.ly-wire i{position:absolute; left:-1px; width:3px; height:12px; border-radius:2px; background:var(--brand); top:100%; opacity:0}
+.layer.in .ly-wire i{animation:lyPulse 1.1s var(--ease-out) both}
+.layer.in .ly-wire:nth-of-type(2) i{animation-delay:.25s}
+.layer.in .ly-wire:nth-of-type(4) i{animation-delay:.75s}
+.layer.in .ly-wire:nth-of-type(6) i{animation-delay:1.25s}
+@keyframes lyPulse{0%{top:100%; opacity:0}20%{opacity:1}100%{top:-14px; opacity:0}}
+@media (max-width:760px){ .ly-srcs{grid-template-columns:repeat(2,minmax(0,1fr))} .ly-xp{grid-template-columns:1fr} .ly-row3{grid-template-columns:1fr} .ly-row2{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ .layer.in .ly-wire i{animation:none} }
+
 /* 04: the activity, every step with its quote and its source */
 .ctl{display:grid; gap:0; min-width:560px}
 .cstep{display:grid; grid-template-columns:52px 104px minmax(0,1fr) auto; column-gap:14px; align-items:baseline;
@@ -354,7 +422,7 @@ WALK_JS = r'''<script>
   addEventListener('resize', size); document.addEventListener('DOMContentLoaded', size); size();
 })();
 </script>
-<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
+<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-l"><span>The layer</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
 <script>
 /* the rail follows the chapter in the middle of the screen; it stands only between the hero and the walkthrough */
 (function () {
