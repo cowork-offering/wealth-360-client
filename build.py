@@ -131,7 +131,7 @@ layer_html = ('<div class="layer rise" data-rise id="layer">'
   '<div class="ly-wire"><i></i></div>'
   '<div class="ly-tier"><p class="ly-k">The layer</p><div class="ly-xp">'
     + node('xp', 'Wealth 360 Experience server', 'Every source, joined in code', 'Provider-agnostic: a source is added or swapped behind the same tools, and the agents never change. Every check and decision goes on a ledger.')
-    + node('sf', 'Salesforce, through the Wealth 360 connector', 'System of Context and agent execution', 'The client, the rules and the record. Every agent action runs here, as the person.') + '</div></div>'
+    + node('sf', 'Salesforce, through the Wealth 360 connector', 'System of Context and agent execution', 'The client, the rules and the record. Every agent action runs here, inside its permissions and fences.') + '</div></div>'
   '<div class="ly-wire"><i></i></div>'
   '<div class="ly-tier"><p class="ly-k">The agents</p><div class="ly-row2">'
     + node('', 'Their own identity', 'Case agent', 'Works each step and cites its evidence')
