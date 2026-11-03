@@ -27,7 +27,7 @@ TICK = '<svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg>'
 
 # ---------- head ----------
 s = re.sub(r'<title>.*?</title>', '<title>Wealth 360 · A private screening</title>', s, flags=re.S)
-s = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Wealth 360. Agents do the routine work of client servicing, Salesforce keeps the rules and the record, and a named person makes every decision that matters." />', s)
+s = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Wealth 360. Agents do the routine work of client servicing, Salesforce is the System of Context and agent execution, and a named person makes every decision that matters." />', s)
 
 # ---------- sprite: the connectors' own marks ----------
 NEW_SYM = '''<symbol id="g-shield" viewBox="0 0 19 19"><path d="M9.5 1.9 3.4 4.3v4.5c0 3.9 2.6 6.9 6.1 8.3 3.5-1.4 6.1-4.4 6.1-8.3V4.3Z" fill="none" stroke="#1F2A44" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.6 9.4 8.7 11.4 12.5 7.4" fill="none" stroke="#1F2A44" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -46,7 +46,7 @@ rep('<div class="modelmeta" aria-hidden="true">Fable 5.1<em>Medium</em></div>', 
 rep('assets/film/sf-gate-plate.mp4', 'assets/film/gate-plate.mp4'); rep('assets/film/sf-gate-plate.jpg', 'assets/film/gate-plate.jpg')
 between('<div class="runrows" id="g-rows" aria-hidden="true">', '</div>\n  </div>\n  </div>\n</div>',
   '<div class="runrows" id="g-rows" aria-hidden="true">\n      <div class="runrow" data-g="g-sf"><span class="thread"></span><span class="slot">' + SPIN + '<svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; your cases</span></div>\n      '
-  + '\n      '.join([row('g-ms','Microsoft 365 &middot; mail and calendar'), row('g-mail','Client email &middot; intake'), row('g-shield','UK Sanctions List &middot; screening'), row('g-payee','Payee check &middot; open banking'), row('g-id','Identity &middot; verification'), row('g-pin','Address &middot; postcode')]) + '\n    ')
+  + '\n      '.join([row('g-ms','Microsoft 365 &middot; mail and calendar'), row('g-mail','Servicing requests &middot; intake'), row('g-shield','UK Sanctions List &middot; screening'), row('g-payee','Payee check &middot; open banking'), row('g-id','Identity &middot; verification'), row('g-pin','Address &middot; postcode')]) + '\n    ')
 
 # ---------- hero ----------
 rep('<p class="eyebrow">Dreamforce 2026<span class="dot">&middot;</span>A private screening</p>', '<p class="eyebrow">London<span class="dot">&middot;</span>A private screening</p>')
@@ -96,7 +96,7 @@ for old, new in zip(titles, TABS):
     cha = cha.replace(f'<span class="tt a">{old}</span>', f'<span class="tt a">{new}</span>', 1)
 cha = cha.replace('<span class="tt b">Credit 360 for my book</span>', '<span class="tt b">Wealth 360 desk</span>')
 cha = re.sub(r'<span class="u1">[^<]*</span>', '<span class="u1">wealth.lightning.force.com/lightning/r/Case/500Hn00002Fm8xQIAR/view?ws=%2Flightning%2Fr%2FAccount%2F001Hn00002Lm4Q2%2Fview</span>', cha)
-cha = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(1, 'A client writes in. Someone opens eleven tabs.', 'One request, eleven systems, and a morning spent checking each one against the others.') + facts(('Systems', '11', 'open for one request'), ('The request', '1', "a client's email"), ('The screen', 'The Wealth 360 desk')), cha, count=1, flags=re.S)
+cha = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(1, 'A client submits a servicing request. Someone opens eleven tabs.', 'One request, eleven systems, and a morning spent checking each one against the others.') + facts(('Systems', '11', 'open for one request'), ('The request', '1', 'by email, phone, letter or portal'), ('The screen', 'The Wealth 360 desk')), cha, count=1, flags=re.S)
 CH = [cha]
 
 # the lifts: the live desk itself, captured from the running product into static HTML
@@ -121,7 +121,7 @@ def src(g, name, what, cls=''):
     mark = f'<svg class="ly-g" aria-hidden="true"><use href="#{g}"/></svg>' if g else '<span class="ly-plus" aria-hidden="true"></span>'
     return f'<div class="ly-src {cls}">{mark}<b>{name}</b><span>{what}</span></div>'
 srcs = ''.join([src('g-sf', 'Salesforce', 'Clients, accounts, KYC, cases'), src('g-ms', 'Microsoft 365', 'Mail, calendar, Teams'),
-    src('g-mail', 'Client email', 'Requests and documents'), src('g-shield', 'UK Sanctions List', 'Screening'),
+    src('g-mail', 'Servicing requests', 'Email, phone, letter, portal'), src('g-shield', 'UK Sanctions List', 'Screening'),
     src('g-payee', 'Open banking', 'Who owns an account'), src('g-id', 'Identity', 'Document and liveness'),
     src('g-pin', 'Postcode', 'Address lookup'), src(None, 'Any source', 'Added as the firm needs it', 'add')])
 def node(cls, k, b, sub):
@@ -131,7 +131,7 @@ layer_html = ('<div class="layer rise" data-rise id="layer">'
   '<div class="ly-wire"><i></i></div>'
   '<div class="ly-tier"><p class="ly-k">The layer</p><div class="ly-xp">'
     + node('xp', 'Wealth 360 Experience server', 'Every source, joined in code', 'Provider-agnostic: a source is added or swapped behind the same tools, and the agents never change. Every check and decision goes on a ledger.')
-    + node('', 'Wealth 360 connector', 'Salesforce, as the person', 'The record, the rules and the fences') + '</div></div>'
+    + node('sf', 'Salesforce, through the Wealth 360 connector', 'System of Context and agent execution', 'The client, the rules and the record. Every agent action runs here, as the person.') + '</div></div>'
   '<div class="ly-wire"><i></i></div>'
   '<div class="ly-tier"><p class="ly-k">The agents</p><div class="ly-row2">'
     + node('', 'Their own identity', 'Case agent', 'Works each step and cites its evidence')
@@ -140,8 +140,8 @@ layer_html = ('<div class="layer rise" data-rise id="layer">'
   '<div class="ly-tier"><div class="ly-row1">' + node('desk', 'One page', 'The desk', 'For the person who decides') + '</div></div>'
   '</div>')
 CH.append(chapter('ch-l', 3, 'Every system, one layer.',
-  'The firm&rsquo;s systems stay where they are. The Experience server reads and joins them, Salesforce keeps the record, the agents work on top, and one desk shows the result.',
-  facts(('Sources', '7+', 'added or swapped as the firm needs'), ('The join', 'In code, never by the model'), ('The record', 'Salesforce, with a decision ledger')),
+  'The firm&rsquo;s systems stay where they are. The Experience server reads and joins them into Salesforce, the System of Context and agent execution. The agents work on top, and one desk shows the result.',
+  facts(('Sources', '7+', 'added or swapped as the firm needs'), ('The join', 'In code, never by the model'), ('Salesforce', 'System of Context', 'and agent execution, with a decision ledger')),
   layer_html))
 
 # c. the checks
@@ -172,7 +172,7 @@ CH.append(breath(3, 'breather-3.jpg', [('Agents prepare. People ', 0), ('decide'
 
 # g. the decision: the plan read back, then saved
 CH.append(chapter('ch-g', 8, 'You decide. Salesforce does the rest.',
-  'The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.',
+  'The plan is read back before anything moves. One confirmation, recorded against your name in Salesforce, and the record closes behind it. Controlled and governed, end to end.',
   facts(('On the record', '4', 'steps, from one confirmation'), ('Confirmed by', 'A named person, never an agent'), ('The control', 'Staged, read back, then confirmed')),
   '<div class="decide" id="decide">' + lift('hale-plan', DRAWER + (616,), vh=640) + lift('hale-saved', DRAWER + (616,), vh=640, cls='after') + '</div>'))
 
@@ -200,7 +200,7 @@ s = s[:a0] + '\n'.join(CH) + s[g1:]
 rep('assets/film/sf-plate.mp4', 'assets/film/end-plate.mp4'); rep('assets/film/sf-plate-poster.jpg', 'assets/film/end-plate.jpg')
 rep('<p class="eyebrow endbrow">Dreamforce 2026</p>', '<p class="eyebrow endbrow">A private screening</p>')
 s = re.sub(r'(<p class="endlock">.*?)<span>Credit 360</span>', r'\1<span>Wealth 360</span>', s, count=1, flags=re.S)
-rep('<p class="endhead">Meet us at the booth.</p>', '<p class="endhead">Care, with time to give it.</p>')
+rep('<p class="endhead">Meet us at the booth.</p>', '<p class="endhead">Care, with time to give it.</p>\n        <p class="endval">For the firm: higher efficiency and lower overheads, through a process that is controlled and governed end to end.</p>')
 s = re.sub(r'\s*<!-- the place, drawn.*?</aside>', '', s, count=1, flags=re.S)
 
 # ---------- motion strings ----------
@@ -226,6 +226,8 @@ print('ok', len(s), 'credit mentions:', s.lower().count('credit'), 'bank:', len(
 
 # ---------- the Wealth 360 layer: a centred room, and the new components ----------
 CSS = r'''<style id="w360">
+.endval{margin-top:clamp(10px,1.6vh,16px); max-width:46ch; font-size:clamp(15px,1.5vw,18px); line-height:1.45; color:rgba(255,255,255,.8); text-wrap:pretty}
+.ly-node.sf{border-color:var(--ink-max)}
 /* THE ROOM IS CENTRED. Credit 360 reads in a column beside its component and swaps
    sides chapter by chapter. Wealth 360 stands still and symmetrical, the way a
    private office does: the caption centred over the product's own surface, and the
