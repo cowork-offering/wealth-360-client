@@ -1545,13 +1545,13 @@ html{scroll-snap-type:y proximity}
 /* THE TWIST. Same family as Credit 360, its own voice: a private office speaks in a serif.
    The chapter headlines, the hero line, the typed breathers and the close are set in Newsreader;
    the product's own surfaces stay in Inter, exactly as the desk draws them. */
-.cap .head,.walk .head{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
+.cap .head,.walk .head{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
   font-size:clamp(28px,2.9vw,42px)}
-.hero-line{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+.hero-line{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
 @media (min-width:1080px){.hero-line{white-space:nowrap; font-size:clamp(22px,2.1vw,32px); text-align:right}}
-.breath-type{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
-.endhead{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
-#notthis{font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
+.breath-type{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
+.endhead{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+#notthis{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
 .greet{letter-spacing:-.01em}
 
 /* THE JOURNEY RAIL. A case moves through steps; so does the page. One hairline down the left
@@ -1584,6 +1584,8 @@ html{scroll-snap-type:y proximity}
 .lift.modal{border-radius:18px}
 .decide{position:relative; width:620px; height:616px; margin:0 auto}
 .decide .lift{position:absolute; inset:0}
+.liftbox{margin:0 auto; overflow:hidden}
+.liftbox > .lift,.liftbox > .decide{margin:0}
 .decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
 .decide.saved .lift.after{opacity:1}
 
@@ -1604,7 +1606,7 @@ html{scroll-snap-type:y proximity}
 
 /* 06: the first lines of the letter, as the agent drafted them */
 .letter{margin-top:16px; padding:14px 16px; border:1px solid var(--hair); border-radius:10px; background:var(--surface);
-  font-family:"Newsreader",Georgia,serif; font-size:15.5px; line-height:1.5; color:var(--sub)}
+  font-family:"CoworkSerif","Newsreader",Georgia,serif; font-size:15.5px; line-height:1.5; color:var(--sub)}
 .letter p + p{margin-top:6px}
 .letter .lt-to{color:var(--ink-max)}
 
@@ -2859,14 +2861,19 @@ html{scroll-snap-type:y proximity}
 </script>
 <script>
 /* on a phone the fit rule lets components flow at their own size; a lift is wider than the
-   phone, so it is zoomed to the column (zoom, not transform, so the section's height follows) */
+   phone, so it is scaled to the column. transform, not zoom: WebKit applies zoom to the
+   iframe's own viewport, and the desk inside would re-lay itself out at phone width. The
+   holder takes the scaled size so the section's height follows. */
 (function () {
   function size() {
     document.querySelectorAll('.stage').forEach(function (st) {
       var el = st.querySelector('.decide') || st.querySelector('.lift'); if (!el) { return; }
-      if (innerWidth >= 761) { el.style.zoom = ''; return; }
-      var w = el.classList.contains('decide') ? 620 : parseFloat(getComputedStyle(el).getPropertyValue('--cw'));
-      el.style.zoom = Math.min(1, (st.clientWidth - 2) / w).toFixed(4);
+      var box = el.parentNode.classList.contains('liftbox') ? el.parentNode : null;
+      if (innerWidth >= 761) { el.style.transform = ''; if (box) { box.style.width = box.style.height = ''; } return; }
+      if (!box) { box = document.createElement('div'); box.className = 'liftbox'; el.parentNode.insertBefore(box, el); box.appendChild(el); }
+      var w = el.offsetWidth, h = el.offsetHeight, k = Math.min(1, (st.clientWidth - 2) / w);
+      el.style.transformOrigin = '0 0'; el.style.transform = 'scale(' + k.toFixed(4) + ')';
+      box.style.width = Math.round(w * k) + 'px'; box.style.height = Math.round(h * k) + 'px';
     });
   }
   addEventListener('resize', size); document.addEventListener('DOMContentLoaded', size); size();
