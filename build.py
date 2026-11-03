@@ -254,16 +254,17 @@ CSS = r'''<style id="w360">
 @media (max-width:1079.98px){ .cap{text-align:center} .cap .sub{margin-left:auto;margin-right:auto} .fact{text-align:center} }
 
 
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:300 400;font-display:swap;src:url("assets/fonts/Fraunces-latin.woff2") format("woff2")}
 /* THE TWIST. Same family as Credit 360, its own voice: a private office speaks in a serif.
-   The chapter headlines, the hero line, the typed breathers and the close are set in Newsreader;
+   The chapter headlines, the hero line, the typed breathers and the close are set in Fraunces, light, at a large optical size (the film's face);
    the product's own surfaces stay in Inter, exactly as the desk draws them. */
-.cap .head,.walk .head{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
+.cap .head,.walk .head{font-family:"Fraunces",Georgia,serif; font-weight:360; font-optical-sizing:auto; letter-spacing:-.012em; line-height:1.08;
   font-size:clamp(28px,2.9vw,42px)}
-.hero-line{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+.hero-line{font-family:"Fraunces",Georgia,serif; font-weight:360; font-optical-sizing:auto; letter-spacing:-.01em}
 @media (min-width:1080px){.hero-line{white-space:nowrap; font-size:clamp(22px,2.1vw,32px); text-align:right}}
-.breath-type{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
-.endhead{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
-#notthis{font-family:"CoworkSerif","Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
+.breath-type{font-family:"Fraunces",Georgia,serif; font-weight:360; font-optical-sizing:auto; letter-spacing:-.012em}
+.endhead{font-family:"Fraunces",Georgia,serif; font-weight:360; font-optical-sizing:auto; letter-spacing:-.01em}
+#notthis{font-family:"Fraunces",Georgia,serif; font-weight:360; font-optical-sizing:auto; font-size:clamp(22px,2vw,30px)}
 .greet{letter-spacing:-.01em}
 
 /* THE JOURNEY RAIL. A case moves through steps; so does the page. One hairline down the left
@@ -298,7 +299,7 @@ CSS = r'''<style id="w360">
 .decide .lift{position:absolute; inset:0}
 .liftbox{margin:0 auto; overflow:hidden}
 .liftbox > .lift,.liftbox > .decide{margin:0}
-.decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
+.decide .lift.after{opacity:0; transition:opacity .45s ease}
 .decide.saved .lift.after{opacity:1}
 
 
@@ -358,7 +359,7 @@ CSS = r'''<style id="w360">
 
 /* 06: the first lines of the letter, as the agent drafted them */
 .letter{margin-top:16px; padding:14px 16px; border:1px solid var(--hair); border-radius:10px; background:var(--surface);
-  font-family:"CoworkSerif","Newsreader",Georgia,serif; font-size:15.5px; line-height:1.5; color:var(--sub)}
+  font-family:"Fraunces",Georgia,serif; font-size:15.5px; line-height:1.5; color:var(--sub)}
 .letter p + p{margin-top:6px}
 .letter .lt-to{color:var(--ink-max)}
 

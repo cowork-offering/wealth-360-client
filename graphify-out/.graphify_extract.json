@@ -71,6 +71,20 @@
       "source_location": "L105"
     },
     {
+      "id": "build_src",
+      "label": "src()",
+      "file_type": "code",
+      "source_file": "build.py",
+      "source_location": "L120"
+    },
+    {
+      "id": "build_node",
+      "label": "node()",
+      "file_type": "code",
+      "source_file": "build.py",
+      "source_location": "L127"
+    },
+    {
       "id": "build_rationale_1",
       "label": "Builds the Wealth 360 client screening page from the Credit 360 screening page's",
       "file_type": "rationale",
@@ -1536,6 +1550,24 @@
       "confidence": "EXTRACTED",
       "source_file": "build.py",
       "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "build",
+      "target": "build_src",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "build.py",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "build",
+      "target": "build_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "build.py",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
