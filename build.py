@@ -113,7 +113,7 @@ DRAWER = (808, 12, 620)
 CH.append(chapter('ch-b', 2, 'It knows what needs you, and what does not.',
   'The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.',
   facts(('With you', '13', 'cases, each with its reason'), ('Completed', '5', 'one by the agents alone'), ('Where to start', 'The desk says: the sanctions match')),
-  lift('board', (110, 66, 1220, 540), cls='fade')))
+  lift('board', (86, 62, 1268, 546), cls='fade')))
 CH.append(breath(1, 'breather-1.jpg', [('Every request, already ', 0), ('gathered', 1), ('.', 0)], ''))
 
 # c0. the layer: every system behind one desk, joined by the Experience server
@@ -294,8 +294,8 @@ CSS = r'''<style id="w360">
   box-shadow:0 0 0 1px rgba(20,20,30,.07), 0 18px 48px -28px rgba(20,20,40,.28)}
 .lift iframe{position:absolute; left:0; top:0; border:0; width:1440px; height:calc(var(--vh) * 1px);
   transform:translate(calc(var(--x) * -1px), calc(var(--y) * -1px)); pointer-events:none; background:#fff}
-.lift.fade::after{content:""; position:absolute; left:0; right:0; bottom:0; height:56px; pointer-events:none;
-  background:linear-gradient(to bottom, rgba(255,255,255,0), #fff)}
+.lift.fade::after{content:""; position:absolute; left:0; right:0; bottom:0; height:110px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.85) 55%, #fff)}
 .lift.modal{border-radius:18px}
 .decide{position:relative; width:620px; height:616px; margin:0 auto}
 .decide .lift{position:absolute; inset:0}
