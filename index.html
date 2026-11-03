@@ -1523,17 +1523,19 @@ html{scroll-snap-type:y proximity}
     grid-template-columns:minmax(0,1fr);
     grid-template-rows:auto minmax(0,1fr) auto;
     grid-template-areas:"cap" "stage" "facts";
-    row-gap:clamp(18px,3.4vh,40px);
+    row-gap:clamp(14px,2.6vh,30px);
   }
-  .cap{align-self:end; justify-self:center; text-align:center; max-width:820px}
+  .cap{align-self:end; justify-self:center; text-align:center; max-width:980px}
+  .cap .sub{max-width:72ch; margin-top:8px}
+  .chno{margin-bottom:9px}
   .cap .sub{margin-left:auto; margin-right:auto}
-  .stage{padding-inline:clamp(40px,10vw,180px)}
+  .stage{padding-inline:clamp(24px,4vw,72px)}
   .facts{align-self:start; justify-self:center; margin-top:0; display:flex; gap:0;
     width:min(980px,100%); border-top:1px solid var(--hair); padding-top:clamp(14px,2.2vh,22px)}
   .fact{flex:1 1 0; min-width:0; text-align:center; padding:0 18px; border-top:0; border-left:1px solid var(--hair)}
   .fact:first-child{border-left:0; padding-left:0}
   .fact:last-child{padding-right:0}
-  .fact .fv{font-size:34px; margin-top:8px}
+  .fact .fv{font-size:30px; margin-top:6px}
   .fact .fs{font-size:13.5px; margin-top:6px}
   .fact .fp{font-size:16px; margin-top:9px; line-height:1.34}
 }
@@ -1544,8 +1546,9 @@ html{scroll-snap-type:y proximity}
    The chapter headlines, the hero line, the typed breathers and the close are set in Newsreader;
    the product's own surfaces stay in Inter, exactly as the desk draws them. */
 .cap .head,.walk .head{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
-  font-size:clamp(32px,3.7vw,52px)}
+  font-size:clamp(28px,2.9vw,42px)}
 .hero-line{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+@media (min-width:1080px){.hero-line{white-space:nowrap; font-size:clamp(22px,2.1vw,32px); text-align:right}}
 .breath-type{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
 .endhead{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
 #notthis{font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
@@ -1566,6 +1569,23 @@ html{scroll-snap-type:y proximity}
 .jrail i.now::before{background:var(--brand); border-color:var(--brand)}
 .jrail i.now span{opacity:1; transform:none}
 @media (min-width:1180px){ .jrail{display:flex} }
+
+
+/* THE LIFT. The desk itself, not a picture of it: a capture of the running product, scripts
+   stripped, drawn by its own stylesheet at its own size, through a window onto the part that
+   matters. The fit rule scales the window down to the room; nothing is ever scaled up. */
+.lift{position:relative; width:calc(var(--cw) * 1px); height:calc(var(--ch) * 1px); max-width:none; margin:0 auto;
+  overflow:hidden; border-radius:16px; background:#fff;
+  box-shadow:0 0 0 1px rgba(20,20,30,.07), 0 18px 48px -28px rgba(20,20,40,.28)}
+.lift iframe{position:absolute; left:0; top:0; border:0; width:1440px; height:calc(var(--vh) * 1px);
+  transform:translate(calc(var(--x) * -1px), calc(var(--y) * -1px)); pointer-events:none; background:#fff}
+.lift.fade::after{content:""; position:absolute; left:0; right:0; bottom:0; height:56px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), #fff)}
+.lift.modal{border-radius:18px}
+.decide{position:relative; width:620px; height:616px; margin:0 auto}
+.decide .lift{position:absolute; inset:0}
+.decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
+.decide.saved .lift.after{opacity:1}
 
 /* 04: the activity, every step with its quote and its source */
 .ctl{display:grid; gap:0; min-width:560px}
@@ -1817,8 +1837,8 @@ html{scroll-snap-type:y proximity}
 <section class="chapter" id="ch-b">
   <div class="wrap">
     <div class="cap"><p class="eyebrow chno"><b>02</b><i>/</i>07</p><h2 class="head">It knows what needs you, and what does not.</h2><p class="sub">The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.</p></div>
-    <div class="facts"><div class="fact rise"><span class="fl">With you</span><span class="fv num">5</span><span class="fs">cases, each with its reason</span></div><div class="fact rise"><span class="fl">Agent time</span><span class="fv num">4 min</span><span class="fs">to gather and check a case</span></div><div class="fact rise"><span class="fl">The rest</span><span class="fp">Moving on its own, in plain view</span></div></div>
-    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; The desk</span></div><div class="dev-body"><p class="eyebrow">Tuesday, 3 November<span class="dot">&middot;</span>Your book</p><h3 class="head" style="margin-top:12px; font-size:clamp(24px,3vw,36px)">Five cases need you today.</h3><div class="card kpis num" id="kpiband" style="margin-top:24px"><div class="kpi"><div class="l">With you</div><div class="v warn" data-count="5" data-dec="0">0</div><div class="s">Authorise, decide, review</div></div><div class="kpi"><div class="l">Agents working</div><div class="v" data-count="4" data-dec="0">0</div><div class="s">Moving on their own</div></div><div class="kpi"><div class="l">Waiting on client</div><div class="v" data-count="3" data-dec="0">0</div><div class="s">Documents requested</div></div><div class="kpi"><div class="l">Completed</div><div class="v" data-count="6" data-dec="0">0</div><div class="s">2 by agents alone</div></div><div class="kpi"><div class="l">Agent time</div><div class="v" data-count="4" data-dec="0" data-post=" min">0</div><div class="s">A case, in our runs</div></div><div class="kpi"><div class="l">Decided today</div><div class="v" data-count="3" data-dec="0">0</div><div class="s">Each by name</div></div></div><div class="wl" id="worklist" style="margin-top:22px"><div class="wlrow rise" data-rise><span class="mono">JO</span><span class="who"><b>James Okafor</b><span>Money out &middot; general investment account</span></span><span class="sts"><span class="st acc">Authorise</span></span><span class="amt num"><b>£3,000</b><span>to his account</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">VB</span><span class="who"><b>Victor Bondarev</b><span>Money in &middot; possible sanctions match</span></span><span class="sts"><span class="st warn">Decide</span></span><span class="amt num"><b>£22,000</b><span>held in suspense</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">DE</span><span class="who"><b>David Ellison</b><span>Bereavement &middot; letter to the executor</span></span><span class="sts"><span class="st acc">Review</span></span><span class="amt num"><b>3</b><span>accounts on hold</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">PR</span><span class="who"><b>Priya Raman</b><span>Change of address &middot; email and water bill</span></span><span class="sts"><span class="st good">Closed by agents</span></span><span class="amt num"><b>3 min</b><span>no person needed</span></span><span class="go" aria-hidden="true">&rarr;</span></div></div></div></div></div></div>
+    <div class="facts"><div class="fact rise"><span class="fl">With you</span><span class="fv num">13</span><span class="fs">cases, each with its reason</span></div><div class="fact rise"><span class="fl">Completed</span><span class="fv num">5</span><span class="fs">one by the agents alone</span></div><div class="fact rise"><span class="fl">Where to start</span><span class="fp">The desk says: the sanctions match</span></div></div>
+    <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:1220;--ch:540"><iframe src="assets/desk/board.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:110;--y:66;--vh:900"></iframe></div></div></div>
   </div>
 </section>
 
@@ -1828,27 +1848,27 @@ html{scroll-snap-type:y proximity}
   <p class="breath-type" aria-hidden="true" data-seg='[{"t":"Every request, already "},{"t":"gathered","k":1},{"t":"."}]'><span class="t"></span><i class="caret"></i><span class="rest">Every request, already <span class="key">gathered</span>.</span></p>
 </section>
 
-<section class="chapter flip" id="ch-c">
+<section class="chapter" id="ch-c">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>03</b><i>/</i>07</p><h2 class="head">Every check, already run.</h2><p class="sub">The client record, the sanctions list, the payee and the identity provider answer before the case reaches you.</p></div>
-    <div class="facts"><div class="fact rise"><span class="fl">Checks</span><span class="fv num">6</span><span class="fs">resolved before you open the case</span></div><div class="fact rise"><span class="fl">Resolved</span><span class="fp">Salesforce, UK Sanctions List, payee, identity, address, email</span></div><div class="fact rise"><span class="fl">Written back</span><span class="fp">Every result, on the case</span></div></div>
-    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; Case 00001380</span></div><div class="dev-body"><p style="font-size:14px;color:var(--muted);margin-bottom:16px">Worked the case, used 6 checks, cited every step</p><div class="runrows" id="railrows"><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; client, accounts, KYC</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-mail"/></svg></span><span class="lbl">Client email &middot; the request and its documents</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-shield"/></svg></span><span class="lbl">UK Sanctions List &middot; screened</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-payee"/></svg></span><span class="lbl">Payee check &middot; account confirmed</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-id"/></svg></span><span class="lbl">Identity &middot; verified on file</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-pin"/></svg></span><span class="lbl">Address &middot; postcode matched</span></div></div><p class="striplbl">Two agents, two connectors, one record</p></div></div></div></div>
+    <div class="cap"><p class="eyebrow chno"><b>03</b><i>/</i>07</p><h2 class="head">Every check, already run.</h2><p class="sub">Sanctions, candidate accounts and an independent review, each with its source, before the case reaches you.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Checks</span><span class="fv num">3</span><span class="fs">each with its source</span></div><div class="fact rise"><span class="fl">The match</span><span class="fp">93% against a 90% threshold</span></div><div class="fact rise"><span class="fl">The review</span><span class="fp">A second agent, in a fresh context</span></div></div>
+    <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:548"><iframe src="assets/desk/bondarev-checks.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
 </section>
 
 <section class="chapter" id="ch-d">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>04</b><i>/</i>07</p><h2 class="head">Every step, cited.</h2><p class="sub">The Case agent works the request one step at a time and quotes the source behind each one. A second agent checks it, blind to the first one&rsquo;s reasoning.</p></div>
-    <div class="facts"><div class="fact rise"><span class="fl">Steps</span><span class="fv num">11</span><span class="fs">each with its quote and source</span></div><div class="fact rise"><span class="fl">The check</span><span class="fp">A second agent, in a fresh context</span></div><div class="fact rise"><span class="fl">The fence</span><span class="fp">Enforced by Salesforce, in code</span></div></div>
-    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Ellison &middot; Bereavement &middot; Activity</span></div><div class="dev-body"><div class="ctl" id="graph"><div class="cstep"><span class="ct num">15:03</span><span class="cw">Case agent</span><span class="ch"><b>Read the notification</b><span class="cq">&ldquo;My mother, Margaret Ellison, died on 4 August.&rdquo;</span></span><span class="cs">Email from David Ellison</span></div><div class="cstep"><span class="ct num">15:04</span><span class="cw">Case agent</span><span class="ch"><b>Found three accounts</b><span class="cq">General investment account, ISA, cash</span></span><span class="cs">Salesforce</span></div><div class="cstep"><span class="ct num">15:05</span><span class="cw">Salesforce</span><span class="ch"><b>Recorded the death, held the accounts</b><span class="cq">Certificate on the case, family link on record</span></span><span class="cs">Fence passed</span></div><div class="cstep"><span class="ct num">15:06</span><span class="cw">Case agent</span><span class="ch"><b>Executor's identity on file</b><span class="cq">Passport, verified 3 June 2024</span></span><span class="cs">KYC profile</span></div><div class="cstep"><span class="ct num">15:07</span><span class="cw">Case agent</span><span class="ch"><b>Drafted the letter, proposed a meeting</b><span class="cq">Three times on Thursday</span></span><span class="cs">Draft, not sent</span></div><div class="cstep"><span class="ct num">15:08</span><span class="cw">Review agent</span><span class="ch"><b>Checked the case, passed</b><span class="cq">Six of six journey rules</span></span><span class="cs">Fresh context</span></div></div><p class="ctl-sum" id="nodechip">11 steps, every one cited, in four minutes.</p></div></div></div></div>
+    <div class="cap"><p class="eyebrow chno"><b>04</b><i>/</i>07</p><h2 class="head">Every step, on the record.</h2><p class="sub">A daughter writes to say her father has died. The Case agent works the case one step at a time, and every step lands on the record.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Done</span><span class="fv num">8 of 13</span><span class="fs">steps before a person is needed</span></div><div class="fact rise"><span class="fl">The tone</span><span class="fp">Bereavement, by design</span></div><div class="fact rise"><span class="fl">Next</span><span class="fp">An independent check by the Review agent</span></div></div>
+    <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:560"><iframe src="assets/desk/hale-activity.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
 </section>
 
-<section class="chapter flip" id="ch-e">
+<section class="chapter" id="ch-e">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>05</b><i>/</i>07</p><h2 class="head">Say it in one sentence.</h2><p class="sub">A call, a note, a letter in the post. Log it in a sentence and the agents start on it at once.</p></div>
-    <div class="facts"><div class="fact rise"><span class="fl">The request</span><span class="fv num">1</span><span class="fs">sentence, no form</span></div><div class="fact rise"><span class="fl">Picked up</span><span class="fp">Within seconds, by the Case agent</span></div><div class="fact rise"><span class="fl">The record</span><span class="fp">A standard case in Salesforce</span></div></div>
-    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; Log a request</span></div><div class="dev-body"><div class="composer" style="min-height:88px; padding-bottom:44px"><div class="typed"><span id="asktype"></span><i class="caret"></i></div><div class="cmp-bar"><svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg><div class="pillbed" aria-hidden="true"><div class="p">Chat</div><div class="p on">Cowork</div></div><div class="modelmeta" aria-hidden="true">Opus 5.5<em>Medium</em></div><span class="sendbtn" id="asksend" aria-hidden="true"><svg viewBox="0 0 19.792 20.93" aria-hidden="true"><use href="#g-chev"/></svg></span></div></div><div class="modcard" id="modcard"><div><div class="fac">Case 00001382 &middot; Money out</div><div class="facm">James Okafor &middot; general investment account &middot; logged by phone</div></div><div class="delta"><span class="to">£3,000</span></div></div><p class="checked" id="checked"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg><span>Client, account and payee found as you type. The Case agent picked it up within seconds.</span></p></div></div></div></div>
+    <div class="cap"><p class="eyebrow chno"><b>05</b><i>/</i>07</p><h2 class="head">Say it in one sentence.</h2><p class="sub">A call, a letter, a visit to the office. Write it down in plain words; the case is in Salesforce and the agents start at once.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">The form</span><span class="fv num">1</span><span class="fs">request, in your own words</span></div><div class="fact rise"><span class="fl">Picked up</span><span class="fp">Within seconds, by the Case agent</span></div><div class="fact rise"><span class="fl">The record</span><span class="fp">A standard case in Salesforce</span></div></div>
+    <div class="stage"><div class="fit"><div class="lift rise modal" data-rise style="--cw:540;--ch:669"><iframe src="assets/desk/newcase.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:450;--y:116;--vh:900"></iframe></div></div></div>
   </div>
 </section>
 
@@ -1860,9 +1880,9 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-f">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>06</b><i>/</i>07</p><h2 class="head">The letter writes itself, and waits for you.</h2><p class="sub">Drafted in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.</p></div>
-    <div class="facts"><div class="fact rise"><span class="fl">Prepared</span><span class="fv num">8 of 9</span><span class="fs">steps, before it reaches you</span></div><div class="fact rise"><span class="fl">The tone</span><span class="fp">Written for a family, not a file</span></div><div class="fact rise"><span class="fl">Sent</span><span class="fp">Only when you approve it</span></div></div>
-    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Ellison &middot; Letter to the executor</span></div><div class="dev-body"><div class="memohead"><span class="mk">Bereavement <span class="re">Letter</span></span></div><p class="draftline">Preparing the case for you: <b id="secn">0 of 9</b> steps</p><div class="seclist" id="seclist"><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Read the notification</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Identify the client and accounts</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Record the death</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Hold the accounts</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Check the documents</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Confirm the executor's identity</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Draft the condolence letter</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Independent review</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Your approval</div></div><div class="letter"><p class="lt-to">Dear Mr Ellison,</p><p>I was very sorry to hear of your mother&rsquo;s death. Her three accounts are now on hold, so nothing will leave them while you act for her estate&hellip;</p></div><div class="attest"><span class="att-dot"></span><span><b>Agent-drafted</b> &middot; Waiting for your approval</span></div><div class="memoctrl"><span class="btn primary">Approve as drafted</span><span class="btn">Edit letter</span></div></div></div></div></div>
+    <div class="cap"><p class="eyebrow chno"><b>06</b><i>/</i>07</p><h2 class="head">The letter writes itself, and waits for you.</h2><p class="sub">Drafted for a family, in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Drafted</span><span class="fv num">1</span><span class="fs">letter, in the bereavement tone</span></div><div class="fact rise"><span class="fl">The meeting</span><span class="fp">Four times proposed, one chosen by you</span></div><div class="fact rise"><span class="fl">Sent</span><span class="fp">Only when you approve it</span></div></div>
+    <div class="stage"><div class="fit"><div class="lift rise fade" data-rise style="--cw:620;--ch:560"><iframe src="assets/desk/hale-overview.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:900"></iframe></div></div></div>
   </div>
 </section>
 
@@ -1874,33 +1894,9 @@ html{scroll-snap-type:y proximity}
 
 <section class="chapter" id="ch-g">
   <div class="wrap">
-    <div class="cap"><p class="eyebrow chno"><b>07</b><i>/</i>07</p><h2 class="head">You decide. Salesforce does the rest.</h2><p class="sub">The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.</p></div><div class="facts"><div class="fact rise"><span class="fl">On the record</span><span class="fv num">5</span><span class="fs">writes, from one confirmation</span></div><div class="fact rise"><span class="fl">Confirmed by</span><span class="fp">A named person, never an agent</span></div><div class="fact rise"><span class="fl">The control</span><span class="fp">Staged, read back, then confirmed</span></div></div>
-    <div class="stage">
-      <div class="fit">
-        <div class="plan rise" data-rise id="planbox" style="max-width:720px;margin:0 auto">
-          <p class="ph">Review and confirm</p><div class="planrow"><span class="n">1</span><span>Keep Margaret Ellison&rsquo;s three accounts on hold, with her death recorded</span></div><div class="planrow"><span class="n">2</span><span>Send the condolence letter to David Ellison on the firm&rsquo;s letterhead</span></div><div class="planrow"><span class="n">3</span><span>Book the one-to-one on Thursday at 10:00, with David as the contact</span></div><div class="planrow"><span class="n">4</span><span>Record the decision on the case against Emma Collins</span></div>
-          <div class="approvebar">
-            <button class="btn primary" id="approve" type="button">Confirm</button>
-            <span class="note" id="approvenote">Nothing has moved yet.</span>
-          </div>
-        </div>
-
-        <div class="halostage" id="halostage" style="margin-top:clamp(88px,15vh,180px)">
-          <canvas id="halo" width="2" height="2" aria-hidden="true"></canvas>
-          <div class="dossier" id="dossier">
-            <div class="dh">
-              <span class="dt">Ellison &middot; Bereavement</span>
-              <span class="dv">Confirmed by Emma Collins &middot; 15:12</span>
-            </div>
-            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Decision recorded on the case<span class="w">Salesforce</span></div>
-            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Three accounts held, death recorded<span class="w">Financial Services Cloud</span></div>
-            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Letter sent to David Ellison<span class="w">Email</span></div>
-            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>One-to-one booked for Thursday<span class="w">Calendar</span></div>
-            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Every step written to the audit trail<span class="w">Audit trail</span></div>
-            </div>
-        </div>
-      </div>
-    </div>
+    <div class="cap"><p class="eyebrow chno"><b>07</b><i>/</i>07</p><h2 class="head">You decide. Salesforce does the rest.</h2><p class="sub">The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">On the record</span><span class="fv num">4</span><span class="fs">steps, from one confirmation</span></div><div class="fact rise"><span class="fl">Confirmed by</span><span class="fp">A named person, never an agent</span></div><div class="fact rise"><span class="fl">The control</span><span class="fp">Staged, read back, then confirmed</span></div></div>
+    <div class="stage"><div class="fit"><div class="decide" id="decide"><div class="lift rise " data-rise style="--cw:620;--ch:616"><iframe src="assets/desk/hale-plan.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:640"></iframe></div><div class="lift rise after" data-rise style="--cw:620;--ch:616"><iframe src="assets/desk/hale-saved.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" style="--x:808;--y:12;--vh:640"></iframe></div></div></div></div>
   </div>
 </section>
 
@@ -2536,34 +2532,10 @@ html{scroll-snap-type:y proximity}
       });
     });
 
-    /* g. approve: the dim, the halo, the executed lines */
-    var approve = $('#approve'), stage = $('#halostage'), dim = $('#dim'), fired = false;
-    function execute() {
-      if (fired) { return; }
-      fired = true;
-      approve.disabled = true;
-      approve.classList.remove('armed');
-      approve.textContent = 'Approved';
-      $('#approvenote').textContent = 'Executed at 09:14. Five writes on the record.';
-      if (!RM) { dim.classList.add('on'); $('#planbox').classList.add('under'); }
-      /* the surface goes down one stop first, then the halo blooms behind the card */
-      setTimeout(function () {
-        stage.classList.add('lit');
-        if (window.__halo) { window.__halo.bloom(); }
-        $$('.execrow').forEach(function (r, i) {
-          setTimeout(function () { r.classList.add('in'); }, RM ? 0 : i * 40);
-        });
-      }, RM ? 0 : 300);
-      /* the surface comes back up once the record has closed */
-      setTimeout(function () {
-        dim.classList.remove('on');
-        $('#planbox').classList.remove('under');
-      }, RM ? 0 : 3200);
-    }
-    approve.addEventListener('click', execute);
-    once($('#planbox'), function () { approve.classList.add('armed'); });
-    /* the plan is read back, then the control commits it. Pressing it early runs it early. */
-    once(stage, execute);
+    /* g. the decision: the plan is read back, the person confirms, the drawer says Saved */
+    once($('#decide'), function () {
+      setTimeout(function () { $('#decide').classList.add('saved'); }, RM ? 0 : 2400);
+    });
 
     /* the breathers: the still holds a slow 1.04x as it passes, and the film's
        own headline types over the person at 24 characters a second */
@@ -2883,6 +2855,21 @@ html{scroll-snap-type:y proximity}
 
   if (document.readyState === 'complete') { boot(); }
   else { window.addEventListener('load', boot); }
+})();
+</script>
+<script>
+/* on a phone the fit rule lets components flow at their own size; a lift is wider than the
+   phone, so it is zoomed to the column (zoom, not transform, so the section's height follows) */
+(function () {
+  function size() {
+    document.querySelectorAll('.stage').forEach(function (st) {
+      var el = st.querySelector('.decide') || st.querySelector('.lift'); if (!el) { return; }
+      if (innerWidth >= 761) { el.style.zoom = ''; return; }
+      var w = el.classList.contains('decide') ? 620 : parseFloat(getComputedStyle(el).getPropertyValue('--cw'));
+      el.style.zoom = Math.min(1, (st.clientWidth - 2) / w).toFixed(4);
+    });
+  }
+  addEventListener('resize', size); document.addEventListener('DOMContentLoaded', size); size();
 })();
 </script>
 <div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>

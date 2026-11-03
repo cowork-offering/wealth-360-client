@@ -99,66 +99,54 @@ cha = re.sub(r'<span class="u1">[^<]*</span>', '<span class="u1">wealth.lightnin
 cha = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(1, 'A client writes in. Someone opens eleven tabs.', 'One request, eleven systems, and a morning spent checking each one against the others.') + facts(('Systems', '11', 'open for one request'), ('The request', '1', "a client's email"), ('The screen', 'The Wealth 360 desk')), cha, count=1, flags=re.S)
 CH = [cha]
 
+# the lifts: the live desk itself, captured from the running product into static HTML
+# (assets/desk/*.html, scripts stripped, the desk's own stylesheet) and shown at its own
+# geometry. crop = the window of the 1440-wide page that is shown, in its own pixels.
+def lift(src, crop, vh=900, extra='', cls=''):
+    x, y, w, h = crop
+    return (f'<div class="lift rise {cls}" data-rise style="--cw:{w};--ch:{h}"{extra}>'
+            f'<iframe src="assets/desk/{src}.html" title="" aria-hidden="true" tabindex="-1" loading="lazy" '
+            f'style="--x:{x};--y:{y};--vh:{vh}"></iframe></div>')
+DRAWER = (808, 12, 620)
+
 # b. the desk
-wl = [('JO', 'James Okafor', 'Money out &middot; general investment account', [('acc', 'Authorise')], '£3,000', 'to his account'),
-      ('VB', 'Victor Bondarev', 'Money in &middot; possible sanctions match', [('warn', 'Decide')], '£22,000', 'held in suspense'),
-      ('DE', 'David Ellison', 'Bereavement &middot; letter to the executor', [('acc', 'Review')], '3', 'accounts on hold'),
-      ('PR', 'Priya Raman', 'Change of address &middot; email and water bill', [('good', 'Closed by agents')], '3 min', 'no person needed')]
-rows = ''.join(f'<div class="wlrow rise" data-rise><span class="mono">{m}</span><span class="who"><b>{n}</b><span>{d}</span></span><span class="sts">' + ''.join(f'<span class="st {c}">{l}</span>' for c, l in st) + f'</span><span class="amt num"><b>{amt}</b><span>{sub}</span></span><span class="go" aria-hidden="true">&rarr;</span></div>' for m, n, d, st, amt, sub in wl)
-kpis = [('With you', '5', '', '0', 'Authorise, decide, review'), ('Agents working', '4', '', '0', 'Moving on their own'), ('Waiting on client', '3', '', '0', 'Documents requested'), ('Completed', '6', '', '0', '2 by agents alone'), ('Agent time', '4', '', ' min', 'A case, in our runs'), ('Decided today', '3', '', '0', 'Each by name')]
-kp = ''.join(f'<div class="kpi"><div class="l">{l}</div><div class="v{" warn" if l=="With you" else ""}" data-count="{v}" data-dec="0"{" data-post=\" min\"" if post==" min" else ""}>0</div><div class="s">{sub}</div></div>' for l, v, pre, post, sub in kpis)
-body = f'<p class="eyebrow">Tuesday, 3 November<span class="dot">&middot;</span>Your book</p><h3 class="head" style="margin-top:12px; font-size:clamp(24px,3vw,36px)">Five cases need you today.</h3><div class="card kpis num" id="kpiband" style="margin-top:24px">{kp}</div><div class="wl" id="worklist" style="margin-top:22px">{rows}</div>'
-CH.append(chapter('ch-b', 2, 'It knows what needs you, and what does not.', 'The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.', facts(('With you', '5', 'cases, each with its reason'), ('Agent time', '4 min', 'to gather and check a case'), ('The rest', 'Moving on its own, in plain view')), device('Wealth 360 &middot; The desk', body)))
+CH.append(chapter('ch-b', 2, 'It knows what needs you, and what does not.',
+  'The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.',
+  facts(('With you', '13', 'cases, each with its reason'), ('Completed', '5', 'one by the agents alone'), ('Where to start', 'The desk says: the sanctions match')),
+  lift('board', (110, 66, 1220, 540), cls='fade')))
 CH.append(breath(1, 'breather-1.jpg', [('Every request, already ', 0), ('gathered', 1), ('.', 0)], ''))
 
-# c. the checks resolve
-rr = ''.join([row('g-sf', 'Salesforce &middot; client, accounts, KYC'), row('g-mail', 'Client email &middot; the request and its documents'), row('g-shield', 'UK Sanctions List &middot; screened'), row('g-payee', 'Payee check &middot; account confirmed'), row('g-id', 'Identity &middot; verified on file'), row('g-pin', 'Address &middot; postcode matched')])
-chips = '<span class="chip"><span class="mk">&gt;</span>Wealth 360</span><span class="chip"><svg viewBox="0 0 19 19" aria-hidden="true"><use href="#g-memo"/></svg>Case agent</span><span class="chip"><svg viewBox="0 0 19 19" aria-hidden="true"><use href="#g-memo"/></svg>Review agent</span><span class="chip"><span class="mk" style="color:var(--faint)">&bull;</span>Wealth 360 Checks</span>'
-body = f'<p style="font-size:14px;color:var(--muted);margin-bottom:16px">Worked the case, used 6 checks, cited every step</p><div class="runrows" id="railrows">{rr}</div><p class="striplbl">Two agents, two connectors, one record</p>'
-CH.append(chapter('ch-c', 3, 'Every check, already run.', 'The client record, the sanctions list, the payee and the identity provider answer before the case reaches you.', facts(('Checks', '6', 'resolved before you open the case'), ('Resolved', 'Salesforce, UK Sanctions List, payee, identity, address, email'), ('Written back', 'Every result, on the case')), device('Wealth 360 &middot; Case 00001380', body), flip=True))
+# c. the checks
+CH.append(chapter('ch-c', 3, 'Every check, already run.',
+  'Sanctions, candidate accounts and an independent review, each with its source, before the case reaches you.',
+  facts(('Checks', '3', 'each with its source'), ('The match', '93% against a 90% threshold'), ('The review', 'A second agent, in a fresh context')),
+  lift('bondarev-checks', DRAWER + (548,), cls='fade')))
 
-# d. every step cited (the care chapter's evidence)
-steps = [('15:03', 'Case agent', 'Read the notification', '&ldquo;My mother, Margaret Ellison, died on 4 August.&rdquo;', 'Email from David Ellison'),
-         ('15:04', 'Case agent', 'Found three accounts', 'General investment account, ISA, cash', 'Salesforce'),
-         ('15:05', 'Salesforce', 'Recorded the death, held the accounts', 'Certificate on the case, family link on record', 'Fence passed'),
-         ('15:06', 'Case agent', "Executor's identity on file", 'Passport, verified 3 June 2024', 'KYC profile'),
-         ('15:07', 'Case agent', 'Drafted the letter, proposed a meeting', 'Three times on Thursday', 'Draft, not sent'),
-         ('15:08', 'Review agent', 'Checked the case, passed', 'Six of six journey rules', 'Fresh context')]
-sl = ''.join(f'<div class="cstep"><span class="ct num">{t}</span><span class="cw">{w}</span><span class="ch"><b>{h}</b><span class="cq">{q}</span></span><span class="cs">{src}</span></div>' for t, w, h, q, src in steps)
-body = f'<div class="ctl" id="graph">{sl}</div><p class="ctl-sum" id="nodechip">11 steps, every one cited, in four minutes.</p>'
-CH.append(chapter('ch-d', 4, 'Every step, cited.', 'The Case agent works the request one step at a time and quotes the source behind each one. A second agent checks it, blind to the first one&rsquo;s reasoning.', facts(('Steps', '11', 'each with its quote and source'), ('The check', 'A second agent, in a fresh context'), ('The fence', 'Enforced by Salesforce, in code')), device('Ellison &middot; Bereavement &middot; Activity', body)))
+# d. the activity: a bereavement, step by step
+CH.append(chapter('ch-d', 4, 'Every step, on the record.',
+  'A daughter writes to say her father has died. The Case agent works the case one step at a time, and every step lands on the record.',
+  facts(('Done', '8 of 13', 'steps before a person is needed'), ('The tone', 'Bereavement, by design'), ('Next', 'An independent check by the Review agent')),
+  lift('hale-activity', DRAWER + (560,), cls='fade')))
 
 # e. one sentence
-body = ('<div class="composer" style="min-height:88px; padding-bottom:44px"><div class="typed"><span id="asktype"></span><i class="caret"></i></div><div class="cmp-bar">'
-        '<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg>'
-        '<div class="pillbed" aria-hidden="true"><div class="p">Chat</div><div class="p on">Cowork</div></div><div class="modelmeta" aria-hidden="true">Opus 5.5<em>Medium</em></div>'
-        f'<span class="sendbtn" id="asksend" aria-hidden="true">{CHEV}</span></div></div>'
-        '<div class="modcard" id="modcard"><div><div class="fac">Case 00001382 &middot; Money out</div><div class="facm">James Okafor &middot; general investment account &middot; logged by phone</div></div><div class="delta"><span class="to">£3,000</span></div></div>'
-        f'<p class="checked" id="checked">{TICK}<span>Client, account and payee found as you type. The Case agent picked it up within seconds.</span></p>')
-CH.append(chapter('ch-e', 5, 'Say it in one sentence.', 'A call, a note, a letter in the post. Log it in a sentence and the agents start on it at once.', facts(('The request', '1', 'sentence, no form'), ('Picked up', 'Within seconds, by the Case agent'), ('The record', 'A standard case in Salesforce')), device('Wealth 360 &middot; Log a request', body), flip=True))
+CH.append(chapter('ch-e', 5, 'Say it in one sentence.',
+  'A call, a letter, a visit to the office. Write it down in plain words; the case is in Salesforce and the agents start at once.',
+  facts(('The form', '1', 'request, in your own words'), ('Picked up', 'Within seconds, by the Case agent'), ('The record', 'A standard case in Salesforce')),
+  lift('newcase', (450, 116, 540, 669), cls='modal')))
 CH.append(breath(2, 'breather-2.jpg', [('Every family, given ', 0), ('time', 1), ('.', 0)], ''))
 
 # f. the letter waits for you
-secs = ['Read the notification', 'Identify the client and accounts', 'Record the death', 'Hold the accounts', 'Check the documents', "Confirm the executor's identity", 'Draft the condolence letter', 'Independent review', 'Your approval']
-sr = ''.join(f'<div class="secrow" data-sec><span class="sst">{TICK}</span>{x}</div>' for x in secs)
-body = (f'<div class="memohead"><span class="mk">Bereavement <span class="re">Letter</span></span></div><p class="draftline">Preparing the case for you: <b id="secn">0 of 9</b> steps</p><div class="seclist" id="seclist">{sr}</div>'
-        '<div class="letter"><p class="lt-to">Dear Mr Ellison,</p><p>I was very sorry to hear of your mother&rsquo;s death. Her three accounts are now on hold, so nothing will leave them while you act for her estate&hellip;</p></div>'
-        '<div class="attest"><span class="att-dot"></span><span><b>Agent-drafted</b> &middot; Waiting for your approval</span></div><div class="memoctrl"><span class="btn primary">Approve as drafted</span><span class="btn">Edit letter</span></div>')
-CH.append(chapter('ch-f', 6, 'The letter writes itself, and waits for you.', 'Drafted in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.', facts(('Prepared', '8 of 9', 'steps, before it reaches you'), ('The tone', 'Written for a family, not a file'), ('Sent', 'Only when you approve it')), device('Ellison &middot; Letter to the executor', body)))
+CH.append(chapter('ch-f', 6, 'The letter writes itself, and waits for you.',
+  'Drafted for a family, in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.',
+  facts(('Drafted', '1', 'letter, in the bereavement tone'), ('The meeting', 'Four times proposed, one chosen by you'), ('Sent', 'Only when you approve it')),
+  lift('hale-overview', DRAWER + (560,), cls='fade')))
 CH.append(breath(3, 'breather-3.jpg', [('Agents prepare. People ', 0), ('decide', 1), ('.', 0)], ''))
 
-# g. the decision
-g0 = s.find('<section class="chapter" id="ch-g"'); g1 = s.find('</main>')
-chg = s[g0:g1]
-chg = re.sub(r'<div class="cap">.*?</div>\s*<div class="facts">.*?</div>\s*</div>', cap(7, 'You decide. Salesforce does the rest.', 'The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.') + facts(('On the record', '5', 'writes, from one confirmation'), ('Confirmed by', 'A named person, never an agent'), ('The control', 'Staged, read back, then confirmed')), chg, count=1, flags=re.S)
-plan = ["Keep Margaret Ellison&rsquo;s three accounts on hold, with her death recorded", "Send the condolence letter to David Ellison on the firm&rsquo;s letterhead", "Book the one-to-one on Thursday at 10:00, with David as the contact", "Record the decision on the case against Emma Collins"]
-chg = re.sub(r'<p class="ph">Review and execute</p>.*?<div class="approvebar">', '<p class="ph">Review and confirm</p>' + ''.join(f'<div class="planrow"><span class="n">{i+1}</span><span>{p}</span></div>' for i, p in enumerate(plan)) + '\n          <div class="approvebar">', chg, count=1, flags=re.S)
-chg = chg.replace('>Approve</button>', '>Confirm</button>')
-chg = chg.replace('<span class="dt">Hartwell Precision Manufacturing LLC</span>', '<span class="dt">Ellison &middot; Bereavement</span>').replace('Package v4 &middot; executed 09:14', 'Confirmed by Emma Collins &middot; 15:12')
-ex = [('Decision recorded on the case', 'Salesforce'), ('Three accounts held, death recorded', 'Financial Services Cloud'), ('Letter sent to David Ellison', 'Email'), ('One-to-one booked for Thursday', 'Calendar'), ('Every step written to the audit trail', 'Audit trail')]
-ticks = re.findall(r'<div class="execrow" data-exec>(<svg.*?</svg>)', chg, flags=re.S)
-chg = re.sub(r'(<div class="execrow" data-exec>.*?</div>\s*)+', ''.join(f'<div class="execrow" data-exec>{ticks[0]}{a}<span class="w">{w}</span></div>\n            ' for a, w in ex), chg, count=1, flags=re.S)
-CH.append(chg)
+# g. the decision: the plan read back, then saved
+CH.append(chapter('ch-g', 7, 'You decide. Salesforce does the rest.',
+  'The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.',
+  facts(('On the record', '4', 'steps, from one confirmation'), ('Confirmed by', 'A named person, never an agent'), ('The control', 'Staged, read back, then confirmed')),
+  '<div class="decide" id="decide">' + lift('hale-plan', DRAWER + (616,), vh=640) + lift('hale-saved', DRAWER + (616,), vh=640, cls='after') + '</div>'))
 
 # the walkthrough: a second film, seven minutes
 CH.append('''<section class="walk" id="walk">
@@ -177,6 +165,7 @@ CH.append('''<section class="walk" id="walk">
   </div>
 </section>
 ''')
+g1 = s.find('</main>')
 s = s[:a0] + '\n'.join(CH) + s[g1:]
 
 # ---------- the end ----------
@@ -187,6 +176,14 @@ rep('<p class="endhead">Meet us at the booth.</p>', '<p class="endhead">Care, wi
 s = re.sub(r'\s*<!-- the place, drawn.*?</aside>', '', s, count=1, flags=re.S)
 
 # ---------- motion strings ----------
+_i = s.find("/* g. approve: the dim, the halo, the executed lines */")
+_j = s.find("/* the breathers: the still holds", _i)
+s = s[:_i] + '''/* g. the decision: the plan is read back, the person confirms, the drawer says Saved */
+    once($('#decide'), function () {
+      setTimeout(function () { $('#decide').classList.add('saved'); }, RM ? 0 : 2400);
+    });
+
+    ''' + s[_j:]
 rep("      once(g, function () {\n        kids.forEach", "      once(g.closest('.chapter') || g, function () {\n        kids.forEach")
 rep("NOT = 'Not this one.'", "NOT = 'One desk.'")
 rep("var ASK = 'increase to 20';", "var ASK = 'James Okafor called. £3,000 out of his GIA for a new boiler.';")
@@ -210,17 +207,19 @@ CSS = r'''<style id="w360">
     grid-template-columns:minmax(0,1fr);
     grid-template-rows:auto minmax(0,1fr) auto;
     grid-template-areas:"cap" "stage" "facts";
-    row-gap:clamp(18px,3.4vh,40px);
+    row-gap:clamp(14px,2.6vh,30px);
   }
-  .cap{align-self:end; justify-self:center; text-align:center; max-width:820px}
+  .cap{align-self:end; justify-self:center; text-align:center; max-width:980px}
+  .cap .sub{max-width:72ch; margin-top:8px}
+  .chno{margin-bottom:9px}
   .cap .sub{margin-left:auto; margin-right:auto}
-  .stage{padding-inline:clamp(40px,10vw,180px)}
+  .stage{padding-inline:clamp(24px,4vw,72px)}
   .facts{align-self:start; justify-self:center; margin-top:0; display:flex; gap:0;
     width:min(980px,100%); border-top:1px solid var(--hair); padding-top:clamp(14px,2.2vh,22px)}
   .fact{flex:1 1 0; min-width:0; text-align:center; padding:0 18px; border-top:0; border-left:1px solid var(--hair)}
   .fact:first-child{border-left:0; padding-left:0}
   .fact:last-child{padding-right:0}
-  .fact .fv{font-size:34px; margin-top:8px}
+  .fact .fv{font-size:30px; margin-top:6px}
   .fact .fs{font-size:13.5px; margin-top:6px}
   .fact .fp{font-size:16px; margin-top:9px; line-height:1.34}
 }
@@ -231,8 +230,9 @@ CSS = r'''<style id="w360">
    The chapter headlines, the hero line, the typed breathers and the close are set in Newsreader;
    the product's own surfaces stay in Inter, exactly as the desk draws them. */
 .cap .head,.walk .head{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
-  font-size:clamp(32px,3.7vw,52px)}
+  font-size:clamp(28px,2.9vw,42px)}
 .hero-line{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+@media (min-width:1080px){.hero-line{white-space:nowrap; font-size:clamp(22px,2.1vw,32px); text-align:right}}
 .breath-type{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
 .endhead{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
 #notthis{font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
@@ -253,6 +253,23 @@ CSS = r'''<style id="w360">
 .jrail i.now::before{background:var(--brand); border-color:var(--brand)}
 .jrail i.now span{opacity:1; transform:none}
 @media (min-width:1180px){ .jrail{display:flex} }
+
+
+/* THE LIFT. The desk itself, not a picture of it: a capture of the running product, scripts
+   stripped, drawn by its own stylesheet at its own size, through a window onto the part that
+   matters. The fit rule scales the window down to the room; nothing is ever scaled up. */
+.lift{position:relative; width:calc(var(--cw) * 1px); height:calc(var(--ch) * 1px); max-width:none; margin:0 auto;
+  overflow:hidden; border-radius:16px; background:#fff;
+  box-shadow:0 0 0 1px rgba(20,20,30,.07), 0 18px 48px -28px rgba(20,20,40,.28)}
+.lift iframe{position:absolute; left:0; top:0; border:0; width:1440px; height:calc(var(--vh) * 1px);
+  transform:translate(calc(var(--x) * -1px), calc(var(--y) * -1px)); pointer-events:none; background:#fff}
+.lift.fade::after{content:""; position:absolute; left:0; right:0; bottom:0; height:56px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), #fff)}
+.lift.modal{border-radius:18px}
+.decide{position:relative; width:620px; height:616px; margin:0 auto}
+.decide .lift{position:absolute; inset:0}
+.decide .lift.after{opacity:0; transition:opacity .9s var(--ease-out)}
+.decide.saved .lift.after{opacity:1}
 
 /* 04: the activity, every step with its quote and its source */
 .ctl{display:grid; gap:0; min-width:560px}
@@ -315,7 +332,22 @@ CSS = r'''<style id="w360">
 s = open(ROOT / 'index.html').read()
 s = s.replace('</head>', CSS, 1)
 
-WALK_JS = r'''<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
+WALK_JS = r'''<script>
+/* on a phone the fit rule lets components flow at their own size; a lift is wider than the
+   phone, so it is zoomed to the column (zoom, not transform, so the section's height follows) */
+(function () {
+  function size() {
+    document.querySelectorAll('.stage').forEach(function (st) {
+      var el = st.querySelector('.decide') || st.querySelector('.lift'); if (!el) { return; }
+      if (innerWidth >= 761) { el.style.zoom = ''; return; }
+      var w = el.classList.contains('decide') ? 620 : parseFloat(getComputedStyle(el).getPropertyValue('--cw'));
+      el.style.zoom = Math.min(1, (st.clientWidth - 2) / w).toFixed(4);
+    });
+  }
+  addEventListener('resize', size); document.addEventListener('DOMContentLoaded', size); size();
+})();
+</script>
+<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
 <script>
 /* the rail follows the chapter in the middle of the screen; it stands only between the hero and the walkthrough */
 (function () {
