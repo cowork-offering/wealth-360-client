@@ -1,10 +1,10 @@
 # Graph Report - .  (2026-11-03)
 
 ## Corpus Check
-- Large corpus: 65 files · ~4,427,480 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
+- Large corpus: 68 files · ~4,438,697 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
 
 ## Summary
-- 252 nodes · 408 edges · 63 communities detected
+- 252 nodes · 408 edges · 61 communities detected
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -21,86 +21,86 @@
 10. `v()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `P()` --calls--> `r()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 14 → community 6_
 - `K()` --calls--> `z()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 10 → community 4_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 11 → community 5_
 - `Bc()` --calls--> `J()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 9 → community 4_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 8 → community 5_
 - `ff()` --calls--> `K()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 4 → community 6_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 5 → community 3_
 - `wc()` --calls--> `La()`  [EXTRACTED]
-  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 10 → community 9_
+  assets/vendor/ScrollTrigger-3.12.5.min.js → assets/vendor/ScrollTrigger-3.12.5.min.js  _Bridges community 11 → community 8_
+- `va()` --calls--> `r()`  [EXTRACTED]
+  assets/vendor/gsap-3.12.5.min.js → assets/vendor/gsap-3.12.5.min.js  _Bridges community 6 → community 4_
 
 ## Communities
 
 ### Community 0 - "Community 0"
+Cohesion: 0.07
+Nodes (12): Ec(), Fc(), ga(), Jc(), Lc(), ma(), MatchMedia(), na() (+4 more)
+
+### Community 1 - "Community 1"
 Cohesion: 0.06
 Nodes (6): gc(), Ja(), Ka(), qb(), rb(), Sb()
 
-### Community 1 - "Community 1"
-Cohesion: 0.08
-Nodes (8): Ec(), Fc(), ma(), MatchMedia(), na(), Od(), Sd(), Td()
-
 ### Community 2 - "Community 2"
 Cohesion: 0.15
-Nodes (19): be(), _d(), ee(), ie(), je(), Kd(), ke(), Ld() (+11 more)
+Nodes (19): be(), _d(), ee(), fa(), ie(), je(), Kd(), ke() (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.17
-Nodes (16): _a(), ac(), Co(), db(), ea(), eb(), fa(), ga() (+8 more)
+Cohesion: 0.18
+Nodes (16): df(), ff(), gf(), hf(), jf(), M(), N(), O() (+8 more)
 
 ### Community 4 - "Community 4"
+Cohesion: 0.18
+Nodes (16): _assertThisInitialized(), gc(), ka(), la(), Q(), qa(), t(), Timeline() (+8 more)
+
+### Community 5 - "Community 5"
 Cohesion: 0.19
 Nodes (14): A(), B(), Bc(), G(), Ia(), K(), ob(), rc() (+6 more)
 
-### Community 5 - "Community 5"
+### Community 6 - "Community 6"
+Cohesion: 0.2
+Nodes (14): _a(), ac(), Co(), db(), ea(), eb(), Gw(), oa() (+6 more)
+
+### Community 7 - "Community 7"
 Cohesion: 0.17
 Nodes (3): cap(), chapter(), Builds the Wealth 360 client screening page from the Credit 360 screening page's
 
-### Community 6 - "Community 6"
-Cohesion: 0.26
-Nodes (12): df(), ff(), gf(), hf(), jf(), M(), O(), of() (+4 more)
-
-### Community 7 - "Community 7"
-Cohesion: 0.29
-Nodes (11): _assertThisInitialized(), gc(), ka(), la(), Q(), t(), Timeline(), Tween() (+3 more)
-
 ### Community 8 - "Community 8"
-Cohesion: 0.33
-Nodes (10): Aa(), Animation(), ha(), ia(), ja(), Jc(), Lc(), Ra() (+2 more)
-
-### Community 9 - "Community 9"
 Cohesion: 0.22
 Nodes (9): Cb(), J(), mb(), mc(), oc(), Ta(), tb(), Ua() (+1 more)
 
+### Community 9 - "Community 9"
+Cohesion: 0.32
+Nodes (8): Ab(), Bb(), cb(), Context(), fb(), gb(), ya(), zb()
+
 ### Community 10 - "Community 10"
-Cohesion: 0.43
-Nodes (7): Db(), Jb(), La(), Ma(), Na(), Qa(), z()
+Cohesion: 0.46
+Nodes (8): Aa(), Animation(), ha(), ia(), ja(), Ra(), Sa(), Sb()
 
 ### Community 11 - "Community 11"
-Cohesion: 0.33
-Nodes (7): Ab(), Bb(), cb(), Context(), fb(), Gw(), zb()
+Cohesion: 0.43
+Nodes (7): Db(), Jb(), La(), Ma(), Na(), Qa(), z()
 
 ### Community 12 - "Community 12"
 Cohesion: 0.47
 Nodes (3): digest(), mount(), sha256js()
 
 ### Community 13 - "Community 13"
-Cohesion: 0.4
-Nodes (5): gb(), hb(), lb(), ob(), Wa()
+Cohesion: 0.5
+Nodes (4): hb(), lb(), ob(), Wa()
 
 ### Community 14 - "Community 14"
-Cohesion: 0.5
-Nodes (4): N(), pc(), r(), sf()
+Cohesion: 0.67
+Nodes (3): tb(), Ub(), Vb()
 
 ### Community 15 - "Community 15"
-Cohesion: 0.5
-Nodes (4): tb(), Ub(), Vb(), za()
+Cohesion: 1.0
+Nodes (0): 
 
 ### Community 16 - "Community 16"
-Cohesion: 0.5
-Nodes (4): qa(), ua(), wb(), x()
+Cohesion: 1.0
+Nodes (0): 
 
 ### Community 17 - "Community 17"
 Cohesion: 1.0
@@ -278,122 +278,114 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 61 - "Community 61"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 62 - "Community 62"
-Cohesion: 1.0
-Nodes (0): 
-
 ## Knowledge Gaps
 - **1 isolated node(s):** `Builds the Wealth 360 client screening page from the Credit 360 screening page's`
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 17`** (1 nodes): `w035.ts`
+- **Thin community `Community 15`** (1 nodes): `w035.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (1 nodes): `w021.ts`
+- **Thin community `Community 16`** (1 nodes): `w021.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 19`** (1 nodes): `w026.ts`
+- **Thin community `Community 17`** (1 nodes): `w026.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (1 nodes): `w006.ts`
+- **Thin community `Community 18`** (1 nodes): `w006.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (1 nodes): `w027.ts`
+- **Thin community `Community 19`** (1 nodes): `w027.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (1 nodes): `w020.ts`
+- **Thin community `Community 20`** (1 nodes): `w020.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (1 nodes): `w010.ts`
+- **Thin community `Community 21`** (1 nodes): `w010.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 24`** (1 nodes): `w039.ts`
+- **Thin community `Community 22`** (1 nodes): `w039.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 25`** (1 nodes): `w007.ts`
+- **Thin community `Community 23`** (1 nodes): `w007.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 26`** (1 nodes): `w043.ts`
+- **Thin community `Community 24`** (1 nodes): `w043.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 27`** (1 nodes): `w034.ts`
+- **Thin community `Community 25`** (1 nodes): `w034.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 28`** (1 nodes): `w000.ts`
+- **Thin community `Community 26`** (1 nodes): `w000.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 29`** (1 nodes): `w032.ts`
+- **Thin community `Community 27`** (1 nodes): `w032.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 30`** (1 nodes): `w030.ts`
+- **Thin community `Community 28`** (1 nodes): `w030.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (1 nodes): `w023.ts`
+- **Thin community `Community 29`** (1 nodes): `w023.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (1 nodes): `w040.ts`
+- **Thin community `Community 30`** (1 nodes): `w040.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 33`** (1 nodes): `w008.ts`
+- **Thin community `Community 31`** (1 nodes): `w008.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 34`** (1 nodes): `w011.ts`
+- **Thin community `Community 32`** (1 nodes): `w011.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 35`** (1 nodes): `w015.ts`
+- **Thin community `Community 33`** (1 nodes): `w015.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 36`** (1 nodes): `w005.ts`
+- **Thin community `Community 34`** (1 nodes): `w005.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 37`** (1 nodes): `w016.ts`
+- **Thin community `Community 35`** (1 nodes): `w016.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 38`** (1 nodes): `w018.ts`
+- **Thin community `Community 36`** (1 nodes): `w018.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 39`** (1 nodes): `w013.ts`
+- **Thin community `Community 37`** (1 nodes): `w013.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 40`** (1 nodes): `w037.ts`
+- **Thin community `Community 38`** (1 nodes): `w037.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 41`** (1 nodes): `w045.ts`
+- **Thin community `Community 39`** (1 nodes): `w045.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 42`** (1 nodes): `w042.ts`
+- **Thin community `Community 40`** (1 nodes): `w042.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 43`** (1 nodes): `w033.ts`
+- **Thin community `Community 41`** (1 nodes): `w033.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 44`** (1 nodes): `w002.ts`
+- **Thin community `Community 42`** (1 nodes): `w002.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 45`** (1 nodes): `w014.ts`
+- **Thin community `Community 43`** (1 nodes): `w014.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 46`** (1 nodes): `w019.ts`
+- **Thin community `Community 44`** (1 nodes): `w019.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 47`** (1 nodes): `w028.ts`
+- **Thin community `Community 45`** (1 nodes): `w028.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 48`** (1 nodes): `w029.ts`
+- **Thin community `Community 46`** (1 nodes): `w029.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 49`** (1 nodes): `w012.ts`
+- **Thin community `Community 47`** (1 nodes): `w012.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 50`** (1 nodes): `w031.ts`
+- **Thin community `Community 48`** (1 nodes): `w031.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 51`** (1 nodes): `w003.ts`
+- **Thin community `Community 49`** (1 nodes): `w003.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 52`** (1 nodes): `w025.ts`
+- **Thin community `Community 50`** (1 nodes): `w025.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 53`** (1 nodes): `w024.ts`
+- **Thin community `Community 51`** (1 nodes): `w024.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 54`** (1 nodes): `w017.ts`
+- **Thin community `Community 52`** (1 nodes): `w017.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 55`** (1 nodes): `w022.ts`
+- **Thin community `Community 53`** (1 nodes): `w022.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 56`** (1 nodes): `w038.ts`
+- **Thin community `Community 54`** (1 nodes): `w038.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 57`** (1 nodes): `w041.ts`
+- **Thin community `Community 55`** (1 nodes): `w041.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 58`** (1 nodes): `w036.ts`
+- **Thin community `Community 56`** (1 nodes): `w036.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 59`** (1 nodes): `w009.ts`
+- **Thin community `Community 57`** (1 nodes): `w009.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 60`** (1 nodes): `w004.ts`
+- **Thin community `Community 58`** (1 nodes): `w004.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 61`** (1 nodes): `w044.ts`
+- **Thin community `Community 59`** (1 nodes): `w044.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 62`** (1 nodes): `w001.ts`
+- **Thin community `Community 60`** (1 nodes): `w001.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Bc()` connect `Community 4` to `Community 0`, `Community 6`, `Community 9`, `Community 10`, `Community 14`?**
+- **Why does `Bc()` connect `Community 5` to `Community 8`, `Community 1`, `Community 11`, `Community 3`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `Tween()` connect `Community 7` to `Community 16`, `Community 1`, `Community 3`, `Community 8`?**
+- **Why does `Tween()` connect `Community 4` to `Community 0`, `Community 10`, `Community 6`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `r()` connect `Community 3` to `Community 1`, `Community 2`, `Community 7`, `Community 8`, `Community 11`, `Community 13`?**
+- **Why does `r()` connect `Community 6` to `Community 0`, `Community 9`, `Community 4`, `Community 13`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `Builds the Wealth 360 client screening page from the Credit 360 screening page's` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
