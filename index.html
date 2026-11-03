@@ -1,0 +1,2936 @@
+<!doctype html>
+<html lang="en">
+<!--
+  WEALTH 360 · A PRIVATE SCREENING · London
+  =================================================================
+  The page IS the product. Every surface on this page is the Wealth 360
+  cockpit's own: cream paper, ink text, Inter, 1 px hairlines, 8 px grid,
+  12 px radii, one accent (the Accenture chevron in #A100FF).
+
+  Nothing here is a landing-page idiom. The components are lifted, not
+  redrawn, and each one does its real thing when it scrolls into view:
+  rows resolve, ticks land, edges draw, figures count. Motion is the
+  product's own: 300 to 600 ms on cubic-bezier(.16,1,.3,1).
+
+  PROVENANCE, component by component, is in the README.
+  =================================================================
+-->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Wealth 360 · A private screening</title>
+<meta name="description" content="Wealth 360. Agents do the routine work of client servicing, Salesforce keeps the rules and the record, and a named person makes every decision that matters." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#F7F5F0" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+<link rel="preload" href="assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/Inter-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+
+<style>
+/* ============================================================
+   1. THE TYPE AND THE TOKENS
+   Measured off the film cells (door/index.html, room/index.html),
+   which were themselves measured off the real build with PIL.
+   ============================================================ */
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:swap;
+  src:url("assets/fonts/Inter-Regular.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:swap;
+  src:url("assets/fonts/Inter-Medium.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:swap;
+  src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2")}
+@font-face{font-family:"CoworkSerif";font-weight:400;font-style:normal;font-display:swap;
+  src:url("assets/fonts/Newsreader-Regular.woff2") format("woff2")}
+
+:root{
+  /* SURFACES. The page ground is the cream of the film cells (the Cowork
+     window's own #FBFBF8 warmed one step); the panels are the cockpit's. */
+  --paper:   #F7F5F0;
+  --surface: #FBFBF8;
+  --raised:  #FFFFFF;
+  --overlay: #F0F0F2;
+  --pillbg:  #F4F4F1;
+  --circle:  #F1F1F1;
+  --lilac:   #F6EFFF;   /* --accent-tint */
+  --track:   #EEE6F7;
+
+  /* INK RAMP, the cockpit's own, seated on cream */
+  --ink:      #33332F;
+  --ink-max:  #050503;
+  --sub:      #43444D;  /* --ink-body */
+  --muted:    #5B5C66;  /* --ink-muted */
+  --faint:    #80818D;  /* --ink-faint */
+
+  /* HAIRLINES, the cockpit's own */
+  --divider: #ECECF1;   /* --row-divider */
+  --hair:    #E8E8ED;   /* --border */
+  --edge:    #DCDCE3;   /* --border-strong */
+  --hair-warm:#E3E3DF;  /* the Cowork chrome's hairline */
+
+  /* THE ONE ACCENT plus the semantic tones */
+  --brand:    #A100FF;
+  --accent:   #7500C0;
+  --acc-hair: #E6DCFF;
+  --positive: #147A46;
+  --positive-bg:#EEF7F1;
+  --warning:  #B15C00;
+  --warning-bg:#FDF4E7;
+  --coral:    #D97757;  /* the Claude asterisk, the product's other given */
+
+  --ui: "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --serif: "CoworkSerif", Georgia, "Times New Roman", serif;
+
+  /* MOTION. ONE language, everywhere on the page: an entrance is 240 ms of
+     opacity over an 8 px rise on --ease-out, and members of one card follow
+     each other 40 ms apart. Nothing on the page runs longer than 900 ms
+     except the halo's bloom, and no chapter's whole reveal runs past 1.1 s,
+     so a component is always finished before its section has left. */
+  --ease-out:    cubic-bezier(.2,.7,.2,1);
+  --ease-settle: cubic-bezier(.2,.7,.2,1);
+  --ease-spring: cubic-bezier(.22,1,.36,1);
+  --dur-fast:.13s; --dur-mid:.24s; --dur-odo:.6s; --beat:.24s;
+  --enter:.24s; --lift:8px;
+
+  --radius: 16px;
+  --radius-ctl: 10px;
+  --shadow-card: 0 1px 2px rgba(0,0,0,.03), 0 10px 28px -14px rgba(0,0,0,.1);
+  --shadow-card-hover: 0 1px 2px rgba(0,0,0,.04), 0 14px 36px -12px rgba(0,0,0,.14);
+
+  --gutter: clamp(20px, 5vw, 64px);
+  --measure: 1280px;
+  /* the cinema width: the film, the lockup and the endcard row all run to the
+     full content width, 1440 px at most, with 48 px of paper either side */
+  --measure-wide: 1440px;
+  --gutter-wide: clamp(20px, 5vw, 48px);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--ui); font-size:14.5px; line-height:1.5; font-weight:400;
+  letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+/* the one horizontal clip on the page, and it is at the document, not on a
+   section: a clip on a section cuts the halo's bloom off flat at the section's
+   own left and right edges. */
+html,body{overflow-x:hidden}
+img,svg,video{display:block; max-width:100%}
+[hidden]{display:none!important}
+button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
+::selection{background:rgba(161,0,255,.14)}
+:focus-visible{outline:2px solid var(--brand); outline-offset:3px; border-radius:4px}
+
+.wrap{width:100%; max-width:var(--measure); margin:0 auto; padding-inline:var(--gutter)}
+.wrap-w{width:100%; max-width:calc(var(--measure-wide) + 96px); margin:0 auto;
+  padding-inline:var(--gutter-wide)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   2. THE PRIMITIVES OF THE COCKPIT
+   Every rule below is the app's own, taken off the live build
+   (app/dist/cockpit.html) or the film cells that replicate it.
+   ============================================================ */
+
+/* .kicker: the small-caps eyebrow */
+.eyebrow{
+  font-size:10.5px; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--faint); line-height:1.2;
+}
+.eyebrow .dot{opacity:.7; margin:0 5px}
+
+/* .brief h1: the landing headline. Every chapter caption is set in this. */
+.head{
+  font-size:clamp(26px,3.6vw,40px); font-weight:600; line-height:1.12;
+  letter-spacing:-.025em; color:var(--ink-max); text-wrap:balance;
+}
+/* .brief p */
+.sub{
+  margin-top:12px; font-size:14.5px; line-height:1.55; color:var(--muted);
+  max-width:56ch; text-wrap:pretty;
+}
+
+/* the chevron, the only colour on the page */
+.chev{color:var(--brand); font-weight:600}
+
+/* .st: the dot chip. A 5 px circle in the tone colour, then the label.
+   No fill, no border. This is the app's only status indicator. */
+.st{display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; font-weight:500; white-space:nowrap; color:var(--faint)}
+.st::before{content:""; width:5px; height:5px; border-radius:50%;
+  background:currentColor; opacity:.8; flex:none}
+.st.good{color:var(--positive)}
+.st.warn{color:var(--warning)}
+.st.acc{color:var(--accent)}
+.st.mut{color:var(--faint)}
+
+/* .xbadge: the outline pill on a table's trailing column */
+.xbadge{display:inline-block; padding:2px 8px; border:1px solid var(--hair);
+  border-radius:999px; font-size:11px; color:var(--muted); white-space:nowrap}
+.xbadge.acc{border-color:var(--acc-hair); color:var(--accent)}
+
+/* the Cowork context chip, from the door cell's rail */
+.chip{
+  display:inline-flex; align-items:center; gap:6px; height:26px;
+  padding:0 11px 0 9px; border-radius:999px;
+  background:var(--raised); border:1px solid var(--hair-warm);
+  font-size:13px; line-height:24px; color:var(--sub); white-space:nowrap;
+}
+.chip svg{width:15px; height:15px; flex:none}
+.chip .mk{font-weight:600; color:var(--brand); width:15px; text-align:center}
+
+/* buttons: .eg-btn-ink and .eg-btn-quiet */
+.btn{
+  display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 14px;
+  border-radius:var(--radius-ctl); border:1px solid var(--edge); background:var(--raised);
+  font-size:13px; font-weight:500; color:var(--ink);
+  transition:border-color var(--dur-mid) var(--ease-out), background var(--dur-mid) var(--ease-out);
+}
+.btn:hover{border-color:#C6C6CE}
+.btn.primary{background:#141318; border-color:#141318; color:#fff}
+.btn.primary:hover{background:#000}
+
+/* the device: a real Cowork window standing on the paper */
+.device{
+  background:var(--surface); border:1px solid var(--edge); border-radius:var(--radius);
+  box-shadow:var(--shadow-card); overflow:hidden;
+}
+.dev-top{
+  position:relative; height:40px; border-bottom:1px solid var(--hair-warm);
+  display:flex; align-items:center; gap:8px; padding:0 14px;
+}
+.ic path,.ic rect,.ic circle,.ic line,.ic polyline{
+  fill:none; stroke:#33332F; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round}
+.ic.grey path,.ic.grey polyline,.ic.grey line,.ic.grey circle,.ic.grey rect{stroke:#55554F}
+.dev-title{font-size:13px; font-weight:500; letter-spacing:-.005em; color:var(--ink-max);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dev-body{padding:26px clamp(16px,3vw,30px) 30px}
+
+/* the composer, lifted from the door cell (109 px, 20 px radius) */
+.composer{
+  position:relative; background:var(--raised); border:1px solid var(--hair-warm);
+  border-radius:20px; min-height:106px; padding:18px 22px 44px;
+}
+.composer .ph{font-size:16px; line-height:22px; color:var(--faint)}
+.composer .typed{font-size:16px; line-height:22px; color:var(--ink-max);
+  display:flex; align-items:center; min-height:22px}
+.composer .caret{display:inline-block; width:2px; height:20px; margin-left:1px;
+  background:var(--ink-max); flex:none; animation:blink 1.06s steps(1,end) infinite}
+@keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+.cmp-bar{position:absolute; left:0; right:0; bottom:0; height:44px}
+.cmp-bar .plus{position:absolute; left:16px; top:12px}
+.cmp-bar .plus line{stroke:#33332F; stroke-width:1.5; stroke-linecap:round}
+.pillbed{
+  position:absolute; left:46px; top:9px; height:26px; border-radius:7px;
+  background:var(--pillbg); padding:0 3px; display:flex; align-items:center; gap:2px;
+}
+.pillbed .p{height:20px; padding:0 9px; border-radius:5px; font-size:13px;
+  line-height:20px; color:var(--faint)}
+.pillbed .p.on{background:var(--raised); color:var(--ink-max); box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.modelmeta{position:absolute; right:56px; top:13px; font-size:13px; color:var(--sub)}
+.modelmeta em{font-style:normal; color:var(--faint); margin-left:6px}
+.sendbtn{
+  position:absolute; right:12px; top:8px; width:28px; height:28px; border-radius:8px;
+  background:var(--brand); display:grid; place-items:center; color:#fff;
+  transition:transform var(--dur-mid) var(--ease-spring), box-shadow var(--dur-mid) var(--ease-out);
+}
+.sendbtn svg{width:11px; height:11.6px}
+.sendbtn:hover{transform:translateY(-1px)}
+.sendbtn.fire{box-shadow:0 0 0 6px rgba(161,0,255,.14)}
+
+/* the run rows: the spinner resolving to the connector glyph.
+   Lifted from door shot 11 and room shot 34: 19 px slot, coral dashed
+   spinner, 14 px label, a 1 px thread joining the rows. */
+.runrows{position:relative}
+.runrow{position:relative; display:flex; align-items:center; gap:13px; height:34px}
+/* the thread runs from under one glyph to the next, never past the last */
+.runrow .thread{position:absolute; left:9px; top:26.5px; width:1px; height:15px; background:#DCDCD7}
+.runrow:last-child .thread{display:none}
+.runrow .slot{position:relative; width:19px; height:19px; flex:none}
+.runrow .slot>*{position:absolute; inset:0; width:19px; height:19px}
+.runrow .spin circle{fill:none; stroke:var(--coral); stroke-width:2;
+  stroke-linecap:round; stroke-dasharray:3.4 5.1;
+  transform-origin:9.5px 9.5px; animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.runrow .gl{opacity:0; transform:scale(.86)}
+.runrow .lbl{font-size:14px; line-height:19px; color:var(--faint);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.runrow .spin,.runrow .gl{transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.runrow.done .spin{opacity:0}
+.runrow.done .gl{opacity:1; transform:none}
+.runrow.done .lbl{color:var(--sub)}
+
+/* .wlrow: the worklist row. A card, 13 px radius, 15/20 padding, the
+   40 px monogram, the name, the reason chips, the exposure, the arrow. */
+.wl{display:flex; flex-direction:column; gap:9px}
+.wlrow{
+  display:flex; align-items:center; gap:18px; width:100%; text-align:left;
+  background:var(--raised); border:1px solid var(--divider); border-radius:13px;
+  padding:15px 20px; box-shadow:var(--shadow-card);
+  transition:transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
+}
+.wlrow:hover{transform:translateY(-1px); box-shadow:0 8px 40px #1a073629}
+.mono{
+  width:40px; height:40px; flex:none; border-radius:12px; background:var(--overlay);
+  color:var(--muted); display:grid; place-items:center;
+  font-size:12px; font-weight:600; letter-spacing:.02em;
+}
+.wlrow .who{min-width:0; flex:1}
+.wlrow .who b{display:block; font-size:14.5px; font-weight:600; color:var(--ink-max);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.wlrow .who span{font-size:11.5px; color:var(--faint)}
+.wlrow .sts{display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-end; align-items:center}
+.wlrow .amt{text-align:right; flex:none}
+.wlrow .amt b{display:block; font-size:15px; font-weight:600; color:var(--ink-max)}
+.wlrow .amt span{font-size:11px; color:var(--faint)}
+.wlrow .go{color:var(--faint); font-size:14px; flex:none;
+  transition:transform var(--dur-mid) var(--ease-out), color var(--dur-mid) var(--ease-out)}
+.wlrow:hover .go{transform:translate(3px); color:var(--accent)}
+
+/* .card .kpis: the metric strip. One card, tiles divided by a 1 px hairline. */
+.card{
+  background:var(--raised); border:1px solid var(--divider); border-radius:var(--radius);
+  box-shadow:var(--shadow-card);
+  transition:box-shadow var(--dur-mid) var(--ease-out);
+}
+.kpis{display:flex; flex-wrap:wrap; overflow:hidden; border-radius:var(--radius)}
+.kpi{flex:1 1 0; min-width:120px; padding:18px 22px; border-right:1px solid rgba(0,0,0,.05)}
+.kpi:last-child{border-right:0}
+.kpi:first-child{flex-grow:1.3}
+.kpi .l{font-size:10.5px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.kpi .v{font-size:25px; font-weight:600; letter-spacing:-.02em; color:var(--ink-max);
+  margin-top:6px; font-variant-numeric:tabular-nums}
+.kpi .v .u{color:var(--brand)}
+.kpi .v.warn{color:var(--warning)}
+.kpi .s{font-size:11.5px; color:var(--muted); margin-top:3px}
+
+/* .xlist: the table system. 10 px small-caps head, 13 px rows. */
+.xhead,.xrow{display:grid; align-items:center; gap:14px; width:100%; text-align:left}
+.xhead{font-size:10px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--faint); border-bottom:1px solid var(--hair); padding:0 12px 9px}
+.xrow{border-bottom:1px solid var(--divider); padding:11px 12px; font-size:13px; color:var(--ink)}
+.xrow>span:first-child{font-weight:500; color:var(--ink-max)}
+.xcell{display:block; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.xcell.r{text-align:right}
+
+/* .gr: the rating ring. 46 box, r 19, stroke 4, circumference 119.4,
+   drawn from 12 o'clock. Grade 4 of 8 is half the ring. */
+.gr{width:46px; height:46px; flex:none}
+.gr .bg{stroke:var(--overlay)}
+.gr .fg{stroke:var(--brand); stroke-linecap:round; stroke-dasharray:119.4;
+  stroke-dashoffset:119.4; transition:stroke-dashoffset .7s var(--ease-out)}
+.gr text{font:600 14px var(--ui); fill:var(--ink-max)}
+.anchor{display:flex; align-items:center; gap:12px}
+.anchor .l{font-size:10.5px; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--faint)}
+.anchor .v{font-size:13px; font-weight:500; color:var(--ink-max); margin-top:2px}
+
+.panel-h{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:14px}
+.panel-h .t{font-size:13px; font-weight:600; color:var(--ink-max)}
+
+/* ============================================================
+   3. THE GATE
+   The page opens on the Cowork greeting. The invitation is typed into
+   the composer and sent with the chevron. Wrong: 2 px, once. Right:
+   the composer types itself out and the door sequence runs for real.
+   ============================================================ */
+#gate{
+  position:fixed; inset:0; z-index:900; background:var(--paper);
+  display:flex; align-items:stretch; overflow:hidden;
+}
+
+/* --- the left pane: the film's own sky, in motion, and the wordmark on it --- */
+.gpane-mark{
+  position:relative; flex:0 0 42%; min-width:0; overflow:hidden;
+  background:linear-gradient(158deg,#120014 0%,#26002F 38%,#3F0069 72%,#54008C 100%);
+}
+/* THE PLATE IS LONDON, and it is the close's own aerial: the door opens
+   on the city the page ends in, so the two are the same picture seen twice, the
+   same way the hero and the close already are. 3.5 s of the same source the
+   close ping-pongs, cropped 750x1072 out of it at x 420 and scaled to 672x960
+   for the pane's portrait, which puts Salesforce Tower at 70% of the pane,
+   clear of the centred mark and standing its full height. Lifted plum in the
+   shadows on the London plate's own curve, so the grade is the pane's and the
+   light is still the close's golden hour: it is a black point, not a wash.
+   Slowed 1.6x with motion interpolation and mirrored into an 11 s ping-pong,
+   whose turnaround and restart are both single-frame steps inside the drift's
+   own frame-to-frame range, so neither join is visible. The poster is the
+   loop's own first frame, so the pane is painted before a single byte of the
+   loop is asked for, and under reduced motion that is all there is. */
+.gplate{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:50% 50%; pointer-events:none;
+}
+/* The scrim carries nothing for the mark. The mark is dead centre, it is lit by
+   its own drop-shadow (see .gmark), and this plate's centre is haze and lit
+   towers rather than the darkness the pre-dawn one resolved into: the chevron
+   measures 2.1:1 against it unaided. So the scrim is reduced to the one job
+   left, which is seating the pane on the paper at the bottom edge.
+
+   It was 45% while a wordmark stood in the lower third, then 22.5% when the
+   mark went to the centre. It is 14% at .60 now. The pre-dawn plate resolved
+   into noise down there and needed covering; this one ends on open water under
+   the bridge, which is already calm and already dark, so the seat can be a
+   touch of weight at the very edge rather than a bar drawn across the picture.
+
+   Nothing is laid over the top. A veil there is what the eyebrow would need if
+   it were still white, and on a pale golden sky it reads as a plum slab across
+   the one part of the plate that is pure light. The eyebrow takes ink instead
+   (see .gp-eyebrow), which costs the picture nothing. */
+.gscrim{
+  position:absolute; left:0; right:0; bottom:0; height:14%; z-index:1;
+  background:linear-gradient(to top,
+    rgba(18,0,20,.60) 0%, rgba(18,0,20,.46) 22%, rgba(18,0,20,.28) 45%,
+    rgba(18,0,20,.12) 70%, rgba(18,0,20,0) 100%);
+}
+/* THE EYEBROW IS INK, because the plate under it changed colour. On the
+   pre-dawn aerial the top of the pane was almost black and white at .66 stood
+   on it at 2.90:1. San Francisco puts pale golden sky there, where the same
+   white measures 1.14:1 and is gone. Ink at .74 reads 6.9:1 on that sky at
+   1440x900, 7.0:1 at 1920x1080 and 6.6:1 on the phone's band, against the
+   2.90:1 the white was getting on the plate it was chosen for. It is the honest
+   answer rather than a veil: it costs the picture nothing, and
+   it is the ink the right-hand pane is already set in, so the two panes are
+   lettered the same way. The faint light halo is the one concession to the
+   plate's own range: where the band on a phone crops down onto the headlands
+   the sky is a stop darker, and the halo keeps the line off it. */
+.gp-eyebrow{
+  position:absolute; left:clamp(24px,4vw,44px); top:clamp(24px,4vw,44px); z-index:3;
+  color:rgba(24,20,26,.74); text-shadow:0 0 10px rgba(255,255,255,.42);
+}
+/* THE MARK. The pane carried the full accenture wordmark set in the lower
+   third. It carries the film's own mark instead: the single chevron in
+   #A100FF, the same #g-chev path the hero lockup is built on and the frame
+   the film opens on, and nothing else.
+
+   It is DEAD CENTRE on both axes, and the centring is done by layout rather
+   than by percentages that would have to be kept in step with the pane's
+   aspect: .gmark is the pane exactly (inset:0) and centres its one child in
+   a grid. Two things follow. The centre is exact at every viewport, off by
+   at most one 1/128 px of the browser's own layout rounding rather than by
+   whatever a `bottom:18%` happened to land on. And the wrapper owns the
+   centring while the mark owns the motion, so the settle's scale can never
+   drag the mark off centre: it is scaled about its own centre, which IS the
+   pane's. */
+.gmark{
+  position:absolute; inset:0; z-index:5;
+  display:grid; place-items:center; pointer-events:none;
+  /* The drop is the film's own, off type/OVERLAY.md, and it is what gives the
+     mark its contrast now that the scrim is out from under it: the plate's
+     centre is sky and lit towers, not the darkness the lower third resolved
+     into, so the mark is lit at its own edge instead of standing on a floor.
+
+     It is HALF the alpha it was first given. Same offset, same blur, .31 and
+     .275 where it was .62 and .55. Measured at 1440x900 on the plate's own
+     first frame: at full strength the drop pulled the ring of plate three to
+     five px off the glyph from L 0.335 down to L 0.126, which is a dark collar
+     drawn round the mark rather than light put under it. Halved, that ring
+     lands at L 0.218, and the mark's reading on its own ground at 13 to 24 px
+     goes 1.68:1 to 1.81:1, comfortably the right side of 1.6. The plate under
+     the glyph reads 2.19:1 before and 2.12:1 after: that ratio belongs to the
+     plate and the mark, and the 0.07 is the glyph's antialiased edge coming out
+     from under a lighter shadow rather than the ratio itself moving.
+
+     It sits on the WRAPPER rather than on the mark because `filter` is a
+     single property: on the mark, the settle's blur keyframes would drop the
+     shadow for the length of the settle. Here the two compose, and the shadow
+     blurs in with the mark and breathes with it. */
+  filter:drop-shadow(0 2px 20px rgba(8,0,14,.31)) drop-shadow(0 0 7px rgba(8,0,14,.275));
+}
+/* The film's mark is 64 px on a 1080 frame, which is modest, and this pane is
+   a tall portrait rather than a wide one. 22% of the pane's WIDTH lands it at
+   the film's weight; the cap keeps a wide pane from turning the mark into a
+   graphic. 133 px at 1440x900, 160 px (capped) at 1920x1080, 64 px on the
+   phone band. The height comes off the viewBox's own ratio.
+
+   BOTH children of the wrapper take that width from this ONE rule: the mark,
+   and the light that crosses it. They also share one grid cell, so the sweep
+   can never become a second row and push the mark off the pane's centre. The
+   row still stretches to the pane, so the centring is exactly the one that was
+   measured, and it was re-measured after: 0.000 px on both axes at 1440x900. */
+.gmark > *{grid-area:1/1; width:min(22%,160px)}
+.gmark-c{
+  height:auto; color:var(--brand);
+  animation:gmsettle .9s cubic-bezier(.25,.46,.45,.94) both,
+            gmbreath 4s ease-in-out .9s infinite;
+}
+/* the endcard's focus pull, unchanged: 6 px of blur and 1.04x over 900 ms */
+@keyframes gmsettle{
+  from{filter:blur(6px); transform:scale(1.04); opacity:0}
+  40%{opacity:1}
+  to{filter:blur(0); transform:scale(1); opacity:1}}
+/* and then it breathes, slowly, so the pane is never quite still behind the
+   composer. Opacity only: nothing here can move the centre. */
+@keyframes gmbreath{0%,100%{opacity:1} 50%{opacity:.85}}
+/* THE STRIKE. On the wordmark this was its chevron going half to full purple.
+   This mark is already at full purple, so the strike is the other half of the
+   same device: two frames to white and back. The stops are hard, so the colour
+   steps rather than fades, which is the endcard's point. */
+#gate.striking .gmark-c{animation:gmstrike 66ms linear 1 both}
+@keyframes gmstrike{0%,49.99%{color:#fff} 50%,100%{color:var(--brand)}}
+
+/* THE SWEEP. The endcard's one light sweep, and it is the mechanism this page
+   already had: a white band clipped to the glyph, blurred into a bloom and
+   screened back, so the light can only ever touch the mark. It was built for
+   the accenture wordmark this mark replaced and it is unchanged here except in
+   its geometry. It is a TRANSFORM and not a moving mask, because mask-position
+   does not interpolate in Chromium and the band would jump the frame in one
+   step instead of crossing it.
+
+   The wordmark took the sweep once and never again. A single mark that is the
+   only thing on the pane is looked at for as long as the composer is open, so
+   the light comes back: 1.2 s across the glyph at 950 ms, then every 7 s. The
+   repeats run at 60% of the first pass, which is what keeps it a living mark
+   rather than a loop announcing itself.
+
+   Between passes the band sits parked off the glyph's left edge, where the clip
+   removes it entirely: measured on the glyph's own box against the mark at rest,
+   the frame at the start of a cycle is within 2/255, which is nothing, while the
+   first pass peaks at 136 and the repeat at 79. */
+.gm-sweep{
+  z-index:1; mix-blend-mode:screen; opacity:.62; filter:blur(3px);
+  animation:gmsweepdim .2s linear 2.15s both;
+}
+.gm-sweep svg{display:block; width:100%; height:auto}
+/* the step to 60% is taken at 2.15 s, the instant the first pass leaves the
+   glyph, so the drop in strength is never seen to happen */
+@keyframes gmsweepdim{to{opacity:.372}}
+.gm-band{animation:gmsweep 7s linear .95s infinite both}
+/* 1.2 s of travel in a 7 s cycle is 17.143% of it; the rest of the cycle is the
+   band parked. The travel is in the symbol's own units: the band is 5.6 of the
+   glyph's 19.792 wide, and it goes from clear of the left edge to clear of the
+   right, skew included. */
+@keyframes gmsweep{
+  0%{transform:translateX(-5px) skewX(-12deg)}
+  17.143%{transform:translateX(24px) skewX(-12deg)}
+  17.144%,100%{transform:translateX(-5px) skewX(-12deg)}}
+/* the strike is the mark's own moment and nothing may cross it: the light is
+   gone from the frame the phrase is accepted, and the door is leaving anyway */
+#gate.striking .gm-sweep{animation:none; opacity:0}
+
+/* --- the right pane: the cream, the greeting, the composer --- */
+.gpane-form{
+  flex:1 1 auto; min-width:0; background:var(--paper);
+  display:grid; place-items:center; padding:24px var(--gutter); overflow-y:auto;
+}
+#gate .gwrap{width:100%; max-width:652px}
+
+/* THE HANDOFF, and it is the door's last 400 ms.
+
+   The pane used to LEAVE. On the right phrase it slid out of the frame on
+   frame 8 while the composer glided to the centre of the paper, so by the time
+   the six connectors had resolved, the mark the visitor had struck to get in
+   was long gone and the hero's lockup had to introduce a second copy of it.
+
+   The pane stands through the whole run now, and at the end a cream veil rises
+   over the plate, the scrim and the eyebrow and stops UNDER the mark. The
+   picture goes and the mark stays exactly where it was standing, alone on
+   cream, which is what gives the opening something to fly. The composer and
+   the six resolved rows settle out over the page's own 240 ms while it
+   happens, so the two are one gesture rather than two.
+
+   Nothing here moves layout: the veil is an opacity and the wrap is an opacity
+   over a 6 px rise. */
+#gate.handoff .gwrap{
+  opacity:0; transform:translateY(-6px); pointer-events:none;
+  transition:opacity .24s var(--ease-out), transform .24s var(--ease-out);
+}
+/* z-index 4: over the eyebrow's 3, under the mark's 5. The mark was 2 and sat
+   under the eyebrow, which never showed because the two do not overlap; it has
+   to be over the veil, so it takes the top of the pane's stack. */
+.gpane-mark::after{
+  content:""; position:absolute; inset:0; z-index:4; background:var(--paper);
+  opacity:0; pointer-events:none; transition:opacity .4s var(--ease-out);
+}
+#gate.handoff .gpane-mark::after{opacity:1}
+/* the drop is the mark's contrast on the picture (see .gmark). On cream it is
+   a smudge, so it leaves with the picture and over the same 400 ms. */
+#gate.handoff .gmark{filter:none; transition:filter .4s var(--ease-out)}
+.greet{
+  text-align:center; font-family:var(--serif); font-size:clamp(28px,4.6vw,42px);
+  line-height:1.06; color:var(--ink-max); letter-spacing:-.004em;
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  margin-bottom:34px;
+}
+.greet .ast{width:34px; height:34px; flex:none}
+#gate .composer{transition:transform .26s var(--ease-out)}
+#gate .composer.shake{animation:nudge .26s linear 1}
+@keyframes nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}
+  50%{transform:translateX(2px)}75%{transform:translateX(-2px)}}
+#g-input{
+  width:100%; background:transparent; border:0; outline:0; color:var(--ink-max);
+  font:400 16px/22px var(--ui); letter-spacing:0; padding:0; caret-color:var(--brand);
+}
+#g-input::placeholder{color:var(--muted)}
+#g-input:-webkit-autofill{-webkit-text-fill-color:var(--ink-max);
+  -webkit-box-shadow:0 0 0 1000px #fff inset; transition:background-color 9999s}
+/* the courtesy line under the composer: who this is for, and where the phrase
+   is. Quieter than the composer's own type, in the muted ink. */
+.g-sub{
+  margin-top:14px; padding-left:22px; font-size:12.5px; color:var(--muted);
+  display:flex; gap:20px; flex-wrap:wrap;
+}
+.g-sub .no{color:var(--sub)}
+#gate .runrows{margin-top:26px; padding-left:22px; opacity:0}
+#gate.running .runrows{opacity:1; transition:opacity .3s var(--ease-out)}
+#gate.gone{opacity:0; pointer-events:none; transition:opacity .34s var(--ease-out)}
+html.locked{overflow:hidden}
+/* THE SPRITE IS EXEMPT, and it has to be. This rule hides the page behind the
+   gate, and it used to hide #sprite with it. A <use> clone inherits visibility
+   from the use element, so every VECTOR mark in the gate's run painted anyway
+   and the rule looked harmless. A raster <image> does not: Chromium will not
+   paint one whose own element sits in a visibility:hidden subtree, so
+   IBISWorld, the page's one raster mark, resolved to an empty slot at the door
+   and to its mark everywhere else. #sprite is 0x0 and absolutely positioned,
+   so leaving it visible shows nothing and paints nothing. */
+html.locked body>*:not(#gate):not(#sprite){visibility:hidden}
+@media (max-width:760px){
+  #gate{flex-direction:column}
+  .gpane-mark{flex:0 0 clamp(148px,25vh,208px)}
+  /* THE BAND CROPS TO THE TOWER. A phone gets a wide, short band, so the plate
+     is scaled to the band's WIDTH and only a slice of its height survives:
+     about 37% of it at 208 px, 27% at 148 px. That slice is placed to hold
+     Salesforce Tower, which stands between 27% and 61% of the plate. At 36%
+     the window is 23% to 60% on the tall band and 26% to 53% on the short one,
+     so the tower's crown is inside the frame at either end and the band reads
+     as the city rather than as a strip of sky. The horizontal has no freedom
+     here and none is needed: scaling to width shows the plate's full width, so
+     the tower arrives wherever the crop already put it. */
+  .gplate{object-position:50% 36%}
+  /* the seat is deeper on the band, because the band ends mid-city rather than
+     on the open water the full pane closes on, and because the cream form pane
+     begins immediately under it. */
+  .gscrim{height:24%}
+  /* the film's own 64 px, which is what the band has room for: 22% of a
+     390 px pane would draw the mark at 86 px in a 208 px band. It overrides the
+     wrapper's rule rather than the mark's, so the light keeps the mark's box:
+     targeting .gmark-c alone left the sweep at 85.797 px over a 64 px glyph. */
+  .gmark > *{width:64px}
+  .gpane-form{padding:28px var(--gutter) 40px}
+}
+@media (prefers-reduced-motion:reduce){
+  #gate .composer.shake{animation:none; outline:1px solid var(--brand); outline-offset:2px}
+  #gate.gone{transition-duration:.18s}
+  /* the plate holds its poster and is never fetched; the mark is simply there,
+     with no pull, no breath, no strike and no light crossing it. It keeps its
+     drop, which is paint rather than motion and is the only reason it reads on
+     the sky. */
+  .gmark-c,#gate.striking .gmark-c{animation:none}
+  .gm-sweep{display:none}
+}
+
+/* ============================================================
+   3b. THE OPENING
+   The 2.4 s between the last connector tick and the Watch control, and the
+   one place on the page where the gate and the hero are the same object.
+
+   THE HERO IS DRESSED BEFORE THE DOOR LEAVES. html goes .opening while the
+   gate is still standing and still cream, so the page is painted underneath
+   with every member of the hero already in its FINAL BOX at opacity 0. That
+   is the whole layout-shift argument: the sequence is opacity, one clip and
+   one transform, and nothing in it has a size to arrive at.
+
+   The scroll is held for the length of it. The mark is flying to a box that
+   was measured when the flight started, and a page that can be scrolled under
+   it is a page that can move that box mid-flight.
+
+   EVERY DURATION IS ON THE ARRIVING RULE, never on the resting one. A
+   transition declared on the hidden state is a transition INTO it: adding
+   .opening would have faded the hero out over its own durations instead of
+   putting it there, and the plate's 600 ms of that was still running under the
+   gate when the gate left. The hidden state is instant and only .op-in moves.
+   ============================================================ */
+html.opening{overflow:hidden}
+html.opening #hero .eyebrow{opacity:0; transform:translateY(4px)}
+html.opening #hero .eyebrow.op-in{
+  opacity:1; transform:none;
+  transition:opacity .2s var(--ease-out), transform .2s var(--ease-out);
+}
+/* the lockup's chevron is not revealed: it is LANDED ON. It holds at zero
+   until the mark that flew out of the door arrives on its box, and the swap
+   between the two is one frame on one clock (see THE OPENING in the script). */
+html.opening #hero .lockup .chev{opacity:0}
+/* THE NAME IS WIPED IN, not faded. The clip runs left to right out of the
+   mark's own edge, so the lockup reads as one object arriving rather than as
+   two things that appeared at the same time. The clip is dropped altogether
+   at the end (.op-done), because inset(0) is the border box and a glyph's
+   antialiased edge is allowed to sit half a pixel outside it. */
+html.opening #hero .lockup span{clip-path:inset(0 100% 0 0)}
+html.opening #hero .lockup span.op-in{
+  clip-path:inset(0 0 0 0); transition:clip-path .48s var(--ease-out);
+}
+html.opening #hero .lockup span.op-done{clip-path:none; transition:none}
+html.opening #hero .hero-line{opacity:0; transform:translateY(8px)}
+html.opening #hero .hero-line.op-in{
+  opacity:1; transform:none;
+  transition:opacity .24s var(--ease-out), transform .24s var(--ease-out);
+}
+/* THE PLATE ARRIVES LAST, AND IT ARRIVES MOVING. The aerial has been looping
+   since the phrase was accepted, so what lands is a running picture rather
+   than a poster that starts a moment after it. It comes out of the endcard's
+   own focus pull: 6 px of blur and 0.96 resolving over 600 ms, which is the
+   same device the gate's mark arrives on and the heaviest blur on the page. */
+html.opening #hero .player{opacity:0; transform:scale(.96); filter:blur(6px)}
+html.opening #hero .player.op-in{
+  opacity:1; transform:none; filter:none;
+  transition:opacity .6s var(--ease-out), transform .6s var(--ease-out),
+             filter .6s var(--ease-out);
+}
+html.opening #hero .pl-watch{opacity:0}
+html.opening #hero .pl-watch.op-in{opacity:1; transition:opacity .2s var(--ease-out)}
+/* the mark in flight. It is the gate's own mark cloned at its own rect, fixed
+   over a page that is cream from edge to edge, and it is the only thing on the
+   screen for 700 ms. Scaled about its top left, because a FLIP maps one border
+   box onto another and the origin has to be the corner it measures from. */
+#flymark{
+  position:fixed; left:0; top:0; margin:0; z-index:960;
+  transform-origin:0 0; pointer-events:none; will-change:transform;
+}
+
+/* ============================================================
+   4. THE HERO AND THE FILM
+   The lockup, the line, and then the film at full content width.
+   Nothing competes with the film.
+   ============================================================ */
+/* ONE SCREEN. The hero holds the lockup, the line and the film inside a single
+   viewport, so nothing has to be scrolled to be read. The height is --vph,
+   measured once per width: 100vh is not stable on a phone, where the browser
+   chrome collapses on the first gesture and every full-height section reflows
+   mid-scroll. The film is the only elastic thing in the column: the head takes
+   what it needs, the film takes the rest and keeps 16:9 by coming down in
+   width. It is never cropped. */
+#hero{
+  height:var(--vph,100svh); min-height:var(--vph,100svh);
+  padding:clamp(24px,5vh,56px) 0 clamp(20px,4vh,44px);
+  display:flex;
+}
+#hero > .wrap-w{display:flex; flex-direction:column; flex:1 1 auto; min-height:0}
+.hero-head{flex:none}
+.hero-head{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:clamp(20px,5vw,72px); flex-wrap:wrap;
+}
+.lockup{
+  display:flex; align-items:baseline; gap:.24em; margin-top:18px;
+  font-size:clamp(56px,7vw,120px); font-weight:600; line-height:.96;
+  letter-spacing:-.036em; color:var(--ink-max);
+}
+/* the mark is the wordmark's own chevron path, not a greater-than sign, and in
+   the hero it is PURPLE for the whole of the opening and at rest. It used to
+   land in ink so the lockup could strike ink to purple at the end, which put a
+   black chevron on the screen between two purple ones. */
+.lockup .chev,.endlock .chev{
+  width:.56em; height:.59em; flex:none; align-self:center; color:var(--brand);
+  position:relative; top:.02em;
+}
+/* so the hero's closing beat is the GATE'S own device instead, because a mark
+   already at brand has nothing left to strike TO: two frames to white and
+   back, hard stops, the same 66 ms as #gate.striking. */
+.lockup .chev.struck{animation:lkstrike 66ms linear 1 both}
+@keyframes lkstrike{0%,49.99%{color:#fff} 50%,100%{color:var(--brand)}}
+/* on the close the lockup stands on the picture, so the mark starts in the
+   type's own white and strikes to purple. Two frames, no fade. */
+.endlock .chev{color:#fff; transition:color 83ms steps(2,end)}
+.endlock .chev.struck{color:var(--brand)}
+.hero-line{
+  margin-bottom:.22em; font-size:clamp(22px,2.6vw,34px); font-weight:600;
+  line-height:1.14; letter-spacing:-.024em; color:var(--ink-max); max-width:20ch;
+}
+.hero-line .dim{color:var(--muted)}
+@media (max-width:900px){
+  .hero-head{display:block}
+  .hero-line{margin:20px 0 0}
+}
+
+/* the film. It is the flexible member of the hero's column: it takes the height
+   the head leaves it and finds its own width from 16:9. */
+#film{margin-top:clamp(22px,4vh,54px); flex:1 1 auto; min-height:0;
+  container-type:size; display:flex; justify-content:center; align-items:center}
+/* the film takes the band's height, or the height its own width allows,
+   whichever is smaller: it comes down in size to fit and never in shape. */
+.player{
+  position:relative; flex:0 0 auto; width:auto; max-width:100%;
+  height:100%;                                /* if cq units are not understood */
+  height:min(100cqh, calc(100cqw * 9 / 16));  /* the band, or what the width allows */
+  aspect-ratio:16/9; border-radius:12px;
+  border:1px solid var(--edge); background:#0B0B0A; overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.04), 0 22px 60px rgba(0,0,0,.10);
+}
+.player video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  display:block; background:#0B0B0A;
+}
+/* THE PLATE. The clean raw aerial the film's first shot was cut from, looping.
+   It carried a second copy of the page's chevron dead centre so the plate and
+   the reel's first frame cross-faded mark-on-mark. That cost the hero its one
+   moment. The plate is bare picture now; the reel brings its own mark. */
+.player .plate{opacity:1; transition:opacity .45s var(--ease-out)}
+.player.started .plate{opacity:0; pointer-events:none}
+.player #film-video{opacity:0; transition:opacity .35s var(--ease-out)}
+.player.started #film-video{opacity:1}
+.player:fullscreen{border:0; border-radius:0; aspect-ratio:auto; width:100vw; height:100vh}
+.player:fullscreen video{object-fit:contain}
+
+/* one ink control */
+.pl-watch{
+  position:absolute; left:clamp(14px,2.2vw,26px); bottom:clamp(14px,2.2vw,26px);
+  transition:opacity .3s var(--ease-out);
+}
+.player.started .pl-watch{opacity:0; pointer-events:none}
+.pl-watch .b{
+  display:inline-flex; align-items:center; gap:10px; height:44px; padding:0 22px 0 18px;
+  border-radius:999px; background:rgba(12,12,11,.82); color:#FBFBF8;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  font-size:14px; font-weight:500; letter-spacing:.01em;
+  transition:background .2s var(--ease-out), transform .3s var(--ease-settle);
+}
+.pl-watch .b:hover{background:rgba(12,12,11,.94); transform:translateY(-1px)}
+.pl-watch .b svg{width:13px; height:14px; flex:none}
+.pl-watch .b:focus-visible,.pl-b:focus-visible{outline:2px solid #C77DFF; outline-offset:3px}
+
+/* the bar: one hairline, purple only while the pointer is on the film,
+   then one quiet row of controls under it */
+.pl-bar{
+  position:absolute; left:0; right:0; bottom:0; display:flex; flex-direction:column;
+  opacity:0; visibility:hidden;
+  transition:opacity .25s var(--ease-out);
+  background:linear-gradient(180deg,rgba(8,8,7,0) 0%,rgba(8,8,7,.52) 100%);
+}
+/* until the reel is running there is nothing to control: the bar is out of the
+   tab order and off the hit map, so it cannot sit on top of the Watch control */
+.player.started .pl-bar{visibility:visible}
+.player.started:hover .pl-bar,.player.started:focus-within .pl-bar{opacity:1}
+.pl-track{position:relative; height:2px; background:rgba(251,251,248,.26); cursor:pointer;
+  touch-action:none}
+.pl-track::before{content:""; position:absolute; left:0; right:0; top:-11px; height:22px}
+.pl-track:focus-visible{outline:2px solid #C77DFF; outline-offset:5px}
+.pl-buf{position:absolute; inset:0 auto 0 0; width:0; background:rgba(251,251,248,.42)}
+.pl-prog{position:absolute; inset:0 auto 0 0; width:0; background:var(--brand)}
+.pl-row{display:flex; align-items:center; gap:12px; padding:9px 12px 10px}
+.pl-b{
+  width:30px; height:30px; flex:none; border-radius:8px; display:grid; place-items:center;
+  color:#FBFBF8; background:rgba(12,12,11,.66);
+  transition:background .18s var(--ease-out);
+}
+.pl-b:hover{background:rgba(12,12,11,.92)}
+.pl-b svg{width:15px; height:15px; display:block}
+.pl-b path,.pl-b line,.pl-b polygon{fill:none; stroke:currentColor; stroke-width:1.6;
+  stroke-linecap:round; stroke-linejoin:round}
+.pl-b .fill{fill:currentColor; stroke:none}
+.pl-spacer{flex:1}
+.pl-b .alt{display:none}
+.pl-b.on .alt{display:block}
+.pl-b.on .std{display:none}
+.pl-load{
+  position:absolute; left:clamp(14px,2.2vw,26px); bottom:calc(clamp(14px,2.2vw,26px) + 56px); font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(251,251,248,.72);
+  opacity:0; transition:opacity .2s var(--ease-out);
+}
+.pl-load.on{opacity:1}
+.pl-time{font-size:11.5px; color:rgba(251,251,248,.72); font-variant-numeric:tabular-nums;
+  letter-spacing:.01em}
+
+/* ============================================================
+   5. THE CHAPTERS
+   Caption in the landing headline style, one muted sub, then the
+   component at its real scale.
+   ============================================================ */
+/* ONE SCREEN PER CHAPTER, AND AT 1080 AND UP IT IS A SPREAD. A chapter is
+   exactly one viewport and is read without being scrolled inside. The reading
+   column takes 38% of the paper: the chapter counter, the caption in the
+   landing headline, one muted sub, then the three facts STACKED and set at the
+   size a figure deserves. The lifted component takes the other 62% and centres
+   against it, with its outer edge on the content margin.
+
+   The chapter used to put the caption and a thin row of small facts across the
+   top and stand the component under them on the left, which left a wide field
+   of bare cream down the right of every screen. Two columns spend that paper on
+   the figures instead, and the columns alternate down the page so the scroll
+   has a rhythm rather than a margin.
+
+   Nothing clips here: the halo's bloom is allowed to bleed past this section's
+   edges and behind its neighbours. */
+.chapter{
+  height:var(--vph,100svh); min-height:var(--vph,100svh);
+  padding:clamp(26px,5vh,60px) 0; position:relative;
+}
+.chapter + .chapter{border-top:1px solid var(--hair)}
+.chapter > .wrap{
+  height:100%; display:grid;
+  grid-template-columns:minmax(0,38fr) minmax(0,62fr);
+  /* the flexible rows above and below centre the reading column against the
+     component, while the stage keeps the whole height of the band. row-gap is
+     0 so those two spacers stay symmetrical; the one gap that carries meaning,
+     between the caption and the facts, is the facts' own margin. */
+  grid-template-rows:minmax(0,1fr) auto auto minmax(0,1fr);
+  grid-template-areas:".     stage"
+                      "cap   stage"
+                      "facts stage"
+                      ".     stage";
+  column-gap:clamp(32px,4.4vw,72px); row-gap:0;
+}
+.cap{grid-area:cap; align-self:end}
+.facts{grid-area:facts; align-self:start; margin-top:clamp(22px,3.6vh,40px)}
+.stage{grid-area:stage; position:relative; min-height:0}
+
+/* THE RHYTHM. 02 reads left, 03 reads right, 04 left, 05 right, 06 left. 01
+   keeps the browser window on the right the eleven-tabs pass built it in, and
+   07 keeps its card on the right so the halo's bloom has the whole reading
+   column of paper to open into. */
+.chapter.flip > .wrap{
+  grid-template-columns:minmax(0,62fr) minmax(0,38fr);
+  grid-template-areas:"stage .    "
+                      "stage cap  "
+                      "stage facts"
+                      "stage .    ";
+}
+
+/* THE FIT RULE. A lifted component is the size it is in the product, and some
+   of them are taller than the band a full-screen chapter leaves. The component
+   is taken out of flow, centred in the band, and scaled down until it fits.
+   It is never cropped, and because it carries no layout height of its own,
+   scaling it cannot move anything else on the page. */
+.stage > .fit{
+  position:absolute; left:0; right:0; top:50%;
+  transform:translateY(-50%); transform-origin:center center;
+}
+
+/* THE FACTS. The product's own stat tile, stacked down the reading column and
+   set large: the small-caps label, the figure at 40 px in tabular ink, the
+   qualifier at 15 px muted under it, a hairline between one fact and the next.
+   The figures were 28 px in a 462 px strip across the top and read as a
+   caption's footnote; at 40 px down the column they are the second thing on
+   the screen, which is what they are. */
+.facts{display:block}
+.fact{
+  padding:clamp(13px,2.1vh,22px) 0;
+  border-top:1px solid var(--hair);
+}
+.fact:first-child{border-top:0; padding-top:0}
+.fact:last-child{padding-bottom:0}
+.fact .fl{
+  display:block; font-size:10.5px; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--faint); line-height:1.2;
+}
+.fact .fv{
+  display:block; margin-top:8px; font-size:40px; font-weight:600;
+  letter-spacing:-.028em; line-height:1; color:var(--ink-max);
+  font-variant-numeric:tabular-nums;
+}
+.fact .fs{display:block; margin-top:8px; font-size:15px; line-height:1.4;
+  color:var(--muted); text-wrap:pretty}
+/* a fact the product states in words rather than a figure takes the row it is
+   given, set one step under the figure so the column keeps its beat */
+.fact .fp{display:block; margin-top:8px; font-size:19px; line-height:1.32;
+  font-weight:500; letter-spacing:-.014em; color:var(--sub); text-wrap:pretty}
+
+/* Below the width at which the reading column and the component can stand side
+   by side, the spread closes: the text block goes above, the facts become one
+   row of the SAME large figures under it, and the component takes the band
+   below. The chapter is still exactly one screen. */
+@media (max-width:1079.98px){
+  .chapter > .wrap,.chapter.flip > .wrap{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto minmax(0,1fr);
+    grid-template-areas:"cap" "facts" "stage";
+    row-gap:clamp(14px,2.4vh,28px);
+  }
+  .cap{align-self:start}
+  .facts{align-self:start; margin-top:0; display:flex; align-items:stretch; gap:0}
+  .fact{
+    flex:1 1 0; min-width:0; padding:2px 0 2px 18px; margin-left:18px;
+    border-top:0; border-left:1px solid var(--hair);
+  }
+  .fact:first-child{padding-left:0; margin-left:0; border-left:0}
+  .fact .fv{margin-top:9px}
+  .fact .fs{font-size:13px; margin-top:6px}
+  .fact .fp{font-size:16px; margin-top:9px; line-height:1.34}
+}
+/* A PHONE IS NOT A SCREENING ROOM. Below the width at which a lifted component
+   still reflows into something a hand can read, the chapter stops being exactly
+   one screen and becomes AT LEAST one: the component goes back into flow at its
+   own size and the section grows under it. Scaling the cockpit to 45% to make
+   it fit a 390 px frame would fit it and lose it. The hero, the breathers and
+   the close stay exactly one screen everywhere, because their content is
+   pictures and type, which do scale. */
+@media (max-width:899px){
+  .chapter{height:auto; min-height:var(--vph,100svh); display:flex; align-items:center}
+  .chapter > .wrap{height:auto; flex:1 1 auto; grid-template-rows:auto auto auto}
+  .stage > .fit{position:static; transform:none!important}
+  /* and the hero's own column stops stretching: the lockup, the line and the
+     film stand together in the middle of the screen rather than at its ends */
+  #hero > .wrap-w{justify-content:center}
+  #film{container-type:normal; display:block; flex:0 0 auto}
+  #film .player{height:auto; width:100%}
+  .fact .fv{font-size:32px}
+}
+/* Three 32 px figures cannot stand across a phone: $66.50M alone is wider than
+   the third of the screen a row would give it. Below this the facts stack again
+   and keep their size, which is the one thing worth keeping. The chapter is
+   already free to grow here, so the column costs nothing. */
+@media (max-width:559.98px){
+  .facts{display:block}
+  .fact{
+    flex:none; padding:clamp(11px,1.8vh,16px) 0; margin-left:0;
+    border-left:0; border-top:1px solid var(--hair);
+  }
+  .fact:first-child{border-top:0; padding-top:0}
+  .fact .fl{font-size:10px; letter-spacing:.085em}
+  .fact .fv{font-size:32px; margin-top:7px}
+  .fact .fs{font-size:14px; margin-top:6px}
+  .fact .fp{font-size:17px; margin-top:7px}
+}
+
+/* THE SNAP. Proximity, never mandatory: a section settles into the frame when
+   the gesture ends near one, and a trackpad flick still travels as far as the
+   hand asked it to. */
+html{scroll-snap-type:y proximity}
+#hero,.chapter,.breath,#end{scroll-snap-align:start}
+/* and only where a section IS one screen. Below that a chapter is taller than
+   the frame, and a snap point at its top is something to be pulled back to. */
+@media (max-width:899px){ html{scroll-snap-type:none} }
+
+/* the chapter counter, set in the eyebrow */
+.chno{margin-bottom:13px}
+.chno b{font-weight:600; color:var(--ink-max)}
+.chno i{font-style:normal; margin:0 7px; opacity:.55}
+
+/* ENTER. The whole page arrives this one way: 8 px, 240 ms, --ease-out.
+   The cards used to arrive out of a rotateY(-6deg) tilt and settle flat. On a
+   real scroll that read mechanical, not cinematic: a flat rectangle swinging on
+   a hinge while the paper under it stayed still. It is gone. */
+.rise{opacity:0; transform:translateY(var(--lift))}
+.js .rise{will-change:opacity,transform}
+.rise.in{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+
+/* ------------------------------------------------------------
+   THE BREATHER. The film's own device between chapters: one of
+   its people shots, full bleed, a 1.04x Ken Burns on the scroll,
+   and the film's headline typed over the person at 24 chars a
+   second. White, one purple key word, the film's own drop.
+   ------------------------------------------------------------ */
+/* A breather is one screen tall, and the height is MEASURED and then held.
+   100svh is stable but 100vh is not: on a phone the browser chrome collapses on
+   the first scroll, every full-height section reflows mid-gesture, and the page
+   lurches. --vph is written once per width and never touched again. */
+.breath{position:relative; height:var(--vph,100svh); min-height:480px; overflow:hidden; background:#0B0B0A}
+.breath > img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform-origin:52% 46%; will-change:transform;
+}
+/* a 16:9 two-shot cannot hold both faces in a portrait crop, so on a phone it
+   frames the one the laptop is being turned towards */
+@media (max-width:640px){ #breath-3 > img{object-position:57% 48%} }
+.breath-type{
+  position:absolute; z-index:2; left:clamp(20px,5vw,64px); right:clamp(20px,5vw,64px);
+  bottom:clamp(52px,13vh,132px);
+  font-size:clamp(30px,5.2vw,82px); font-weight:600; line-height:1.05;
+  letter-spacing:-.028em; color:#FFFFFF; text-wrap:balance;
+  text-shadow:0 2px 18px rgba(0,0,0,.28), 0 0 2px rgba(0,0,0,.28);
+}
+.breath-type .key{color:var(--brand)}
+.breath-type .rest{visibility:hidden}
+/* The caret is taken out of the line and moved by transform alone: a typing
+   line then costs nothing in layout, and nothing on the page ever shifts. */
+.breath-type .caret{
+  position:absolute; left:0; top:0; width:.052em; height:.84em;
+  background:#FFFFFF; box-shadow:0 2px 18px rgba(0,0,0,.28);
+  transform:translate3d(0,0,0); will-change:transform; opacity:0;
+}
+.breath.typing .caret{opacity:1; transition:opacity .12s var(--ease-out)}
+.breath.said .caret{opacity:0; transition:opacity .3s var(--ease-out) .5s}
+/* the zero-size marker the caret follows; it paints nothing */
+.breath-type .mk{display:inline-block; width:0; height:0; overflow:hidden}
+
+/* ------------------------------------------------------------
+   a. THE ELEVEN TABS.
+   A real browser window, in the same chrome language as the
+   Cowork window lifted from the door cell: the cream titlebar,
+   three lights, a tab strip, an address bar.
+
+   The eleven are crammed into one row the way a browser crams
+   them. Every tab is flex:1 1 0 with min-width:0, so each one
+   compresses to a 16 px favicon and a title clipped by the tab
+   itself, and the strip never wraps into a list of words. On a
+   phone the tabs hold 108 px and the strip scrolls instead, so
+   they visibly overflow rather than shrink to nothing.
+
+   The close is the browser's own. The closing tab animates its
+   OWN max-width to zero; flex re-solves while that width is
+   changing, so its siblings re-flow continuously rather than
+   jumping to their new size. The last tab left widens into the
+   Cowork tab and the address bar drops to one word.
+
+   The window's height is fixed from first paint and no close
+   touches it, so nothing here is on the layout-shift ledger.
+   ------------------------------------------------------------ */
+.bwin{
+  width:100%;
+  background:var(--surface); border:1px solid var(--edge); border-radius:var(--radius);
+  box-shadow:var(--shadow-card); overflow:hidden;
+}
+.bwin-top{
+  height:44px; display:flex; align-items:flex-end; gap:10px;
+  padding:0 12px; background:var(--pillbg); border-bottom:1px solid var(--hair-warm);
+}
+.lights{display:flex; align-items:center; gap:7px; height:44px; flex:none}
+.lights i{width:11px; height:11px; border-radius:50%; background:#DCDCD7; display:block}
+.tabstrip{
+  flex:1 1 auto; min-width:0; display:flex; align-items:stretch;
+  height:44px; padding-top:7px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.tabstrip::-webkit-scrollbar{display:none}
+.btab{
+  position:relative; flex:1 1 0; min-width:0; max-width:186px;
+  display:flex; align-items:center; gap:6px;
+  height:37px; padding:0 9px; border-radius:8px 8px 0 0;
+  background:#EFEFEB; border:1px solid var(--hair-warm); border-bottom:0;
+  color:var(--faint); overflow:hidden;
+  /* the close is the browser's mechanic, not the page's entry gesture, so it
+     carries its own 260 ms rather than --enter */
+  transition:max-width .26s var(--ease-out), padding .26s var(--ease-out),
+             border-width .26s var(--ease-out), margin .26s var(--ease-out),
+             opacity .17s var(--ease-out),
+             background var(--enter) var(--ease-out), color var(--enter) var(--ease-out);
+}
+.btab + .btab{margin-left:2px}
+.btab .fav{width:16px; height:16px; flex:none}
+.btab .fav path,.btab .fav circle,.btab .fav rect{
+  fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round}
+/* the Boom Spreading mark is a solid glyph rather than a line one, so in the
+   strip it takes the same grey as a fill instead of as a stroke */
+.btab .fav.solid path{fill:currentColor; stroke:none}
+/* the title is a child of the tab and is clipped BY the tab, so the strip
+   cannot read as a row of loose words even if a rule above fails to land */
+.btab .tt{
+  font-size:12px; line-height:16px; letter-spacing:-.005em;
+  white-space:nowrap; overflow:hidden; text-overflow:clip; min-width:0; flex:1 1 auto;
+}
+.btab.gone{max-width:0; padding-left:0; padding-right:0; border-width:0; margin-left:0; opacity:0}
+/* the survivor becomes the Cowork tab: it widens, lifts to the raised ground,
+   and swaps its favicon and its title for the product's own */
+.btab.only{
+  max-width:none; background:var(--raised); color:var(--ink-max);
+  transition:max-width .42s var(--ease-settle), background .3s var(--ease-out),
+             color .3s var(--ease-out);
+}
+.btab .fav.b,.btab .tt.b{
+  position:absolute; top:50%; transform:translateY(-50%); opacity:0;
+  transition:opacity .2s var(--ease-out);
+}
+.btab .fav.b{left:9px; color:var(--brand)}
+.btab .tt.b{left:31px; right:9px; height:16px; font-weight:500}
+.btab.only .fav.a,.btab.only .tt.a{opacity:0; transition:opacity .2s var(--ease-out)}
+.btab.only .fav.b,.btab.only .tt.b{opacity:1}
+
+.bwin-url{
+  height:40px; display:flex; align-items:center; gap:9px; padding:0 14px;
+  background:var(--surface); border-bottom:1px solid var(--divider);
+}
+.bwin-url .lock{width:13px; height:13px; flex:none; color:var(--faint)}
+.bwin-url .lock path,.bwin-url .lock rect{fill:none; stroke:currentColor; stroke-width:1.3;
+  stroke-linecap:round; stroke-linejoin:round}
+.urlbox{position:relative; flex:1 1 auto; min-width:0; height:26px; display:flex;
+  align-items:center; background:var(--pillbg); border-radius:7px; padding:0 11px;
+  overflow:hidden}
+.urlbox span{font-size:12px; line-height:26px; color:var(--faint); white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; transition:opacity var(--enter) var(--ease-out)}
+.urlbox .u2{position:absolute; left:11px; opacity:0; color:var(--sub)}
+.bwin.landed .urlbox .u1{opacity:0}
+.bwin.landed .urlbox .u2{opacity:1}
+/* the record the banker is reading, at rest under the chrome */
+.bwin-page{height:196px; background:var(--raised); padding:20px 22px; overflow:hidden}
+.sk{display:flex; flex-direction:column; gap:11px}
+.sk i{display:block; height:8px; border-radius:3px; background:var(--divider)}
+.sk i:nth-child(1){width:32%; background:#E4E4E9}
+.sk i:nth-child(2){width:64%}
+.sk i:nth-child(3){width:52%}
+.sk i:nth-child(4){width:58%}
+.sk i:nth-child(5){width:41%}
+.sk i:nth-child(6){width:47%}
+/* the payoff, in the landing headline style. Its box is reserved from first
+   paint and the line is short enough never to wrap at any width, so typing it
+   moves nothing. */
+.notthis{
+  margin:30px 0 0; font-size:clamp(20px,2.4vw,28px); font-weight:600;
+  letter-spacing:-.022em; color:var(--ink-max); min-height:1.24em;
+}
+
+/* c. the chip strip */
+.chipstrip{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
+.chipstrip .chip{opacity:0; transform:translateY(6px)}
+.chipstrip.in .chip{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.chipstrip.in .chip:nth-child(2){transition-delay:40ms}
+.chipstrip.in .chip:nth-child(3){transition-delay:80ms}
+.chipstrip.in .chip:nth-child(4){transition-delay:120ms}
+.chipstrip.in .chip:nth-child(5){transition-delay:160ms}
+.chipstrip.in .chip:nth-child(6){transition-delay:200ms}
+.striplbl{font-size:12px; color:var(--muted); margin-top:26px}
+
+/* d. the ownership graph */
+.graph{width:1080px; max-width:100%; height:auto; display:block}
+/* pathLength="1" makes every edge draw at the same rate whatever its length */
+.graph .edge{fill:none; stroke:#DCDCE3; stroke-width:1.25; stroke-linecap:round;
+  stroke-dasharray:1; stroke-dashoffset:1}
+.graph.in .edge{stroke-dashoffset:0; transition:stroke-dashoffset .3s var(--ease-out)}
+.graph.in .edge.bus{transition:stroke-dashoffset .3s var(--ease-out) .14s}
+.graph.in .edge.stem{transition:stroke-dashoffset .26s var(--ease-out) .3s}
+.graph .nbox{fill:#fff; stroke:var(--divider); stroke-width:1}
+.graph .nbox.borrower{stroke:var(--acc-hair); stroke-width:1.25}
+.graph .nname{font:500 13px var(--ui); fill:var(--ink-max); letter-spacing:-.01em}
+.graph .nrole{font:600 10px var(--ui); fill:var(--faint); letter-spacing:.09em}
+.graph .nrole.acc{fill:var(--accent)}
+.graph .node{opacity:0; transform:translateY(var(--lift))}
+.graph.in .node{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.graph.in .node:nth-of-type(2){transition-delay:40ms}
+.graph.in .node:nth-of-type(3){transition-delay:80ms}
+.graph.in .node:nth-of-type(4){transition-delay:120ms}
+.graph.in .node.borrow{transition-delay:.44s}
+.graph .arrow{fill:#DCDCE3; opacity:0}
+.graph.in .arrow{opacity:1; transition:opacity var(--enter) var(--ease-out) .58s}
+.nodechip{
+  display:inline-flex; align-items:center; gap:8px; height:26px; padding:0 12px;
+  border-radius:999px; background:var(--lilac); border:1px solid #E4D5F5;
+  font-size:11px; font-weight:600; letter-spacing:.09em; color:#6A17A6;
+  margin-top:22px; opacity:0; transform:translateY(var(--lift));
+}
+.nodechip.in{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+
+/* e. the modification card */
+.modcard{
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+  flex-wrap:wrap;
+  background:var(--raised); border:1px solid var(--hair); border-radius:10px;
+  padding:18px 20px; margin-top:18px;
+  opacity:0; transform:translateY(var(--lift));
+}
+.modcard.in{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.modcard .fac{font-size:13px; font-weight:500; color:var(--ink-max)}
+.modcard .facm{font-size:12px; color:var(--muted); margin-top:3px}
+.delta{display:flex; align-items:center; gap:14px; font-variant-numeric:tabular-nums}
+.delta .from{font-size:18px; font-weight:500; color:var(--muted);
+  text-decoration:line-through; text-decoration-thickness:1px}
+.delta .to{font-size:22px; font-weight:600; letter-spacing:-.02em; color:var(--brand)}
+.delta .ar{color:var(--faint); font-size:15px}
+.checked{
+  display:flex; align-items:center; gap:8px; margin-top:16px;
+  font-size:13px; color:var(--sub); opacity:0;
+}
+.checked.in{opacity:1; transition:opacity var(--enter) var(--ease-out)}
+.tick{width:16px; height:16px; flex:none; color:var(--positive)}
+
+/* f. the memo drafting */
+.draftline{font-size:14px; color:var(--sub); margin-bottom:16px}
+.draftline b{font-weight:600; color:var(--ink-max); font-variant-numeric:tabular-nums}
+.seclist{display:grid; gap:0}
+.secrow{
+  display:flex; align-items:center; gap:12px; height:38px;
+  border-bottom:1px solid var(--hair); font-size:13px; color:var(--muted);
+}
+.secrow:last-child{border-bottom:0}
+.secrow .sst{width:16px; height:16px; flex:none; position:relative}
+.secrow .sst>svg{position:absolute; inset:0; width:16px; height:16px}
+.secrow .sst .tk{opacity:0; transform:scale(.7); transform-origin:center;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out); color:var(--positive)}
+.secrow.done .sst .tk{opacity:1; transform:none}
+.secrow.done{color:var(--sub)}
+.secrow.writing .sst .wr{color:var(--coral)}
+.secrow .wr{opacity:0}
+.secrow.writing .wr{opacity:1}
+.memohead{
+  display:flex; align-items:center; gap:12px; margin-bottom:16px;
+  padding-bottom:14px; border-bottom:1px solid var(--hair);
+}
+.memohead .mk{font-size:11px; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-max)}
+.memohead .mk .re{color:var(--brand)}
+.attest{
+  display:flex; align-items:center; gap:9px; margin-top:18px; padding:10px 14px;
+  border-radius:8px; background:var(--lilac); border:1px solid #E9DDF7;
+  font-size:12.5px; color:#5E1996;
+}
+.attest .att-dot{width:7px; height:7px; border-radius:999px; background:currentColor; flex:none}
+.attest b{font-weight:600}
+.memoctrl{display:flex; gap:8px; margin-top:18px; flex-wrap:wrap}
+
+/* g. the plan, the approve, the halo */
+.plan{background:var(--raised); border:1px solid var(--hair); border-radius:10px; padding:18px 20px}
+.plan .ph{font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px}
+.planrow{display:flex; gap:12px; align-items:flex-start; padding:8px 0; font-size:13px;
+  color:var(--sub); border-bottom:1px solid var(--hair)}
+.planrow:last-child{border-bottom:0}
+.planrow .n{width:20px; height:20px; border-radius:999px; background:var(--circle);
+  font-size:11px; line-height:20px; text-align:center; color:var(--sub); flex:none}
+.approvebar{display:flex; align-items:center; gap:12px; margin-top:20px; flex-wrap:wrap}
+/* the note grows from one sentence to another when the plan runs: it keeps the
+   taller box from the start so nothing below it moves */
+.approvebar .note{font-size:12px; color:var(--muted); min-height:1.5em}
+@media (max-width:640px){ .approvebar .note{flex:1 1 100%; min-height:3em} }
+#approve{position:relative; overflow:hidden}
+#approve.armed{box-shadow:0 0 0 5px rgba(161,0,255,.13)}
+
+/* the dim: one stop, the whole page, once */
+#dim{
+  position:fixed; inset:0; z-index:60; background:rgba(44,38,28,.26);
+  opacity:0; pointer-events:none; transition:opacity .7s var(--ease-out);
+}
+#dim.on{opacity:1}
+
+/* the halo, the one piece of spectacle in the page.
+   The chapter's fit is a transform, and a transform is a stacking context, so
+   the halo cannot climb over the page dim from inside it: the fit itself is
+   what stands above the dim, and the plan card goes down with the page by its
+   own hand rather than by the overlay's. */
+#ch-g .stage > .fit{z-index:70}
+#planbox{transition:opacity .7s var(--ease-out)}
+#planbox.under{opacity:.34}
+.halostage{position:relative; z-index:70}
+/* The bloom can only be painted where there is paper. Below the width at which
+   the light needs more room than the gutter leaves, the chapter's own stage
+   pulls in, the two cards narrow together, and the light gets its paper back.
+   Without this the canvas is wider than the phone and the glow is sliced flat
+   at both screen edges.
+
+   Only once the spread has closed. Above 1080 the stage is already 62% of the
+   paper and the card is drawn inside it, so the pad has the whole reading
+   column to open into on the inner side and the page's own gutter on the
+   outer, and the light lands on zero well before either. */
+@media (max-width:1079.98px){ #ch-g .stage{padding-inline:clamp(26px,8.5vw,88px)} }
+/* The halo's box is written by JS off the dossier's measured rect, so its
+   centre is the card's centre at every viewport. The values below are only
+   what it wears before the first measurement. */
+#halo{
+  position:absolute; left:0; top:0; width:0; height:0; opacity:0; pointer-events:none;
+  transition:opacity .9s var(--ease-out);
+}
+.halostage.lit #halo{opacity:1}
+.dossier{
+  position:relative; z-index:2; background:var(--raised); border:1px solid var(--hair);
+  border-radius:12px; padding:22px 24px; max-width:720px; margin:0 auto;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+  transition:box-shadow .8s var(--ease-out), transform .6s var(--ease-settle);
+}
+.halostage.lit .dossier{box-shadow:0 6px 40px rgba(0,0,0,.10); transform:translateY(-2px)}
+.dossier .dh{display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  padding-bottom:14px; border-bottom:1px solid var(--hair); margin-bottom:4px}
+.dossier .dt{font-size:14px; font-weight:600; color:var(--ink-max)}
+.dossier .dv{font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
+.execrow{display:flex; align-items:center; gap:12px; height:42px;
+  border-bottom:1px solid var(--hair); font-size:13px; color:var(--sub);
+  opacity:0; transform:translateY(var(--lift))}
+.execrow:last-child{border-bottom:0}
+.execrow.in{opacity:1; transform:none;
+  transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.execrow .w{margin-left:auto; font-size:12px; color:var(--muted)}
+
+/* ============================================================
+   6. THE END
+   ============================================================ */
+/* THE CLOSE. One screen, and the only place on the page where the picture
+   carries the type instead of standing beside it. The picture is now the city
+   they are being asked to come to, full bleed and drifting, and it is dressed
+   with ONE scrim: a single bottom-up gradient, transparent at 45% of the height
+   and rgba(20,12,28,.72) at the floor. No cream wash, no top scrim, nothing
+   stacked. The type sits in the lower third on the film's own left margin, the
+   place card is right-aligned with its bottom edge on the headline's, and the
+   hairline row keeps the floor. */
+#end{
+  position:relative; overflow:hidden; background:#171021;
+  height:var(--vph,100svh); min-height:var(--vph,100svh); display:flex;
+}
+.endplate{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+}
+.endscrim{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(20,12,28,0) 45%, rgba(20,12,28,.72) 100%);
+}
+#end > .wrap-w{
+  position:relative; z-index:2; flex:1 1 auto; min-height:0;
+  display:flex; flex-direction:column; padding-top:clamp(28px,6vh,72px);
+}
+/* the type and the card are one baseline row: align-items:flex-end puts the
+   card's bottom edge exactly on the bottom of the headline's line box, and
+   both ends of the row sit on the content margin the film runs to. */
+.endgrid{
+  margin-top:auto; display:flex; align-items:flex-end;
+  justify-content:space-between; gap:clamp(24px,5vw,72px);
+}
+.endcentre{flex:0 1 auto; min-width:0}
+.endbrow{color:rgba(255,255,255,.74)}
+.endlock{
+  display:flex; align-items:baseline; gap:.24em; margin-top:16px;
+  font-size:clamp(56px,7vw,120px); font-weight:600; line-height:.96;
+  letter-spacing:-.036em; color:#fff;
+}
+.endhead{
+  margin-top:clamp(14px,2.4vh,26px);
+  font-size:clamp(26px,3.6vw,40px); font-weight:600; line-height:1.12;
+  letter-spacing:-.025em; color:#fff; text-wrap:balance;
+}
+/* THE PLACE. The cockpit's own card, standing on the picture: white, 12 px,
+   one hairline, the dossier's shadow. The map is real OpenStreetMap geometry
+   drawn in the product's language rather than a screenshot of somebody's tiles,
+   and the pin at 690 Folsom opens once when the close arrives. */
+.place{
+  flex:none; width:420px; background:var(--raised); border:1px solid var(--hair);
+  border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.03); overflow:hidden;
+}
+.place-map{display:block; aspect-ratio:800 / 520}
+.place-map svg{display:block; width:100%; height:100%}
+.place-row{
+  display:flex; align-items:baseline; gap:9px;
+  padding:13px 16px 14px; border-top:1px solid var(--hair);
+}
+.place-name{flex:none; font-size:15px; font-weight:600; color:var(--ink-max)}
+.place-addr{font-size:15px; color:var(--sub); min-width:0;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.place-link{
+  flex:none; margin-left:auto; font-size:13px; color:var(--sub);
+  border-bottom:1px solid var(--edge); padding-bottom:1px;
+  transition:color var(--dur-mid) var(--ease-out),
+             border-color var(--dur-mid) var(--ease-out);
+}
+.place-link:hover{color:var(--ink-max); border-bottom-color:var(--ink-max)}
+#end .pin-halo{transform-box:fill-box; transform-origin:50% 50%; opacity:0}
+#end.lit .pin-halo{animation:pinland 1.25s var(--ease-spring) .3s both}
+@keyframes pinland{
+  0%{transform:scale(.25); opacity:0}
+  56%{transform:scale(1.22); opacity:1}
+  100%{transform:scale(1); opacity:1}
+}
+/* the hairline row keeps the floor of the frame, on the picture now rather
+   than on paper, so its ink is white at 70% and its rule is white at 24% */
+.endrow{
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  flex-wrap:nowrap; margin-top:clamp(22px,4vh,44px);
+  padding:20px 0 clamp(20px,3.4vh,34px);
+  border-top:1px solid rgba(255,255,255,.24);
+}
+.endrow .lg{height:17px; width:auto; opacity:.7}
+/* the control carried a small chevron, a third mark on a screen allowed two.
+   It takes the place card's affordance instead: a hairline under the words. */
+.again{font-size:13px; color:rgba(255,255,255,.7);
+  border-bottom:1px solid rgba(255,255,255,.28); padding-bottom:1px;
+  transition:color .18s var(--ease-out), border-color .18s var(--ease-out)}
+.again:hover{color:#fff; border-bottom-color:#fff}
+/* under 1080 the row has no paper left for a 420 px card beside a 7vw lockup,
+   so the card goes full width under the type, which is what it does on a
+   phone anyway */
+@media (max-width:1080px){
+  .endgrid{flex-direction:column; align-items:stretch; gap:clamp(20px,3.2vh,30px)}
+  .place{width:100%}
+}
+/* on a phone the card is 350 px wide and the three things in its row want 374,
+   so the address takes its own line under the name rather than being clipped */
+@media (max-width:440px){
+  .place-row{flex-wrap:wrap; row-gap:2px}
+  .place-link{order:2}
+  .place-addr{order:3; flex:1 0 100%; white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  #end .pin-halo{opacity:1; animation:none}
+}
+
+/* ============================================================
+   7. NARROW. The components reflow the way the artifact does.
+   ============================================================ */
+@media (max-width:1024px){
+  .kpi{flex:1 1 30%; min-width:33%}
+  .kpi:nth-child(3n){border-right:0}
+  .kpi:nth-child(-n+3){border-bottom:1px solid rgba(0,0,0,.05)}
+  .kpi:first-child{flex-grow:1}
+}
+@media (max-width:720px){
+  .kpi{flex:1 1 50%; min-width:50%; padding:15px 18px}
+  .kpi .l{white-space:normal; overflow:visible}
+  .kpi:nth-child(3n){border-right:1px solid rgba(0,0,0,.05)}
+  .kpi:nth-child(2n){border-right:0}
+  .kpi:nth-child(-n+4){border-bottom:1px solid rgba(0,0,0,.05)}
+  .kpi .v{font-size:21px}
+  .dev-body{padding:20px 16px 24px}
+}
+@media (max-width:640px){
+  body{font-size:14px}
+  /* a phone does not have the paper to compress eleven tabs and still show a
+     favicon and a letter of each. So it does what a phone browser does: the
+     tabs hold their size and the strip scrolls, and they overflow in view.
+     This scroller is the one place on the page allowed to scroll sideways. */
+  .tabstrip{overflow-x:auto; overscroll-behavior-x:contain}
+  .btab{flex:0 0 108px; max-width:108px}
+  /* the eleven hold their size here, but the one they become is still the full
+     Cowork tab: it takes the row back once it is the only one left in it */
+  .btab.only{flex:1 1 auto; max-width:none}
+  .bwin-page{height:132px; padding:16px 18px}
+  /* the row reflows the way the artifact does: the monogram and the arrow
+     drop out, the name and the exposure stack, the reason chips stay */
+  .wlrow{flex-wrap:wrap; gap:10px 14px; padding:14px 16px}
+  .mono,.wlrow .go{display:none}
+  .wlrow .who{flex:1 1 100%}
+  .wlrow .sts{justify-content:flex-start; flex:1}
+  .wlrow .amt{text-align:right}
+  .greet{font-size:26px}
+  .composer{padding:16px 18px 44px}
+  .modelmeta{display:none}
+  .delta{width:100%; justify-content:flex-start}
+  .memoctrl .btn{flex:1 1 auto; justify-content:center}
+  .endrow{gap:14px; padding:18px 0 26px}
+  .endrow .lg{height:15px}
+  /* chapter g's two cards narrow to give the bloom its paper, so their rows
+     have to be allowed to grow rather than hold a fixed height and overlap */
+  .dossier{padding:18px 18px}
+  .plan{padding:16px 18px}
+  .dossier .dh{flex-direction:column; align-items:flex-start; gap:3px}
+  .execrow{height:auto; min-height:38px; padding:9px 0; align-items:flex-start;
+    gap:10px; font-size:12.5px; line-height:1.4}
+  .execrow .tick{margin-top:1px}
+  .execrow .w{margin-top:0; white-space:nowrap; padding-left:10px; font-size:11.5px}
+  .planrow{align-items:flex-start}
+}
+
+.scrollx{overflow-x:auto}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important; animation-iteration-count:1!important;
+    transition-duration:.01ms!important}
+  .rise,.modcard,.checked,.nodechip,.execrow,.chipstrip .chip{
+    opacity:1!important; transform:none!important}
+  .breath > img{transform:none!important}
+  .breath .caret{opacity:0!important}
+  .graph .edge{stroke-dashoffset:0!important}
+  .graph .node,.graph .arrow{opacity:1!important; transform:none!important}
+  #halo{transition:none}
+}
+</style>
+<script src="assets/gate.js"></script>
+<style id="w360">
+/* THE ROOM IS CENTRED. Credit 360 reads in a column beside its component and swaps
+   sides chapter by chapter. Wealth 360 stands still and symmetrical, the way a
+   private office does: the caption centred over the product's own surface, and the
+   three facts in one hairline row under it, on the same axis. */
+@media (min-width:1080px){
+  .chapter > .wrap,.chapter.flip > .wrap{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto minmax(0,1fr) auto;
+    grid-template-areas:"cap" "stage" "facts";
+    row-gap:clamp(18px,3.4vh,40px);
+  }
+  .cap{align-self:end; justify-self:center; text-align:center; max-width:820px}
+  .cap .sub{margin-left:auto; margin-right:auto}
+  .stage{padding-inline:clamp(40px,10vw,180px)}
+  .facts{align-self:start; justify-self:center; margin-top:0; display:flex; gap:0;
+    width:min(980px,100%); border-top:1px solid var(--hair); padding-top:clamp(14px,2.2vh,22px)}
+  .fact{flex:1 1 0; min-width:0; text-align:center; padding:0 18px; border-top:0; border-left:1px solid var(--hair)}
+  .fact:first-child{border-left:0; padding-left:0}
+  .fact:last-child{padding-right:0}
+  .fact .fv{font-size:34px; margin-top:8px}
+  .fact .fs{font-size:13.5px; margin-top:6px}
+  .fact .fp{font-size:16px; margin-top:9px; line-height:1.34}
+}
+@media (max-width:1079.98px){ .cap{text-align:center} .cap .sub{margin-left:auto;margin-right:auto} .fact{text-align:center} }
+
+
+/* THE TWIST. Same family as Credit 360, its own voice: a private office speaks in a serif.
+   The chapter headlines, the hero line, the typed breathers and the close are set in Newsreader;
+   the product's own surfaces stay in Inter, exactly as the desk draws them. */
+.cap .head,.walk .head{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em; line-height:1.08;
+  font-size:clamp(32px,3.7vw,52px)}
+.hero-line{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+.breath-type{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.012em}
+.endhead{font-family:"Newsreader",Georgia,serif; font-weight:400; letter-spacing:-.01em}
+#notthis{font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:clamp(22px,2vw,30px)}
+.greet{letter-spacing:-.01em}
+
+/* THE JOURNEY RAIL. A case moves through steps; so does the page. One hairline down the left
+   edge, seven marks, the one you are in set in ink. Desktop only, never over the films. */
+.jrail{position:fixed; left:clamp(16px,2vw,30px); top:50%; transform:translateY(-50%); z-index:60; display:none;
+  flex-direction:column; align-items:flex-start; gap:18px; opacity:0; transition:opacity .5s ease; pointer-events:none}
+.jrail.on{opacity:1}
+.jrail::before{content:""; position:absolute; left:3px; top:4px; bottom:4px; width:1px; background:var(--hair)}
+.jrail i{position:relative; display:flex; align-items:center; gap:10px; font-style:normal; font-size:10.5px; font-weight:600;
+  letter-spacing:.09em; color:var(--faint); text-transform:uppercase}
+.jrail i::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--paper,#F6F3EE); border:1px solid var(--faint); box-sizing:border-box}
+.jrail i span{opacity:0; transform:translateX(-4px); transition:opacity .35s ease, transform .35s ease}
+.jrail i.done::before{background:var(--faint); border-color:var(--faint)}
+.jrail i.now{color:var(--ink-max)}
+.jrail i.now::before{background:var(--brand); border-color:var(--brand)}
+.jrail i.now span{opacity:1; transform:none}
+@media (min-width:1180px){ .jrail{display:flex} }
+
+/* 04: the activity, every step with its quote and its source */
+.ctl{display:grid; gap:0; min-width:560px}
+.cstep{display:grid; grid-template-columns:52px 104px minmax(0,1fr) auto; column-gap:14px; align-items:baseline;
+  padding:13px 0; border-top:1px solid var(--hair-warm); opacity:0; transform:translateY(6px)}
+.cstep:first-child{border-top:0; padding-top:2px}
+.ctl.in .cstep{opacity:1; transform:none; transition:opacity var(--enter) var(--ease-out), transform var(--enter) var(--ease-out)}
+.ctl.in .cstep:nth-child(2){transition-delay:.09s}.ctl.in .cstep:nth-child(3){transition-delay:.18s}.ctl.in .cstep:nth-child(4){transition-delay:.27s}.ctl.in .cstep:nth-child(5){transition-delay:.36s}.ctl.in .cstep:nth-child(6){transition-delay:.45s}
+.cstep .ct{font-size:12.5px; color:var(--faint)}
+.cstep .cw{font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.cstep .ch{display:flex; flex-direction:column; gap:3px; font-size:14.5px; color:var(--ink-max); min-width:0}
+.cstep .ch b{font-weight:600}
+.cstep .cq{font-size:13.5px; color:var(--sub)}
+.cstep .cs{font-size:12px; color:var(--faint); white-space:nowrap}
+#ch-d .ctl-sum{margin-top:16px; padding-top:14px; border-top:1px solid var(--hair-warm); font-size:13.5px; color:var(--muted)}
+
+/* 06: the first lines of the letter, as the agent drafted them */
+.letter{margin-top:16px; padding:14px 16px; border:1px solid var(--hair); border-radius:10px; background:var(--surface);
+  font-family:"Newsreader",Georgia,serif; font-size:15.5px; line-height:1.5; color:var(--sub)}
+.letter p + p{margin-top:6px}
+.letter .lt-to{color:var(--ink-max)}
+
+#notthis{text-align:center}
+@media (max-width:760px){
+  .ctl{min-width:0}
+  .cstep{grid-template-columns:44px minmax(0,1fr); row-gap:3px}
+  .cstep .cw,.cstep .ch,.cstep .cs{grid-column:2}
+  .cstep .cs{white-space:normal}
+}
+/* the lifted components keep their product width; the fit rule scales them down, never up */
+.chapter .stage .device{width:min(900px,100%); margin:0 auto}
+#ch-e .stage .device{width:min(760px,100%)}
+#ch-c .stage .device{width:min(760px,100%)}
+/* 05: the logged case shows its amount, not a delta */
+#modcard .delta .to{font-size:22px}
+
+/* THE WALKTHROUGH. The second film: a quiet room of its own after the decision */
+.walk{min-height:var(--vph,100svh); display:flex; align-items:center; padding:clamp(40px,8vh,96px) 0; border-top:1px solid var(--hair); scroll-snap-align:start}
+.walk .wrap{display:flex; flex-direction:column; align-items:center; text-align:center}
+.walk .sub{margin-left:auto; margin-right:auto}
+.wt{all:unset; box-sizing:border-box; cursor:pointer; position:relative; display:block; margin-top:clamp(22px,4vh,40px);
+  width:min(1040px,100%); aspect-ratio:16/9; max-height:62vh; border-radius:14px; overflow:hidden; border:1px solid var(--hair); background:#0B0B0A}
+.wt img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.2s var(--ease-out)}
+.wt:hover img,.wt:focus-visible img{transform:scale(1.025)}
+.wt:focus-visible{outline:2px solid var(--brand); outline-offset:4px}
+.wt-play{position:absolute; left:50%; bottom:clamp(18px,4%,32px); transform:translateX(-50%); display:inline-flex; align-items:center; gap:10px;
+  padding:11px 18px 11px 15px; border-radius:999px; background:rgba(250,248,244,.94); color:var(--ink-max); font-size:14px; font-weight:500}
+.wt-play svg{width:12px; height:12px; color:var(--brand)}
+.wm{position:fixed; inset:0; z-index:9000; background:rgba(11,11,10,.94); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  opacity:0; transition:opacity .45s ease}
+.wm[hidden]{display:none}
+.wm.on{opacity:1}
+.wm-bar{width:min(1280px,100%); display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; color:rgba(255,255,255,.72); font-size:13px}
+.wm-x{appearance:none; width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,.22); background:transparent; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center}
+.wm-x svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round}
+.wm video{width:min(1280px,100%); max-height:calc(100svh - 110px); aspect-ratio:16/9; background:#000; border-radius:10px}
+</style>
+</head>
+<body>
+
+<!-- the connector glyphs, lifted verbatim from the film's door and room cells -->
+<svg id="sprite" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="g-sf" viewBox="0.5 -149.379 999 999"><path fill="#00A1E0" d="M416.224 76.763c32.219-33.57 77.074-54.391 126.682-54.391 65.946 0 123.48 36.772 154.12 91.361 26.626-11.896 56.098-18.514 87.106-18.514 118.94 0 215.368 97.268 215.368 217.247 0 119.993-96.428 217.261-215.368 217.261a213.735 213.735 0 0 1-42.422-4.227c-26.981 48.128-78.397 80.646-137.412 80.646-24.705 0-48.072-5.706-68.877-15.853-27.352 64.337-91.077 109.448-165.348 109.448-77.344 0-143.261-48.939-168.563-117.574-11.057 2.348-22.513 3.572-34.268 3.572C75.155 585.74.5 510.317.5 417.262c0-62.359 33.542-116.807 83.378-145.937-10.26-23.608-15.967-49.665-15.967-77.06C67.911 87.25 154.79.5 261.948.5c62.914 0 118.827 29.913 154.276 76.263"/></symbol>
+  <symbol id="g-ms" viewBox="0 0 21 21"><rect x="0" y="0" width="10" height="10" fill="#F25022"/><rect x="11" y="0" width="10" height="10" fill="#7FBA00"/><rect x="0" y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></symbol>
+  <symbol id="g-idb" viewBox="0 0 19 19"><g fill="#0092DA"><rect x="1.2" y="6.7" width="5.4" height="5.6" rx="1.7"/><rect x="12.4" y="6.7" width="5.4" height="5.6" rx="1.7"/></g><g fill="none" stroke="#0092DA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.4 9.5H11.2"/><path d="M9.6 7.9 11.2 9.5 9.6 11.1"/></g></symbol>
+  <symbol id="g-boom" viewBox="0 -0.32 24.3222 24.3222"><g fill="#0018F5"><path d="M20.2685 16.2488L18.2416 18.2798L12.1611 12.1867L6.08054 18.2798L4.05369 16.2488L12.1611 8.12465L20.2685 16.2488Z"/><path d="M24.3222 12.1862L22.1761 14.3368L12.1611 4.30103L2.14607 14.3368L0 12.1862L12.1611 0L24.3222 12.1862Z"/><path d="M12.1831 16.495L15.7661 20.0854L12.1831 23.6758L8.60015 20.0854L12.1831 16.495Z"/></g></symbol>
+  <clipPath id="g-ibis-r"><rect width="19" height="19" rx="4"/></clipPath>
+  <symbol id="g-ibis" viewBox="0 0 19 19"><image width="19" height="19" clip-path="url(#g-ibis-r)" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAIAAAAnX375AAAACXBIWXMAAAAAAAAAAQCEeRdzAAAH00lEQVR4nKWYeVRUZRjG+T+YmTuAS5ZakmYZmJaIdrKiFBNLMjAtOGXu2CklzNJOpWiYIi5HYlMhd3MhW9wAASnAe2dhmIUZloFhdmaYfQAZtOfjaqf9ONc59wxzZr65v3nf73mf9/0IkcXGNsbEiEY9RAvDaYHwHi/VK7NvDQzcunlTn5Xll8ulj44LuFyyJycpX3ixV6NhwiNonsBVVd2SnMKu7z5+XJ2UBBBwIfhDU0HA2KtpytTbQw/bqVPO8vKWRYt8TU30A6GWwiJDdjbNp1Sz53hu3GDCI7FY82ZyT1kZzRcABFwIiS9IHi5RRCSL9IpE3aWllvx868FD4oce7jcYESvN47ura1qXLKEFlGjYcKyRPzuNfJFPdXycGUKSEDwSAQU8XiAHbDb91q0+max18ZL2ZcvcNdfBU7++wCuW0KE8MPRbs4w7d5EQBUL1/NesJSUhXHhDSL9GQ8IMBAw7dgS83sbxE1yV19pXrGCocNe1qtZ3Ukn+pz7jVygQPV7j2fHzz5Kxj3BFhvLctb8S5K1b5vwC3LcpOuamyQQdaZLe8DIMExHJCMMdFy+2pqUNpVRgzvtWsyAJqeaK5FP2778nxEDAXVdvPXzYuHMnnhm+wNNwo/Xtd3Dr9uXLnVeuMBTWU5rkFPOBA5AxvssVKRBa8vKAHOzr621rwy72dXY2JyS0pqZ6GhoYYYRk9Jjelhb5tFisbHx8ovPyFfHIB9lwuSM7168nUfb1YSP1Wdu8Eol42PBetbp53jxGQNnPnu3a/DkAkGfPhQuKuBlsblqWvM0d2ZqadqdOxGJPfYN21Sr9li24OxSrTU9319YiVrw27dunXbsWMKRX+fws1DF3ZHNiIot01zcgq4oZM/q7upomP41k9mm18AowtGvSLfkF7Hqk1/HTT9AXd6Ry1iwWGfB4YHvwmo5163BHv1JJKgQ5fOutnvPnWQOSRo2HScliJt+XfBANi0RtWEu/c166BMkgn0gvcYPXXndevSoZ8wiJb8JE8OSx0xH3/SGnx7FIxNen7UBKXRWV5gN50A7ic1ZUSh4eDQZ5v6paMWPmEI+COXBHwrhZKxiw29veX+apqzPt3y8Kj+javBklO+Q4FAzdVV3dNHkKy2uel2gtLeWO1K5cSZCDg+Zv89FGDNu2yyY9BcXqt2wVRQ6Dm5ty99iOHZOMGUvWh/E6MzcYtn8tGj6CK5InsJ87DyK0iku7Zk3Xps2ua9eUs15AbSCxruqatqVLiZvzKVl0TPeRo8SS+Pexl1D8oN8PZG97u6W4GErpSE+HfNrS0uCrxpwcyaPj8LOk46IgZvO+/Y0THme1wxGJZgkDY7Xja2yEDbWlpsFgnRUVug0bUCfoM03PToOpdh89qnzxpT9gnJB8geypaOfly7fvPnxSKQrAkJWFMpVNfEKz8E1TTo7t9GnMBlhJh/H/eZO/ISmyKIyHC1pHWpqeniKPm6mMj1cnztemr7WdPBlwOm//6eGuqbEUFVsPl3QfO2bcldP23lL4DoM941P/9btD2FurEuZqV68xfJ2NqcJcWEiydOVqv9EIyx5wODBW4br9bw/0ZNGIkQwZ1f4P8xckilf/5VdoOsgM5jPsv6WoyFpSiv5nKSh0Vlbay8rcv9X1dXQM+nv7DQa0jj8jMXMEK4UQJjQMRU3iQ2a+2amel4j+rsvMhPB0Gz5pX7nKU19vKSz0q1TdR44A6ZMrMD/+AVbGvxw0Etuj27gRhouGDuljNLKfOatZuFA6ZizUDzB2ERqBLL00bczNhdf45HK/Wo15AD4AAwsaScTC48tjY815eRACcot3WlJS0Nzbl69QxE5HWNAhPuouKbWdOGE/X3bTanVcJTsN6lDBBYlUzHwOO4cagjix//BiKMh24qR0/ITmhLmYxFXx8dCIh6ab5yQAhpRguILRuGprEbGIHS+CQpr27IFiycRAhcOTsHMtycmIGz0PGNSWKv5lTDGoOVdFhf6LL1Hvxuzsfr3eWlxMzgLBHCvuJnbIBpEf++nTloICzJmMQNjx4Ueu8nJp1GN4H8JBB4Bt+lXNiri4gMPR9u67KB7j7t3A32Nh/K0uhdgz9/Xr0CpqCzOgaXeu7fgJVBtc3/NbXfuy5XiBgFpSFqFy7OfO6TIysB4DlbX4IBdkzw8XYE7oNTQZqEcjVsP27UgyMLipfts2JNm8d6/9zBlsc3+XHiOTq6pKl/GxTyHv+OCDYHl35MMeGGTR0bgXYiIDbhjPChsrKsZWqebMwfgENXVmZrpqaqRRUQNOp3zqVHQSCIoLkvzhU81zX4VYIE62faOX9pw9h9CRXuwlhnwEDbAmKUm7ejVWoi/CbEnT4IDEaAvdQ404x7A8nJUcly6Bh222HjoEv0Vu4UQoDAanuJrruo2fdmZkeG/QpKY5IFHdOIDdKS+eQPfZJhwk2MkFbQEhih8chd6LGRXzP2qXnJYnTeq58COONewZI7hLGB6iWbyY3UtcXSi78grxCILHzNiv02EgBtuUm4upFzFhnMELtGjUpebuoTyoCyfouwd3PmXI3uH45SJ7WIF0YTE4OuF9DI8wHcQ3pNguDKiq2bMHfT5x8L5z5+DO/ntCt2kTSgI5xAdM5DCEggmRTTW2EB2GnLk//Ai/A/3VuGsXtE2Hht07DIpBfOy/J34Hti7a7WawAjYAAAAASUVORK5CYII="/></symbol>
+  <symbol id="g-memo" viewBox="0 0 19 19"><rect x="1.7" y="1.7" width="15.6" height="15.6" rx="4" fill="none" stroke="#A100FF" stroke-width="1.5"/><g fill="none" stroke="#A100FF" stroke-width="1.5" stroke-linecap="round"><path d="M5.4 6.4h8.2M5.4 9.5h8.2M5.4 12.6h5.2"/></g></symbol>
+  <symbol id="g-ast" viewBox="0 0 40 40"><g stroke="#D97757" stroke-width="2.6" stroke-linecap="round"><line x1="20.00" y1="17.80" x2="20.00" y2="1.40"/><line x1="21.19" y1="18.15" x2="28.87" y2="6.20"/><line x1="22.00" y1="19.09" x2="36.19" y2="12.61"/><line x1="22.18" y1="20.31" x2="35.84" y2="22.28"/><line x1="21.66" y1="21.44" x2="33.91" y2="32.05"/><line x1="20.62" y1="22.11" x2="24.73" y2="36.12"/><line x1="19.38" y1="22.11" x2="15.10" y2="36.70"/><line x1="18.34" y1="21.44" x2="7.76" y2="30.61"/><line x1="17.82" y1="20.31" x2="1.99" y2="22.59"/><line x1="18.00" y1="19.09" x2="4.90" y2="13.10"/><line x1="18.81" y1="18.15" x2="10.48" y2="5.19"/></g><circle cx="20" cy="20" r="4.2" fill="#D97757"/></symbol>
+  <!-- the chevron is kept as addressable geometry rather than folded into its
+       symbol, for the same reason the accenture wordmark once was: a <clipPath>
+       may hold a <use> of a path but not of a symbol, and the gate's light
+       sweep needs the glyph as a clip. Every other user goes on referencing
+       #g-chev and is unaffected. -->
+  <path id="g-chev-p" fill="currentColor" d="m 116.99973,0 v 5.97866 l 11.556,4.516 -11.556,4.296 v 6.15467 l 19.792,-8.016 V 7.97066 Z"/>
+  <symbol id="g-chev" viewBox="116.99973 0 19.792 20.93"><use href="#g-chev-p"/></symbol>
+  <clipPath id="gm-clip"><use href="#g-chev-p"/></clipPath>
+  <linearGradient id="gm-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <symbol id="g-shield" viewBox="0 0 19 19"><path d="M9.5 1.9 3.4 4.3v4.5c0 3.9 2.6 6.9 6.1 8.3 3.5-1.4 6.1-4.4 6.1-8.3V4.3Z" fill="none" stroke="#1F2A44" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.6 9.4 8.7 11.4 12.5 7.4" fill="none" stroke="#1F2A44" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-payee" viewBox="0 0 19 19"><rect x="1.5" y="1.5" width="16" height="16" rx="4" fill="#111"/><path d="M5.2 13.2V8.4M9.5 13.2V8.4M13.8 13.2V8.4M4.2 7.2 9.5 4.3l5.3 2.9M4.2 14.4h10.6" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-id" viewBox="0 0 19 19"><rect x="1.6" y="3.8" width="15.8" height="11.4" rx="2.4" fill="none" stroke="#0F766E" stroke-width="1.5"/><circle cx="6.4" cy="8.6" r="1.7" fill="none" stroke="#0F766E" stroke-width="1.4"/><path d="M3.9 12.6c.4-1.3 1.3-1.9 2.5-1.9s2.1.6 2.5 1.9M11 8h4M11 10.8h3" fill="none" stroke="#0F766E" stroke-width="1.4" stroke-linecap="round"/></symbol>
+<symbol id="g-pin" viewBox="0 0 19 19"><path d="M9.5 17.2s5.4-5 5.4-9a5.4 5.4 0 0 0-10.8 0c0 4 5.4 9 5.4 9Z" fill="none" stroke="#B4532A" stroke-width="1.5" stroke-linejoin="round"/><circle cx="9.5" cy="8.2" r="1.9" fill="none" stroke="#B4532A" stroke-width="1.5"/></symbol>
+<symbol id="g-mail" viewBox="0 0 19 19"><rect x="1.8" y="3.9" width="15.4" height="11.2" rx="2.2" fill="none" stroke="#3E63B8" stroke-width="1.5"/><path d="m2.6 5.1 6.9 5 6.9-5" fill="none" stroke="#3E63B8" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+<symbol id="g-tick" viewBox="0 0 16 16"><path d="M3.2 8.4 6.3 11.5 12.8 4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<!-- ============================================================
+     0. THE GATE. The Cowork greeting, the composer, the chevron.
+     Lifted from door/index.html shots 8 and 9: the same .greet serif,
+     the same 109 px composer with the 20 px radius, the same Chat |
+     Cowork pillbed and the same Fable 5.1 meta. The send button keeps
+     the app's 28 px / 8 px geometry and carries the chevron.
+     ============================================================ -->
+<div id="gate" role="dialog" aria-modal="true" aria-label="Invitation" hidden>
+
+  <!-- the entry: the film's own sky, running. This is a door, and it says so:
+       the page behind it is one screening, not the whole offering. The plate is
+       the picture and the film's own mark stands on it, dead centre: the same
+       chevron the film opens on and the hero lockup is built from, so the mark
+       the visitor strikes is the one the page is going to keep showing them. -->
+  <div class="gpane-mark" aria-hidden="true">
+    <video class="gplate" src="assets/film/gate-plate.mp4"
+           poster="assets/film/gate-plate.jpg" width="672" height="960"
+           muted loop playsinline preload="none" tabindex="-1"
+           disablepictureinpicture disableremoteplayback></video>
+    <span class="gscrim"></span>
+    <p class="eyebrow gp-eyebrow">London<span class="dot">&middot;</span>A private screening</p>
+    <span class="gmark"><svg class="gmark-c" viewBox="0 0 19.792 20.93"><use href="#g-chev"/></svg><span class="gm-sweep"><svg viewBox="116.99973 0 19.792 20.93"><g clip-path="url(#gm-clip)"><rect class="gm-band" x="117" y="-8" width="5.6" height="37" fill="url(#gm-g)"/></g></svg></span></span>
+  </div>
+
+  <div class="gpane-form">
+  <div class="gwrap">
+    <p class="greet"><svg class="ast" aria-hidden="true"><use href="#g-ast"/></svg>Your clients are in good hands.</p>
+
+    <form id="g-form" novalidate autocomplete="off">
+      <div class="composer">
+        <label class="sr" for="g-input">Your passcode</label>
+        <input id="g-input" type="password" placeholder="Enter your passcode" autocapitalize="off"
+               autocorrect="off" spellcheck="false" autocomplete="off" aria-describedby="g-msg" />
+        <div class="typed" id="g-typed" hidden><span id="g-typed-t"></span><i class="caret"></i></div>
+        <div class="cmp-bar">
+          <svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg>
+          <div class="pillbed" aria-hidden="true"><div class="p">Chat</div><div class="p on">Cowork</div></div>
+          <div class="modelmeta" aria-hidden="true">Opus 5.5<em>Medium</em></div>
+          <button type="submit" class="sendbtn" id="g-send" aria-label="Enter"><svg viewBox="0 0 19.792 20.93" aria-hidden="true"><use href="#g-chev"/></svg></button>
+        </div>
+      </div>
+    </form>
+
+    <p class="g-sub"><span id="g-hint">Invited guests only. The passcode is on your invitation.</span><span class="no" id="g-msg" role="status" aria-live="polite"></span></p>
+
+    <div class="runrows" id="g-rows" aria-hidden="true">
+      <div class="runrow" data-g="g-sf"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; your cases</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-mail"/></svg></span><span class="lbl">Client email &middot; intake</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-shield"/></svg></span><span class="lbl">UK Sanctions List &middot; screening</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-payee"/></svg></span><span class="lbl">Payee check &middot; open banking</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-id"/></svg></span><span class="lbl">Identity &middot; verification</span></div>
+      <div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-pin"/></svg></span><span class="lbl">Address &middot; postcode</span></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div id="dim" aria-hidden="true"></div>
+
+<main>
+<!-- ============================================================
+     1. THE HERO. The lockup, the line, the film.
+     ============================================================ -->
+<section id="hero">
+  <div class="wrap-w">
+    <div class="hero-head">
+      <div>
+        <p class="eyebrow">London<span class="dot">&middot;</span>A private screening</p>
+        <h1 class="lockup"><svg class="chev" id="herochev" viewBox="0 0 19.792 20.93" aria-hidden="true"><use href="#g-chev"/></svg><span>Wealth 360</span></h1>
+      </div>
+      <p class="hero-line">Every client, given time.<br /><span class="dim">Every request, already prepared.</span></p>
+    </div>
+
+    <div id="film">
+      <div class="player" id="player">
+        <!-- the living plate: the clean aerial, looping, and no mark on it -->
+        <video class="plate" id="plate" src="assets/film/hero-plate.mp4"
+               poster="assets/film/hero-plate.jpg" width="1600" height="900"
+               muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
+               disablepictureinpicture disableremoteplayback></video>
+        <video id="film-video" playsinline preload="none" crossorigin="anonymous"
+               controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture disableremoteplayback></video>
+        <div class="pl-watch">
+          <button class="b" id="pl-play" type="button">
+            <svg viewBox="0 0 13 14" aria-hidden="true"><path d="M1 1.2 12 7 1 12.8Z" fill="currentColor"/></svg><span id="pl-play-l">Watch</span>
+          </button>
+        </div>
+        <span class="pl-load" id="pl-load"></span>
+        <div class="pl-bar">
+          <div class="pl-track" id="pl-track" role="slider" tabindex="0" aria-label="Seek"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0:00">
+            <span class="pl-buf" id="pl-buf"></span><span class="pl-prog" id="pl-prog"></span>
+          </div>
+          <div class="pl-row">
+            <button class="pl-b" id="pl-toggle" type="button" aria-label="Pause">
+              <svg class="std" viewBox="0 0 16 16" aria-hidden="true"><path class="fill" d="M4 2.6h3v10.8H4zM9 2.6h3v10.8H9z"/></svg>
+              <svg class="alt" viewBox="0 0 16 16" aria-hidden="true"><path class="fill" d="M3.6 2.4 13.4 8 3.6 13.6Z"/></svg>
+            </button>
+            <span class="pl-time" id="pl-time">0:00</span>
+            <span class="pl-spacer"></span>
+            <button class="pl-b" id="pl-mute" type="button" aria-label="Mute" aria-pressed="false">
+              <svg class="std" viewBox="0 0 16 16" aria-hidden="true"><path class="fill" d="M8.3 2.3 4.9 5.2H2.4v5.6h2.5l3.4 2.9Z"/><path d="M10.9 5.6a3.3 3.3 0 0 1 0 4.8M12.9 3.4a6.2 6.2 0 0 1 0 9.2"/></svg>
+              <svg class="alt" viewBox="0 0 16 16" aria-hidden="true"><path class="fill" d="M8.3 2.3 4.9 5.2H2.4v5.6h2.5l3.4 2.9Z"/><path d="M11 6.2 14.4 9.8M14.4 6.2 11 9.8"/></svg>
+            </button>
+            <button class="pl-b" id="pl-full" type="button" aria-label="Full screen">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 6V2.6H6M10 2.6h3.4V6M13.4 10v3.4H10M6 13.4H2.6V10"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. THE STORY
+     ============================================================ -->
+
+<!-- a ....................................................... -->
+<section class="chapter" id="ch-a">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>01</b><i>/</i>07</p><h2 class="head">A client writes in. Someone opens eleven tabs.</h2><p class="sub">One request, eleven systems, and a morning spent checking each one against the others.</p></div><div class="facts"><div class="fact rise"><span class="fl">Systems</span><span class="fv num">11</span><span class="fs">open for one request</span></div><div class="fact rise"><span class="fl">The request</span><span class="fv num">1</span><span class="fs">a client's email</span></div><div class="fact rise"><span class="fl">The screen</span><span class="fp">The Wealth 360 desk</span></div></div>
+    <div class="stage">
+      <div class="fit">
+        <!-- the window is decorative: the caption above carries the meaning, so
+             the chrome is hidden rather than read out as a list of vendors -->
+        <div class="bwin rise" id="bwin" data-rise aria-hidden="true">
+          <div class="bwin-top">
+            <span class="lights"><i></i><i></i><i></i></span>
+            <div class="tabstrip" id="tabstrip">
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.4"/><path d="M5.7 10.6V6.9c1.5-1.2 3.1-1.2 4.6 0v3.7"/></svg><span class="tt a">Documents</span><svg class="fav b" viewBox="0 0 19.792 20.93"><use href="#g-chev"/></svg><span class="tt b">Wealth 360 desk</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><path d="M4.5 11.6h6.7a2.2 2.2 0 0 0 .3-4.4 3.1 3.1 0 0 0-5.5-1.4 2.4 2.4 0 0 0-1.5 5.8Z"/></svg><span class="tt a">Salesforce</span></span>
+            <span class="btab"><svg class="fav a solid" viewBox="0 -0.32 24.3222 24.3222"><path d="M20.2685 16.2488L18.2416 18.2798L12.1611 12.1867L6.08054 18.2798L4.05369 16.2488L12.1611 8.12465L20.2685 16.2488Z"/><path d="M24.3222 12.1862L22.1761 14.3368L12.1611 4.30103L2.14607 14.3368L0 12.1862L12.1611 0L24.3222 12.1862Z"/><path d="M12.1831 16.495L15.7661 20.0854L12.1831 23.6758L8.60015 20.0854L12.1831 16.495Z"/></svg><span class="tt a">KYC portal</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><path d="M2.2 6.4 8 3.1l5.8 3.3"/><path d="M4.2 6.9v4.6M8 6.9v4.6M11.8 6.9v4.6"/><path d="M2.6 12.9h10.8"/></svg><span class="tt a">Sanctions search</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.4"/><circle cx="8" cy="8" r="2.3"/></svg><span class="tt a">Payee check</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><path d="M8 1.8v12.4M2.6 4.9l10.8 6.2M2.6 11.1l10.8-6.2"/></svg><span class="tt a">Address finder</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><rect x="1.9" y="3.6" width="12.2" height="8.8" rx="1.8"/><path d="m2.4 4.7 5.6 3.9 5.6-3.9"/></svg><span class="tt a">Outlook</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><path d="M4 13.4V2.6h4.6l2.6 2.6v3"/><path d="M8.4 2.6v2.9h2.8"/><circle cx="11.4" cy="11.2" r="1.7"/><path d="M6.6 11.2h3.1"/></svg><span class="tt a">SharePoint</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><circle cx="6.3" cy="5.6" r="2.3"/><path d="M2.4 13.2c0-2.2 1.7-3.7 3.9-3.7s3.9 1.5 3.9 3.7"/><circle cx="11.6" cy="6.6" r="1.6"/><path d="M11.2 9.7c1.5.1 2.5 1.4 2.5 3"/></svg><span class="tt a">Teams</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><rect x="2.1" y="2.6" width="11.8" height="10.8" rx="1.6"/><path d="M2.1 6.2h11.8M2.1 9.8h11.8M6.6 6.2v7.2"/></svg><span class="tt a">Cases.xlsx</span></span>
+            <span class="btab"><svg class="fav a" viewBox="0 0 16 16"><path d="M4 13.4V2.6h5l3 3v7.8Z"/><path d="M8.8 2.6v3.1h3.2"/><path d="M6.2 9h3.6M6.2 11.2h2.4"/></svg><span class="tt a">Core platform</span></span>
+            </div>
+          </div>
+          <div class="bwin-url">
+            <svg class="lock" viewBox="0 0 16 16"><rect x="3.4" y="7" width="9.2" height="6.6" rx="1.6"/><path d="M5.6 7V5.4a2.4 2.4 0 0 1 4.8 0V7"/></svg>
+            <div class="urlbox">
+              <span class="u1">wealth.lightning.force.com/lightning/r/Case/500Hn00002Fm8xQIAR/view?ws=%2Flightning%2Fr%2FAccount%2F001Hn00002Lm4Q2%2Fview</span>
+              <span class="u2">cowork</span>
+            </div>
+          </div>
+          <div class="bwin-page"><span class="sk"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+        </div>
+        <p class="notthis" id="notthis"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- b ....................................................... -->
+
+<section class="chapter" id="ch-b">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>02</b><i>/</i>07</p><h2 class="head">It knows what needs you, and what does not.</h2><p class="sub">The desk reads Salesforce before you arrive. What needs a person stands apart from what the agents are moving on their own.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">With you</span><span class="fv num">5</span><span class="fs">cases, each with its reason</span></div><div class="fact rise"><span class="fl">Agent time</span><span class="fv num">4 min</span><span class="fs">to gather and check a case</span></div><div class="fact rise"><span class="fl">The rest</span><span class="fp">Moving on its own, in plain view</span></div></div>
+    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; The desk</span></div><div class="dev-body"><p class="eyebrow">Tuesday, 3 November<span class="dot">&middot;</span>Your book</p><h3 class="head" style="margin-top:12px; font-size:clamp(24px,3vw,36px)">Five cases need you today.</h3><div class="card kpis num" id="kpiband" style="margin-top:24px"><div class="kpi"><div class="l">With you</div><div class="v warn" data-count="5" data-dec="0">0</div><div class="s">Authorise, decide, review</div></div><div class="kpi"><div class="l">Agents working</div><div class="v" data-count="4" data-dec="0">0</div><div class="s">Moving on their own</div></div><div class="kpi"><div class="l">Waiting on client</div><div class="v" data-count="3" data-dec="0">0</div><div class="s">Documents requested</div></div><div class="kpi"><div class="l">Completed</div><div class="v" data-count="6" data-dec="0">0</div><div class="s">2 by agents alone</div></div><div class="kpi"><div class="l">Agent time</div><div class="v" data-count="4" data-dec="0" data-post=" min">0</div><div class="s">A case, in our runs</div></div><div class="kpi"><div class="l">Decided today</div><div class="v" data-count="3" data-dec="0">0</div><div class="s">Each by name</div></div></div><div class="wl" id="worklist" style="margin-top:22px"><div class="wlrow rise" data-rise><span class="mono">JO</span><span class="who"><b>James Okafor</b><span>Money out &middot; general investment account</span></span><span class="sts"><span class="st acc">Authorise</span></span><span class="amt num"><b>£3,000</b><span>to his account</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">VB</span><span class="who"><b>Victor Bondarev</b><span>Money in &middot; possible sanctions match</span></span><span class="sts"><span class="st warn">Decide</span></span><span class="amt num"><b>£22,000</b><span>held in suspense</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">DE</span><span class="who"><b>David Ellison</b><span>Bereavement &middot; letter to the executor</span></span><span class="sts"><span class="st acc">Review</span></span><span class="amt num"><b>3</b><span>accounts on hold</span></span><span class="go" aria-hidden="true">&rarr;</span></div><div class="wlrow rise" data-rise><span class="mono">PR</span><span class="who"><b>Priya Raman</b><span>Change of address &middot; email and water bill</span></span><span class="sts"><span class="st good">Closed by agents</span></span><span class="amt num"><b>3 min</b><span>no person needed</span></span><span class="go" aria-hidden="true">&rarr;</span></div></div></div></div></div></div>
+  </div>
+</section>
+
+<section class="breath" id="breath-1">
+  <img src="assets/stills/breather-1.jpg" alt="" width="1760" height="990" loading="lazy" decoding="async" />
+  <h2 class="sr">Every request, already gathered.</h2>
+  <p class="breath-type" aria-hidden="true" data-seg='[{"t":"Every request, already "},{"t":"gathered","k":1},{"t":"."}]'><span class="t"></span><i class="caret"></i><span class="rest">Every request, already <span class="key">gathered</span>.</span></p>
+</section>
+
+<section class="chapter flip" id="ch-c">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>03</b><i>/</i>07</p><h2 class="head">Every check, already run.</h2><p class="sub">The client record, the sanctions list, the payee and the identity provider answer before the case reaches you.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Checks</span><span class="fv num">6</span><span class="fs">resolved before you open the case</span></div><div class="fact rise"><span class="fl">Resolved</span><span class="fp">Salesforce, UK Sanctions List, payee, identity, address, email</span></div><div class="fact rise"><span class="fl">Written back</span><span class="fp">Every result, on the case</span></div></div>
+    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; Case 00001380</span></div><div class="dev-body"><p style="font-size:14px;color:var(--muted);margin-bottom:16px">Worked the case, used 6 checks, cited every step</p><div class="runrows" id="railrows"><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-sf"/></svg></span><span class="lbl">Salesforce &middot; client, accounts, KYC</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-mail"/></svg></span><span class="lbl">Client email &middot; the request and its documents</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-shield"/></svg></span><span class="lbl">UK Sanctions List &middot; screened</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-payee"/></svg></span><span class="lbl">Payee check &middot; account confirmed</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-id"/></svg></span><span class="lbl">Identity &middot; verified on file</span></div><div class="runrow"><span class="thread"></span><span class="slot"><svg class="spin" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="7.4"/></svg><svg class="gl"><use href="#g-pin"/></svg></span><span class="lbl">Address &middot; postcode matched</span></div></div><p class="striplbl">Two agents, two connectors, one record</p></div></div></div></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch-d">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>04</b><i>/</i>07</p><h2 class="head">Every step, cited.</h2><p class="sub">The Case agent works the request one step at a time and quotes the source behind each one. A second agent checks it, blind to the first one&rsquo;s reasoning.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Steps</span><span class="fv num">11</span><span class="fs">each with its quote and source</span></div><div class="fact rise"><span class="fl">The check</span><span class="fp">A second agent, in a fresh context</span></div><div class="fact rise"><span class="fl">The fence</span><span class="fp">Enforced by Salesforce, in code</span></div></div>
+    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Ellison &middot; Bereavement &middot; Activity</span></div><div class="dev-body"><div class="ctl" id="graph"><div class="cstep"><span class="ct num">15:03</span><span class="cw">Case agent</span><span class="ch"><b>Read the notification</b><span class="cq">&ldquo;My mother, Margaret Ellison, died on 4 August.&rdquo;</span></span><span class="cs">Email from David Ellison</span></div><div class="cstep"><span class="ct num">15:04</span><span class="cw">Case agent</span><span class="ch"><b>Found three accounts</b><span class="cq">General investment account, ISA, cash</span></span><span class="cs">Salesforce</span></div><div class="cstep"><span class="ct num">15:05</span><span class="cw">Salesforce</span><span class="ch"><b>Recorded the death, held the accounts</b><span class="cq">Certificate on the case, family link on record</span></span><span class="cs">Fence passed</span></div><div class="cstep"><span class="ct num">15:06</span><span class="cw">Case agent</span><span class="ch"><b>Executor's identity on file</b><span class="cq">Passport, verified 3 June 2024</span></span><span class="cs">KYC profile</span></div><div class="cstep"><span class="ct num">15:07</span><span class="cw">Case agent</span><span class="ch"><b>Drafted the letter, proposed a meeting</b><span class="cq">Three times on Thursday</span></span><span class="cs">Draft, not sent</span></div><div class="cstep"><span class="ct num">15:08</span><span class="cw">Review agent</span><span class="ch"><b>Checked the case, passed</b><span class="cq">Six of six journey rules</span></span><span class="cs">Fresh context</span></div></div><p class="ctl-sum" id="nodechip">11 steps, every one cited, in four minutes.</p></div></div></div></div>
+  </div>
+</section>
+
+<section class="chapter flip" id="ch-e">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>05</b><i>/</i>07</p><h2 class="head">Say it in one sentence.</h2><p class="sub">A call, a note, a letter in the post. Log it in a sentence and the agents start on it at once.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">The request</span><span class="fv num">1</span><span class="fs">sentence, no form</span></div><div class="fact rise"><span class="fl">Picked up</span><span class="fp">Within seconds, by the Case agent</span></div><div class="fact rise"><span class="fl">The record</span><span class="fp">A standard case in Salesforce</span></div></div>
+    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Wealth 360 &middot; Log a request</span></div><div class="dev-body"><div class="composer" style="min-height:88px; padding-bottom:44px"><div class="typed"><span id="asktype"></span><i class="caret"></i></div><div class="cmp-bar"><svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg><div class="pillbed" aria-hidden="true"><div class="p">Chat</div><div class="p on">Cowork</div></div><div class="modelmeta" aria-hidden="true">Opus 5.5<em>Medium</em></div><span class="sendbtn" id="asksend" aria-hidden="true"><svg viewBox="0 0 19.792 20.93" aria-hidden="true"><use href="#g-chev"/></svg></span></div></div><div class="modcard" id="modcard"><div><div class="fac">Case 00001382 &middot; Money out</div><div class="facm">James Okafor &middot; general investment account &middot; logged by phone</div></div><div class="delta"><span class="to">£3,000</span></div></div><p class="checked" id="checked"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg><span>Client, account and payee found as you type. The Case agent picked it up within seconds.</span></p></div></div></div></div>
+  </div>
+</section>
+
+<section class="breath" id="breath-2">
+  <img src="assets/stills/breather-2.jpg" alt="" width="1760" height="990" loading="lazy" decoding="async" />
+  <h2 class="sr">Every family, given time.</h2>
+  <p class="breath-type" aria-hidden="true" data-seg='[{"t":"Every family, given "},{"t":"time","k":1},{"t":"."}]'><span class="t"></span><i class="caret"></i><span class="rest">Every family, given <span class="key">time</span>.</span></p>
+</section>
+
+<section class="chapter" id="ch-f">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>06</b><i>/</i>07</p><h2 class="head">The letter writes itself, and waits for you.</h2><p class="sub">Drafted in the firm&rsquo;s voice, with the facts from the record. Nothing reaches a client until a person approves it.</p></div>
+    <div class="facts"><div class="fact rise"><span class="fl">Prepared</span><span class="fv num">8 of 9</span><span class="fs">steps, before it reaches you</span></div><div class="fact rise"><span class="fl">The tone</span><span class="fp">Written for a family, not a file</span></div><div class="fact rise"><span class="fl">Sent</span><span class="fp">Only when you approve it</span></div></div>
+    <div class="stage"><div class="fit"><div class="device rise" data-rise><div class="dev-top"><svg class="ic" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><rect x="3.2" y="3.4" width="10.6" height="7.6" rx="1.4"/><path d="M1.6 14.2h13.8"/></svg><span class="dev-title">Ellison &middot; Letter to the executor</span></div><div class="dev-body"><div class="memohead"><span class="mk">Bereavement <span class="re">Letter</span></span></div><p class="draftline">Preparing the case for you: <b id="secn">0 of 9</b> steps</p><div class="seclist" id="seclist"><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Read the notification</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Identify the client and accounts</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Record the death</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Hold the accounts</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Check the documents</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Confirm the executor's identity</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Draft the condolence letter</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Independent review</div><div class="secrow" data-sec><span class="sst"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-tick"/></svg></span>Your approval</div></div><div class="letter"><p class="lt-to">Dear Mr Ellison,</p><p>I was very sorry to hear of your mother&rsquo;s death. Her three accounts are now on hold, so nothing will leave them while you act for her estate&hellip;</p></div><div class="attest"><span class="att-dot"></span><span><b>Agent-drafted</b> &middot; Waiting for your approval</span></div><div class="memoctrl"><span class="btn primary">Approve as drafted</span><span class="btn">Edit letter</span></div></div></div></div></div>
+  </div>
+</section>
+
+<section class="breath" id="breath-3">
+  <img src="assets/stills/breather-3.jpg" alt="" width="1760" height="990" loading="lazy" decoding="async" />
+  <h2 class="sr">Agents prepare. People decide.</h2>
+  <p class="breath-type" aria-hidden="true" data-seg='[{"t":"Agents prepare. People "},{"t":"decide","k":1},{"t":"."}]'><span class="t"></span><i class="caret"></i><span class="rest">Agents prepare. People <span class="key">decide</span>.</span></p>
+</section>
+
+<section class="chapter" id="ch-g">
+  <div class="wrap">
+    <div class="cap"><p class="eyebrow chno"><b>07</b><i>/</i>07</p><h2 class="head">You decide. Salesforce does the rest.</h2><p class="sub">The plan is read back before anything moves. One confirmation, recorded against your name, and the record closes behind it.</p></div><div class="facts"><div class="fact rise"><span class="fl">On the record</span><span class="fv num">5</span><span class="fs">writes, from one confirmation</span></div><div class="fact rise"><span class="fl">Confirmed by</span><span class="fp">A named person, never an agent</span></div><div class="fact rise"><span class="fl">The control</span><span class="fp">Staged, read back, then confirmed</span></div></div>
+    <div class="stage">
+      <div class="fit">
+        <div class="plan rise" data-rise id="planbox" style="max-width:720px;margin:0 auto">
+          <p class="ph">Review and confirm</p><div class="planrow"><span class="n">1</span><span>Keep Margaret Ellison&rsquo;s three accounts on hold, with her death recorded</span></div><div class="planrow"><span class="n">2</span><span>Send the condolence letter to David Ellison on the firm&rsquo;s letterhead</span></div><div class="planrow"><span class="n">3</span><span>Book the one-to-one on Thursday at 10:00, with David as the contact</span></div><div class="planrow"><span class="n">4</span><span>Record the decision on the case against Emma Collins</span></div>
+          <div class="approvebar">
+            <button class="btn primary" id="approve" type="button">Confirm</button>
+            <span class="note" id="approvenote">Nothing has moved yet.</span>
+          </div>
+        </div>
+
+        <div class="halostage" id="halostage" style="margin-top:clamp(88px,15vh,180px)">
+          <canvas id="halo" width="2" height="2" aria-hidden="true"></canvas>
+          <div class="dossier" id="dossier">
+            <div class="dh">
+              <span class="dt">Ellison &middot; Bereavement</span>
+              <span class="dv">Confirmed by Emma Collins &middot; 15:12</span>
+            </div>
+            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Decision recorded on the case<span class="w">Salesforce</span></div>
+            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Three accounts held, death recorded<span class="w">Financial Services Cloud</span></div>
+            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Letter sent to David Ellison<span class="w">Email</span></div>
+            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>One-to-one booked for Thursday<span class="w">Calendar</span></div>
+            <div class="execrow" data-exec><svg class="tick" aria-hidden="true"><use href="#g-tick"/></svg>Every step written to the audit trail<span class="w">Audit trail</span></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="walk" id="walk">
+  <div class="wrap">
+    <p class="eyebrow chno">The walkthrough<span class="dot">&middot;</span>7 minutes</p>
+    <h2 class="head">One case, end to end.</h2>
+    <p class="sub">What it is, what it is worth, how it is built, and a bereavement and a complaint worked live in the sandbox.</p>
+    <button class="wt rise" data-rise type="button" id="wtOpen" aria-label="Play the seven minute walkthrough">
+      <img src="assets/film/walk-poster.jpg" alt="" loading="lazy" decoding="async" />
+      <span class="wt-play" aria-hidden="true"><svg viewBox="0 0 13 14"><path d="M1 1.2 12 7 1 12.8Z" fill="currentColor"/></svg><span>Watch the walkthrough</span></span>
+    </button>
+  </div>
+  <div class="wm" id="wm" role="dialog" aria-modal="true" aria-label="Wealth 360 walkthrough" hidden>
+    <div class="wm-bar"><span>Wealth 360 &middot; The walkthrough</span><button type="button" class="wm-x" id="wmClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <video id="wmv" controls playsinline preload="none" poster="assets/film/walk-poster.jpg"></video>
+  </div>
+</section>
+</main>
+
+<!-- ============================================================
+     3. THE END
+     ============================================================ -->
+<footer id="end">
+  <!-- London from altitude, the same lens and the same weather as the
+       reel's London aerials, generated for this page and drifting over ten
+       seconds. Nothing of it is fetched until the last chapter leaves. -->
+  <video class="endplate" id="endplate" src="assets/film/end-plate.mp4"
+         poster="assets/film/end-plate.jpg" width="1600" height="890"
+         muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
+         disablepictureinpicture disableremoteplayback></video>
+  <span class="endscrim" aria-hidden="true"></span>
+  <div class="wrap-w">
+    <div class="endgrid">
+      <div class="endcentre">
+        <p class="eyebrow endbrow">A private screening</p>
+        <p class="endlock"><svg class="chev" viewBox="0 0 19.792 20.93" aria-hidden="true"><use href="#g-chev"/></svg><span>Wealth 360</span></p>
+        <p class="endhead">Care, with time to give it.</p>
+      </div>
+    </div>
+    <div class="endrow">
+      <img class="lg" src="assets/logos/accenture-logo-white.svg" alt="Accenture" width="124" height="17" loading="lazy" />
+      <button class="again" id="again" type="button">Watch again</button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/vendor/gsap-3.12.5.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger-3.12.5.min.js" defer></script>
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  root.classList.add('js');
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  window.__w360 = { ttff: null, filmMode: null };
+
+  /* THE GATE'S PLATE. It ships preload="none" so the poster is what paints and
+     nothing is fetched by default; the loop is asked for here, and only when
+     the visitor has not asked for less motion. Under reduce, the poster is the
+     whole plate and the mp4 never leaves the server. */
+  (function () {
+    var gp = $('.gplate');
+    if (!gp || RM) return;
+    gp.preload = 'auto';
+    gp.addEventListener('loadeddata', function () {
+      var r = gp.play(); if (r && r.catch) r.catch(function () {});
+    }, { once: true });
+    gp.load();
+  }());
+
+  /* ==========================================================
+     THE FILM
+     The reel is streamed in after unlock and attached as a blob or
+     through MediaSource, so no plain file URL sits in the markup
+     before the visitor is in. Warmed on unlock, so the press is
+     instant. Carried over from the first build unchanged; it was
+     the only part of that page worth keeping.
+     ========================================================== */
+  var player = $('#player'), v = $('#film-video'), loadLbl = $('#pl-load');
+  var track = $('#pl-track'), prog = $('#pl-prog'), buf = $('#pl-buf'), tTime = $('#pl-time');
+  var plate = $('#plate'), btnPlay = $('#pl-play'), playLbl = $('#pl-play-l');
+  var btnTog = $('#pl-toggle'), btnMute = $('#pl-mute'), btnFull = $('#pl-full');
+  player.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  var film = null, warmed = false, wantPlay = false, t0 = 0;
+
+  function fmt(s) {
+    if (!isFinite(s) || s < 0) { s = 0; }
+    var m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  function say(m) { loadLbl.textContent = m || ''; loadLbl.classList.toggle('on', !!m); }
+
+  function pickSources(m) {
+    var small = window.matchMedia('(max-width: 899px)').matches;
+    return {
+      frag: small ? (m.frag720 || m.frag) : (m.frag || m.frag720),
+      plain: small ? (m.src720 || m.src) : (m.src || m.src720),
+      mime: m.mime || 'video/mp4; codecs="avc1.640028,mp4a.40.2"'
+    };
+  }
+
+  function streamMSE(url, mime) {
+    return new Promise(function (res, rej) {
+      if (!window.MediaSource || !MediaSource.isTypeSupported(mime)) { return rej(new Error('mse-unsupported')); }
+      var ms = new MediaSource();
+      v.src = URL.createObjectURL(ms);
+      ms.addEventListener('sourceopen', function () {
+        var sb;
+        try { sb = ms.addSourceBuffer(mime); } catch (e) { return rej(e); }
+        fetch(url).then(function (r) {
+          if (!r.ok || !r.body) { throw new Error('http ' + r.status); }
+          var reader = r.body.getReader(), q = [], done = false, settled = false;
+          function pump() {
+            if (sb.updating) { return; }
+            if (q.length) { try { sb.appendBuffer(q.shift()); } catch (e) { rej(e); } return; }
+            if (done && ms.readyState === 'open') { try { ms.endOfStream(); } catch (e) {} }
+          }
+          sb.addEventListener('updateend', pump);
+          (function read() {
+            reader.read().then(function (c) {
+              if (c.done) { done = true; pump(); return; }
+              q.push(c.value); pump();
+              if (!settled) { settled = true; res('mse'); }
+              read();
+            }).catch(function (e) { if (!settled) { settled = true; rej(e); } });
+          })();
+        }).catch(rej);
+      }, { once: true });
+    });
+  }
+
+  function streamBlob(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) { throw new Error('http ' + r.status); }
+      var len = +(r.headers.get('content-length') || 0);
+      if (!r.body || !len) { return r.blob(); }
+      var reader = r.body.getReader(), chunks = [], got = 0;
+      return new Promise(function (res, rej) {
+        (function read() {
+          reader.read().then(function (c) {
+            if (c.done) { return res(new Blob(chunks, { type: 'video/mp4' })); }
+            chunks.push(c.value); got += c.value.length;
+            if (wantPlay && v.readyState < 3) { say('Loading ' + Math.round(got / len * 100) + '%'); }
+            read();
+          }).catch(rej);
+        })();
+      });
+    }).then(function (b) { v.src = URL.createObjectURL(b); return 'blob'; });
+  }
+
+  function warmFilm() {
+    if (warmed) { return; }
+    warmed = true;
+    fetch('assets/film/film.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) { throw new Error('no manifest'); } return r.json(); })
+      .then(function (m) {
+        film = pickSources(m);
+        if (m.duration) { tTime.textContent = '0:00 / ' + fmt(m.duration); }
+        var chain = film.frag ? streamMSE(film.frag, film.mime) : Promise.reject(new Error('no-frag'));
+        return chain.catch(function () { return streamBlob(film.plain); });
+      })
+      .then(function (mode) { window.__w360.filmMode = mode; say(''); })
+      .catch(function () {
+        window.__w360.filmMode = 'none';
+        $('#pl-play').disabled = true;
+        $('#pl-play').style.opacity = '.4';
+        say('Reel not attached');
+      });
+  }
+
+  function play() {
+    wantPlay = true;
+    if (!warmed) { warmFilm(); }
+    if (!t0) { t0 = performance.now(); }
+    if (v.readyState < 2) { say('Loading'); }
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () { say('Press play again'); }); }
+  }
+  function toggle() { if (v.paused) { play(); } else { wantPlay = false; v.pause(); } }
+
+  v.addEventListener('playing', function () {
+    if (t0 && window.__w360.ttff === null) { window.__w360.ttff = Math.round(performance.now() - t0); }
+    say(''); player.classList.add('started');
+  });
+  v.addEventListener('waiting', function () { if (wantPlay) { say('Loading'); } });
+  v.addEventListener('canplay', function () { say(''); });
+  v.addEventListener('timeupdate', function () {
+    var d = v.duration || 0, p = d ? v.currentTime / d : 0;
+    prog.style.width = (p * 100) + '%';
+    tTime.textContent = fmt(v.currentTime) + ' / ' + fmt(d);
+    track.setAttribute('aria-valuenow', Math.round(p * 100));
+    track.setAttribute('aria-valuetext', fmt(v.currentTime));
+  });
+  v.addEventListener('progress', function () {
+    if (v.buffered.length && v.duration) {
+      buf.style.width = (v.buffered.end(v.buffered.length - 1) / v.duration * 100) + '%';
+    }
+  });
+  /* the end of the reel returns the plate, and the one control becomes the
+     invitation to run it again from the top */
+  v.addEventListener('ended', function () {
+    player.classList.remove('started');
+    player.classList.add('ended');
+    playLbl.textContent = 'Watch again';
+    wantPlay = false;
+  });
+  v.addEventListener('play', function () { btnTog.classList.remove('on'); btnTog.setAttribute('aria-label', 'Pause'); });
+  v.addEventListener('pause', function () { btnTog.classList.add('on'); btnTog.setAttribute('aria-label', 'Play'); });
+  btnTog.classList.add('on');
+
+  function restart() {
+    player.classList.remove('ended');
+    playLbl.textContent = 'Watch';
+    try { v.currentTime = 0; } catch (e) {}
+  }
+  btnPlay.addEventListener('click', function () {
+    if (player.classList.contains('ended')) { restart(); }
+    play();
+  });
+  btnTog.addEventListener('click', function () {
+    if (player.classList.contains('ended')) { restart(); }
+    toggle();
+  });
+  v.addEventListener('click', toggle);
+
+  btnMute.addEventListener('click', function () {
+    v.muted = !v.muted;
+    btnMute.classList.toggle('on', v.muted);
+    btnMute.setAttribute('aria-pressed', String(v.muted));
+    btnMute.setAttribute('aria-label', v.muted ? 'Unmute' : 'Mute');
+  });
+  btnFull.addEventListener('click', function () {
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    var r = player.requestFullscreen || player.webkitRequestFullscreen;
+    if (r) { try { r.call(player); } catch (e) {} }
+  });
+
+  /* the scrub: by click and by drag, with the pointer captured so the drag
+     survives leaving the 2 px hairline */
+  function seekAt(clientX) {
+    var r = track.getBoundingClientRect();
+    if (v.duration && r.width) {
+      v.currentTime = Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * v.duration;
+    }
+  }
+  var scrubbing = false;
+  track.addEventListener('pointerdown', function (e) {
+    if (player.classList.contains('ended')) { restart(); }
+    scrubbing = true;
+    try { track.setPointerCapture(e.pointerId); } catch (err) {}
+    seekAt(e.clientX); e.preventDefault();
+  });
+  track.addEventListener('pointermove', function (e) { if (scrubbing) { seekAt(e.clientX); } });
+  function endScrub(e) {
+    if (!scrubbing) { return; }
+    scrubbing = false;
+    try { track.releasePointerCapture(e.pointerId); } catch (err) {}
+  }
+  track.addEventListener('pointerup', endScrub);
+  track.addEventListener('pointercancel', endScrub);
+  track.addEventListener('keydown', function (e) {
+    if (!v.duration) { return; }
+    if (e.key === 'ArrowRight') { v.currentTime = Math.min(v.duration, v.currentTime + 5); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { v.currentTime = Math.max(0, v.currentTime - 5); e.preventDefault(); }
+    if (e.key === 'Home') { v.currentTime = 0; e.preventDefault(); }
+    if (e.key === 'End') { v.currentTime = v.duration; e.preventDefault(); }
+    if (e.key === ' ' || e.key === 'Enter') { toggle(); e.preventDefault(); }
+  });
+
+  $('#again').addEventListener('click', function () {
+    document.getElementById('hero').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(function () { restart(); play(); }, RM ? 0 : 620);
+  });
+
+  /* the plate is asked for the moment the phrase is ACCEPTED rather than at
+     the end of the run. The opening puts it on the screen four and a half
+     seconds later and it has to be running when it gets there, not starting. */
+  function wakePlate() {
+    if (RM || !plate) { return; }
+    plate.preload = 'auto';
+    var pp = plate.play();
+    if (pp && pp.catch) { pp.catch(function () {}); }
+  }
+  window.addEventListener('gate:accepted', wakePlate, { once: true });
+
+  /* ==========================================================
+     THE OPENING
+
+     The door used to end by cutting itself away: the gate cross-faded out over
+     340 ms and the hero was simply there, finished, with its mark already
+     struck. The one thing the visitor had been looking at for five seconds,
+     the chevron standing on the pane, went out with the gate, and the lockup
+     then introduced a second copy of it.
+
+     It is ONE mark now, and it is carried. From the 500 ms hold after the last
+     connector tick:
+
+         0 ms  the composer and the six resolved rows settle out (240 ms) and
+               the pane veils to cream (400 ms), the mark coming up out of its
+               breath to full over the same 400
+       400     the pane is cream and the mark stands alone on it
+       440     a fixed clone takes the mark at its own rect and the gate is
+               removed in the same frame. The page under it is the same cream,
+               so nothing on the screen changes
+       480     THE FLIGHT: 700 ms from the pane's centre to the lockup's box,
+               position and scale, on Element.animate and its own clock
+      1180     the mark lands, the lockup's chevron takes over on that frame,
+               and Wealth 360 wipes in beside it (480 ms)
+      1380     the film plate arrives out of the endcard's focus pull (600 ms)
+      1660     the eyebrow fades up (200 ms)
+      1740     the line rises 8 px (240 ms)
+      2180     the Watch control fades in (200 ms)
+      2380     the closing beat: two frames of white and back on the mark
+
+     THE SWAPS ARE FRAMES, NOT TIMERS. The flight, the clone's last frame and
+     the lockup's first are three animations sharing one startTime on one
+     timeline, each stepping at its own end, so the mark is on the screen
+     exactly once in every frame of the sequence. Driven by setTimeout, either
+     swap would land a frame to one side of the landing and the mark would be
+     on the screen twice or not at all.
+
+     It runs from the door and only from the door. A reload with the unlock
+     already held never reaches gate:opening and the hero is at rest; under
+     reduced motion the gate does not offer it; and if the hero is not the
+     current viewport the offer is declined and the door cross-fades as before.
+     ========================================================== */
+  (function () {
+    var EASE = 'cubic-bezier(.2,.7,.2,1)';
+    /* --brand as a literal: a keyframe takes a computed value and var() does
+       not resolve inside Element.animate */
+    var BRAND = '#A100FF';
+
+    window.addEventListener('gate:opening', function (ev) {
+      if (RM) { return; }
+      var gate = ev.detail.gate, gmark = ev.detail.mark;
+      if (!gate || !gmark) { return; }
+      var chev = $('#herochev'), word = $('#hero .lockup span'),
+          brow = $('#hero .eyebrow'), line = $('#hero .hero-line'),
+          watch = $('#hero .pl-watch');
+
+      /* the mark can only be flown to a hero that is on the screen */
+      var hb = chev.getBoundingClientRect();
+      if (window.scrollY !== 0 || hb.width < 1 ||
+          hb.top < 0 || hb.bottom > window.innerHeight) { return; }
+
+      ev.preventDefault();
+      var t0 = performance.now(), log = window.__w360.opening = [];
+      var timers = [], anims = [], fly = null, gr = null, over = false;
+
+      function beat(n) { log.push([n, Math.round(performance.now() - t0)]); }
+      function at(ms, n, fn) { timers.push(setTimeout(function () { beat(n); fn(); }, ms)); }
+
+      /* wherever this stops it stops on the rest state: everything set, nothing
+         mid-transition, the page scrollable and the hero at the top. It is the
+         sequence's own last beat and it is the resize abort. */
+      function settle() {
+        if (over) { return; }
+        over = true;
+        timers.forEach(clearTimeout);
+        window.removeEventListener('resize', settle);
+        if (fly && fly.parentNode) { fly.parentNode.removeChild(fly); fly = null; }
+        if (gate.parentNode) { gate.parentNode.removeChild(gate); }
+        word.classList.add('op-in'); word.classList.add('op-done');
+        brow.classList.add('op-in'); line.classList.add('op-in');
+        player.classList.add('op-in'); watch.classList.add('op-in');
+        /* the class goes before the animations do: cancelling the lockup's
+           own opacity animation while .opening still holds the chevron at
+           zero would put it back to nothing for the rest of the page */
+        root.classList.remove('opening');
+        anims.forEach(function (a) { try { a.cancel(); } catch (e) {} });
+        window.scrollTo(0, 0);
+        beat('rest');
+      }
+      window.addEventListener('resize', settle);
+
+      /* 1. THE DOOR SETTLES OUT. The mark comes off its breath at whatever
+         opacity the cycle had reached and is brought up to full over the
+         veil's own 400 ms, so it is at its strongest for the flight and the
+         change is never seen as a step. */
+      root.classList.add('opening');
+      var held = getComputedStyle(gmark).opacity;
+      gmark.style.animation = 'none';
+      gmark.style.opacity = held;
+      gate.classList.add('handoff');
+      requestAnimationFrame(function () {
+        gmark.style.transition = 'opacity .4s ' + EASE;
+        gmark.style.opacity = '1';
+      });
+      beat('composer settles out, pane veils to cream');
+
+      /* 2. the clone takes the mark, and the gate leaves under it */
+      at(440, 'mark handed to the clone, gate removed', function () {
+        gr = gmark.getBoundingClientRect();
+        fly = gmark.cloneNode(true);
+        fly.removeAttribute('class');
+        fly.removeAttribute('style');
+        fly.id = 'flymark';
+        fly.setAttribute('aria-hidden', 'true');
+        fly.style.width = gr.width + 'px';
+        fly.style.height = gr.height + 'px';
+        fly.style.color = BRAND;
+        fly.style.transform = 'translate(' + gr.left + 'px,' + gr.top + 'px)';
+        document.body.appendChild(fly);
+        gate.parentNode.removeChild(gate);
+      });
+
+      /* 3. THE FLIGHT. A FLIP from the pane's centre onto the lockup's box:
+         both scales are carried, because the two boxes are not quite the same
+         shape and it is the BOX the mark has to land on.
+
+         IT IS LAUNCHED ON A FRAME, not out of a timer. The four animations are
+         anchored to document.timeline.currentTime, which is the time of the
+         frame in progress: launched from a timer, they would be backdated by
+         however much of that frame had already run, and the mark's first
+         painted position would be a frame's worth of travel away from where it
+         had been standing. On this ease that is 12 px, which is a jump. The
+         wait is a frame loop rather than a timer and then a frame, because a
+         page with nothing animating on it does not produce frames to be waited
+         on: the loop is what asks for them. */
+      (function wait() {
+        if (over) { return; }
+        if (performance.now() - t0 >= 480) { launch(); return; }
+        requestAnimationFrame(wait);
+      })();
+      function launch() {
+        beat('flight starts');
+        var h = chev.getBoundingClientRect();
+        var f = fly.animate([
+          { transform: 'translate(' + gr.left + 'px,' + gr.top + 'px) scale(1,1)' },
+          { transform: 'translate(' + h.left + 'px,' + h.top + 'px) scale(' +
+              (h.width / gr.width).toFixed(6) + ',' + (h.height / gr.height).toFixed(6) + ')' }
+        ], { duration: 700, easing: EASE, fill: 'both' });
+        /* THE FLIGHT CARRIES NO COLOUR. It used to cross brand to ink over the
+           last third so the lockup could strike ink to purple at the landing,
+           which is a purple mark going black and then purple again in front of
+           the visitor. Brand at the pane, brand in the air, brand on the box. */
+        var out = fly.animate([{ opacity: 1 }, { opacity: 0 }],
+          { duration: 700, easing: 'steps(1,end)', fill: 'forwards' });
+        var into = chev.animate([{ opacity: 0 }, { opacity: 1 }],
+          { duration: 700, easing: 'steps(1,end)', fill: 'forwards' });
+        var st = document.timeline.currentTime;
+        [f, out, into].forEach(function (a) { a.startTime = st; anims.push(a); });
+        /* the rejection arm is the abort: settle() cancels these, and a
+           cancelled animation rejects its finished promise */
+        f.finished.then(land, function () {});
+      }
+
+      /* 4. everything after the landing hangs off the flight's own clock */
+      function land() {
+        if (over) { return; }
+        beat('mark lands, the lockup takes over');
+        var fr = fly.getBoundingClientRect(), cr = chev.getBoundingClientRect();
+        window.__w360.flip = {
+          dx: +(fr.left - cr.left).toFixed(3), dy: +(fr.top - cr.top).toFixed(3),
+          dw: +(fr.width - cr.width).toFixed(3), dh: +(fr.height - cr.height).toFixed(3)
+        };
+        fly.parentNode.removeChild(fly); fly = null;
+        word.classList.add('op-in');
+
+        at(200, 'plate arrives', function () {
+          if (plate && plate.paused) { wakePlate(); }
+          player.classList.add('op-in');
+        });
+        at(480, 'name is in, eyebrow fades up', function () {
+          word.classList.add('op-done');
+          brow.classList.add('op-in');
+        });
+        at(560, 'line rises', function () { line.classList.add('op-in'); });
+        at(1000, 'Watch fades in', function () { watch.classList.add('op-in'); });
+        at(1200, 'Watch visible, the mark flashes white and back', function () { chev.classList.add('struck'); });
+        timers.push(setTimeout(settle, 1283));
+      }
+    });
+  })();
+
+  /* the reel warms as soon as the visitor is through the door. Neither it nor
+     the plate is fetched while the gate is up. */
+  function afterGate() {
+    setTimeout(warmFilm, RM ? 0 : 500);
+    wakePlate();
+    var b1 = $('#breath-1 img');
+    if (b1) { b1.loading = 'eager'; b1.fetchPriority = 'high'; }
+  }
+  if (window.c360Gate) { window.c360Gate.whenOpen(afterGate); } else { afterGate(); }
+
+  /* ==========================================================
+     THE SCROLL. The browser's own, and ScrollTrigger for the cues.
+
+     This page used to run Lenis over the top of it. On a trackpad that is a
+     lerp fighting the pointer's own inertia: the page keeps moving after the
+     fingers stop, every cue lands a frame or two behind the scroll it belongs
+     to, and the whole thing reads as lag. Native scrolling is on the
+     compositor and is what the founder's hand already expects.
+
+     Every cue fires ONCE, at the same place: when the element is 20% into the
+     viewport. Nothing is scrubbed but the breathers' Ken Burns.
+     ========================================================== */
+  var ENTER = 'top 80%';
+  function once(el, fn, start) {
+    if (!el) { return; }
+    if (!window.ScrollTrigger) { fn(); return; }
+    ScrollTrigger.create({ trigger: el, start: start || ENTER, once: true, onEnter: fn });
+  }
+
+  function boot() {
+    if (window.gsap && window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); }
+
+    /* the generic lift: 8 px, 420 ms, the product's own arrive */
+    $$('[data-rise]').forEach(function (el) {
+      once(el, function () { el.classList.add('in'); });
+    });
+
+    /* the facts arrive in the page's one language and in their own order:
+       the caption is already set when the column enters, so they follow it by
+       80 ms and each other by 40, the same stagger the cockpit's metric strip
+       and the chip strip use. Reduced motion resolves them instantly. */
+    $$('.facts').forEach(function (g) {
+      var kids = $$('.fact', g);
+      once(g.closest('.chapter') || g, function () {
+        kids.forEach(function (k, i) {
+          k.style.transitionDelay = (80 + i * 40) + 'ms';
+          k.classList.add('in');
+        });
+      });
+    });
+
+    /* a. THE ELEVEN TABS close from the right, 90 ms apart, and the one that
+       is left widens into the Cowork tab. Each closing tab animates its OWN
+       max-width to zero; flex re-solves while that width is changing, so the
+       siblings re-flow continuously the way a real browser's do. The window's
+       height never moves. */
+    var strip = $('#tabstrip'), bwin = $('#bwin'), NOT = 'One desk.';
+    once(strip, function () {
+      var tabs = $$('.btab', strip), first = tabs[0], rest = tabs.slice(1);
+      function land() { first.classList.add('only'); bwin.classList.add('landed'); }
+      if (RM) {
+        rest.forEach(function (t) { t.classList.add('gone'); });
+        land(); $('#notthis').textContent = NOT; return;
+      }
+      /* Where the strip is scrolled (a phone), the tabs that close first are
+         off the right edge and the first second of the sequence is invisible.
+         So the strip travels the row once, and the closes then sweep it back:
+         scrollLeft is clamped by the shrinking content, for free, with nothing
+         driving it. Where the eleven already fit, none of this runs. */
+      var scrolls = strip.scrollWidth > strip.clientWidth + 4;
+      if (scrolls) {
+        setTimeout(function () {
+          strip.scrollTo({ left: strip.scrollWidth, behavior: 'smooth' });
+        }, 160);
+      }
+      var T0 = scrolls ? 900 : 380, GAP = 90, CLOSE = 260, N = rest.length;
+      rest.reverse().forEach(function (t, k) {
+        setTimeout(function () { t.classList.add('gone'); }, T0 + k * GAP);
+      });
+      /* the moment the last of the ten has finished closing */
+      var END = T0 + (N - 1) * GAP + CLOSE;
+      setTimeout(land, END);
+      /* the payoff types at the film's own 24 characters a second */
+      setTimeout(function () {
+        var el = $('#notthis'), n = 0;
+        var tick = setInterval(function () {
+          el.textContent = NOT.slice(0, ++n);
+          if (n >= NOT.length) { clearInterval(tick); }
+        }, 42);
+      }, END + 110);
+    });
+
+    /* b. the figures count up. The app rolls its numbers; this is that roll. */
+    once($('#kpiband'), function () {
+      $$('#kpiband .v').forEach(function (el, i) {
+        var to = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0;
+        var pre = el.dataset.pre || '', post = el.dataset.post || '';
+        if (RM || !to) { el.textContent = pre + to.toFixed(dec) + post; return; }
+        var t0 = 0, dur = 600, delay = i * 40;
+        setTimeout(function () {
+          requestAnimationFrame(function step(ts) {
+            if (!t0) { t0 = ts; }
+            var p = Math.min(1, (ts - t0) / dur);
+            var e = 1 - Math.pow(1 - p, 3);
+            el.textContent = pre + (to * e).toFixed(dec) + post;
+            if (p < 1) { requestAnimationFrame(step); }
+          });
+        }, delay);
+      });
+    });
+
+    /* c. the integrations resolve, then the plugin chips arrive */
+    once($('#railrows'), function () {
+      var rows = $$('#railrows .runrow');
+      rows.forEach(function (r, i) { setTimeout(function () { r.classList.add('done'); }, RM ? 0 : 120 + i * 100); });
+      setTimeout(function () { $('#chipstrip').classList.add('in'); }, RM ? 0 : 120 + rows.length * 100 + 140);
+    });
+
+    /* d. the edges draw from the owners down into the borrower */
+    once($('#graph'), function () {
+      $('#graph').classList.add('in');
+      var fg = $('#ring .fg');
+      /* grade 4 of 8: half the ring, drawn from 12 o'clock */
+      if (fg) { setTimeout(function () { fg.style.strokeDashoffset = (119.4 * (1 - 4 / 8)).toFixed(1); }, 80); }
+      setTimeout(function () { $('#nodechip').classList.add('in'); }, RM ? 0 : 760);
+    });
+
+    /* e. the sentence types, the card lands, the check follows */
+    var ASK = 'James Okafor called. £3,000 out of his GIA for a new boiler.';
+    once($('#asktype'), function () {
+      var el = $('#asktype');
+      function land() {
+        $('#asksend').classList.add('fire');
+        setTimeout(function () { $('#modcard').classList.add('in'); }, RM ? 0 : 120);
+        setTimeout(function () { $('#checked').classList.add('in'); }, RM ? 0 : 320);
+      }
+      if (RM) { el.textContent = ASK; land(); return; }
+      /* 24 characters a second, the film's own rate and the page's only one */
+      var i = 0, tick = setInterval(function () {
+        el.textContent = ASK.slice(0, ++i);
+        if (i >= ASK.length) { clearInterval(tick); setTimeout(land, 200); }
+      }, 42);
+    });
+
+    /* f. the memo ticks its way to 7 of 9 and holds on the eighth */
+    once($('#seclist'), function () {
+      var rows = $$('#seclist .secrow'), n = $('#secn'), done = 0;
+      rows.forEach(function (r, i) {
+        if (i > 7) { if (i === 8) { setTimeout(function () { r.classList.add('writing'); }, RM ? 0 : 120 + 8 * 90); } return; }
+        setTimeout(function () {
+          r.classList.add('done');
+          n.textContent = (++done) + ' of 9';
+        }, RM ? 0 : 120 + i * 90);
+      });
+    });
+
+    /* g. approve: the dim, the halo, the executed lines */
+    var approve = $('#approve'), stage = $('#halostage'), dim = $('#dim'), fired = false;
+    function execute() {
+      if (fired) { return; }
+      fired = true;
+      approve.disabled = true;
+      approve.classList.remove('armed');
+      approve.textContent = 'Approved';
+      $('#approvenote').textContent = 'Executed at 09:14. Five writes on the record.';
+      if (!RM) { dim.classList.add('on'); $('#planbox').classList.add('under'); }
+      /* the surface goes down one stop first, then the halo blooms behind the card */
+      setTimeout(function () {
+        stage.classList.add('lit');
+        if (window.__halo) { window.__halo.bloom(); }
+        $$('.execrow').forEach(function (r, i) {
+          setTimeout(function () { r.classList.add('in'); }, RM ? 0 : i * 40);
+        });
+      }, RM ? 0 : 300);
+      /* the surface comes back up once the record has closed */
+      setTimeout(function () {
+        dim.classList.remove('on');
+        $('#planbox').classList.remove('under');
+      }, RM ? 0 : 3200);
+    }
+    approve.addEventListener('click', execute);
+    once($('#planbox'), function () { approve.classList.add('armed'); });
+    /* the plan is read back, then the control commits it. Pressing it early runs it early. */
+    once(stage, execute);
+
+    /* the breathers: the still holds a slow 1.04x as it passes, and the film's
+       own headline types over the person at 24 characters a second */
+    $$('.breath').forEach(function (sec) {
+      var img = $('img', sec);
+      if (img && window.gsap && window.ScrollTrigger && !RM) {
+        gsap.fromTo(img, { scale: 1 }, { scale: 1.04, ease: 'none', force3D: true,
+          scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+      }
+      once(sec, function () { speak(sec); }, 'top 34%');
+    });
+
+    /* the next breather's plate is decoded before it is scrolled to, so the
+       full-bleed frame is never the thing the scroll is waiting on */
+    var plates = $$('.breath > img');
+    plates.forEach(function (img, i) {
+      var next = plates[i + 1];
+      if (!next) { return; }
+      once(img.parentNode, function () {
+        next.loading = 'eager';
+        next.fetchPriority = 'high';
+        if (next.decode) { next.decode().catch(function () {}); }
+      }, 'top bottom');
+    });
+
+    /* the close: the city starts drifting as the last chapter leaves, so the
+       picture is already alive when the type lands on it. Nothing about it is
+       fetched before then. */
+    var endp = $('#endplate'), endsec = $('#end');
+    if (endp && !RM) {
+      once(endsec, function () {
+        endp.preload = 'auto';
+        var p = endp.play();
+        if (p && p.catch) { p.catch(function () {}); }
+      }, 'top bottom');
+    }
+    /* and the pin opens once, when the close is actually on the screen rather
+       than when it starts arriving */
+    once(endsec, function () {
+      endsec.classList.add('lit');
+      /* the close lands on the same strike the hero opened on: the lockup's
+         chevron is the one moment, and it is the last thing that moves. */
+      var ec = $('#end .endlock .chev');
+      if (ec) { setTimeout(function () { ec.classList.add('struck'); }, RM ? 0 : 240); }
+    }, 'top 55%');
+
+    if (window.__fit) { window.__fit.run(); }
+    if (window.__halo) { window.__halo.place(); }
+    if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
+  }
+
+  /* the typed line. Segments carry the purple key word and, on the payoff,
+     the film's three beats: each word lands, then the line waits. */
+  function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function speak(sec) {
+    if (sec.dataset.said) { return; }
+    sec.dataset.said = '1';
+    var box = $('.breath-type', sec), out = box && $('.t', box);
+    var rest = box && $('.rest', box), caret = box && $('.caret', box), segs;
+    if (!out || !rest || !caret) { return; }
+    sec.classList.add('typing');
+    try { segs = JSON.parse(box.getAttribute('data-seg')); } catch (e) { return; }
+    var total = 0, ends = [];
+    segs.forEach(function (g) { total += g.t.length; ends.push(total); });
+
+    function render(upto) {
+      var said = '', left = '', n = 0;
+      for (var i = 0; i < segs.length; i++) {
+        var t = segs[i].t, take = Math.max(0, Math.min(t.length, upto - n));
+        var a = esc(t.slice(0, take)), b = esc(t.slice(take));
+        if (a) { said += segs[i].k ? '<span class="key">' + a + '</span>' : a; }
+        if (b) { left += segs[i].k ? '<span class="key">' + b + '</span>' : b; }
+        n += t.length;
+      }
+      out.innerHTML = said + '<i class="mk"></i>';
+      rest.innerHTML = left;
+      /* the marker sits on the baseline and has no size, so following it costs
+         nothing; the caret hangs off it the way the film's does */
+      var mk = out.lastChild;
+      caret.style.transform = 'translate3d(' + mk.offsetLeft + 'px,' +
+        (mk.offsetTop - caret.offsetHeight * 0.93) + 'px,0)';
+    }
+    if (RM) { render(total); sec.classList.add('said'); return; }
+
+    var i = 0;
+    (function step() {
+      render(++i);
+      if (i >= total) { sec.classList.add('said'); return; }
+      var wait = 42;
+      for (var k = 0; k < segs.length; k++) {
+        if (i === ends[k] && segs[k].hold) { wait += segs[k].hold; }
+      }
+      setTimeout(step, wait);
+    })();
+  }
+
+  /* ==========================================================
+     THE HALO. The film's own bloom, lifted: one conic sweep through
+     the product's spectrum, blurred into a ring, drawn on a small
+     backing store. It is lit once, behind the dossier, and nowhere
+     else on the page.
+     ========================================================== */
+  (function halo() {
+    var cv = $('#halo'); if (!cv) { return; }
+    var stage = $('#halostage'), card = $('#dossier');
+    var ctx = cv.getContext('2d');
+    /* the film's spectrum, taken one step off full saturation: the sweep is the
+       same, the light is a bloom on paper rather than a neon */
+    var stops = [
+      [0.00, '#B638FF'], [0.17, '#D39AFF'], [0.34, '#FF77B5'],
+      [0.52, '#9338CE'], [0.70, '#5373FF'], [0.86, '#3CF5E3'], [1.00, '#B638FF']
+    ];
+    /* the cap is what keeps the dossier's own type fully legible under the bloom */
+    /* CAP is the peak the bloom is allowed to reach over the paper. MARGIN is
+       the dead band at the canvas's edge that the light never enters: the
+       falloff is arithmetically zero MARGIN pixels before the canvas ends, so
+       there is no edge for it to cut on. On a phone the pad itself is small,
+       so the band scales with it rather than eating the whole bloom. */
+    var CAP = 0.42, RISE = 900, DPR = 0.34, MARGIN = 44;
+    var W = 0, H = 0, PAD = 0, SUP = 0, RAD = 6;
+    var have = 0, t0 = 0, lit = false, raf = 0;
+    var plan = $('#planbox'), endc = $('#end .endcentre');
+
+    /* The halo hugs the CARD, measured, at every viewport: the canvas is the
+       dossier's own box inflated by one pad on every side, so its centre IS the
+       card's centre by construction, and the ring it strokes is the card's own
+       rounded edge. That is the film's climax, where the bloom carries the
+       card's shape and not a circle behind it.
+
+       THE PAD IS THE WHOLE FIX. The bloom wants a canvas 2.4x the card wide and
+       3x it tall, and it takes that much wherever the paper allows. It never
+       takes more than the paper allows: the pad is capped by the viewport on
+       the sides and by the plan card above and the endcard below, so the light
+       is always at true zero before it reaches anything that could cut it. The
+       light reaches 0.63 of the pad; the outer 0.37 of the pad is dead canvas,
+       which is the margin the falloff needs to land on zero rather than on an
+       edge. */
+    function place() {
+      if (!stage || !card) { return; }
+      var s = stage.getBoundingClientRect(), d = card.getBoundingClientRect();
+      if (!d.width) { return; }
+      /* the chapter's fit may be drawing this card at less than full size.
+         Everything measured off the screen is divided back out by that scale,
+         so the canvas is written in the card's OWN units and comes out of the
+         transform at exactly the size the light was designed for. */
+      var fitEl = card.closest ? card.closest('.fit') : null;
+      var k = (fitEl && fitEl.__s) || 1;
+      var vw = document.documentElement.clientWidth;
+      var dw = d.width / k, dh = d.height / k;
+      var above = (plan ? d.top - plan.getBoundingClientRect().bottom : 260) / k;
+      var below = (endc ? endc.getBoundingClientRect().top - d.bottom : 260) / k;
+      /* the bloom wants a canvas 2.4x the card wide and 3x it tall, and takes
+         as much of that as the paper allows: never past the viewport on the
+         sides, never as far as the plan card above or the endcard below. */
+      var want = Math.max(dh, dw * 0.7);
+      var pad = Math.min(want, (d.left - 2) / k, (vw - d.right - 2) / k,
+        above + MARGIN, below + MARGIN);
+      pad = Math.max(24, Math.round(pad));
+      cv.style.width = (dw + pad * 2) + 'px';
+      cv.style.height = (dh + pad * 2) + 'px';
+      cv.style.left = ((d.left - s.left) / k - pad).toFixed(2) + 'px';
+      cv.style.top = ((d.top - s.top) / k - pad).toFixed(2) + 'px';
+      W = Math.max(2, Math.round((dw + pad * 2) * DPR));
+      H = Math.max(2, Math.round((dh + pad * 2) * DPR));
+      if (cv.width !== W) { cv.width = W; }
+      if (cv.height !== H) { cv.height = H; }
+      PAD = pad * DPR;
+      SUP = (pad - Math.min(MARGIN, pad * 0.28)) * DPR;
+      RAD = 12 * DPR;
+    }
+
+    function ring(x, y, w, h, r) {
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); return; }
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
+    }
+
+    /* The bloom is nothing but a wide blur, so it is drawn on a third-scale
+       backing store and, once it has risen, redrawn at 30 rather than 60: a
+       4 s breath does not move far enough in 16 ms to be worth a full canvas
+       blur while the page is also scrolling. */
+    var lastDraw = 0;
+    function frame(t) {
+      if (!W || !H) { return; }
+      var risen = lit && (t - t0) >= RISE;
+      if (risen && t - lastDraw < 33) { raf = requestAnimationFrame(frame); return; }
+      lastDraw = t;
+      if (lit) { var e = Math.min(1, (t - t0) / RISE); have = CAP * (1 - Math.pow(1 - e, 3)); }
+      ctx.clearRect(0, 0, W, H);
+      if (have > 0.004) {
+        /* The ring's centreline sits just outside the card's own edge and the
+           blur carries it out from there. Support is E + line/2 + 3 sigma =
+           0.63 of the pad, so the light is arithmetically zero with 0.37 of the
+           pad still to go before the canvas ends. The breath is 4 s, the film's
+           own, and it moves the ring by 3.5% of the pad: inside the margin. */
+        var breathe = RM ? 0 : Math.sin(t / 636.62) * 0.04;
+        /* E + line/2 + 3 sigma == SUP exactly, which is the pad less its dead
+           band. Line over sigma is held at 2.4 so the bloom keeps a body to it
+           at any size instead of thinning out into a smear. */
+        var E = SUP * (0.06 + breathe);
+        var LW = SUP * 0.537;
+        /* the stroke's centreline is the card's own edge pushed out by E */
+        var ins = PAD - E;
+        var g;
+        if (ctx.createConicGradient) { g = ctx.createConicGradient(RM ? 0.6 : t / 11000, W / 2, H / 2); }
+        else { g = ctx.createLinearGradient(0, 0, W, H); }
+        for (var i = 0; i < stops.length; i++) { g.addColorStop(stops[i][0], stops[i][1]); }
+        ctx.save();
+        ctx.globalAlpha = have;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.filter = 'blur(' + (SUP * 0.224).toFixed(1) + 'px)';
+        ctx.strokeStyle = g;
+        ctx.lineWidth = LW;
+        ring(ins, ins, W - ins * 2, H - ins * 2, RAD + E);
+        ctx.stroke();
+        ctx.restore();
+      }
+      if (!RM && lit) { raf = requestAnimationFrame(frame); } else { raf = 0; }
+    }
+
+    window.__halo = {
+      place: place,
+      bloom: function () {
+        place();
+        lit = true; t0 = performance.now();
+        /* the card lifts 2 px as it lands; re-measure once it has settled */
+        setTimeout(place, 700);
+        if (RM) { have = CAP; frame(0); return; }
+        if (!raf) { raf = requestAnimationFrame(frame); }
+      }
+    };
+    if (window.ResizeObserver && card) { new ResizeObserver(place).observe(card); }
+    window.addEventListener('resize', place);
+    place();
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && raf) { cancelAnimationFrame(raf); raf = 0; }
+      else if (!document.hidden && !raf && lit) { raf = requestAnimationFrame(frame); }
+    });
+  })();
+
+  /* one measurement per width. A height-only resize is the browser's chrome
+     collapsing, and a full-bleed section must not move when that happens. */
+  (function vph() {
+    var w = 0;
+    function set() {
+      if (window.innerWidth === w) { return; }
+      w = window.innerWidth;
+      root.style.setProperty('--vph', window.innerHeight + 'px');
+      if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
+    }
+    set();
+    window.addEventListener('resize', set);
+    window.addEventListener('orientationchange', function () { setTimeout(function () { w = 0; set(); }, 260); });
+  })();
+
+  /* ==========================================================
+     THE FIT. Every section on this page is exactly one screen, and a
+     lifted component is whatever size the product makes it. Where the
+     component is taller than the band the chapter leaves under its
+     caption, it is SCALED to fit. It is never cropped and never given
+     a scrollbar of its own: the whole chapter is read where it stands.
+
+     The component is taken out of flow and centred in the band, so it
+     carries no layout height and scaling it can move nothing else on
+     the page. That is what keeps the fit off the layout-shift ledger.
+
+     The cap is the founder's: no card is drawn taller than 72% of the
+     viewport, whatever room the band has, so every chapter's card lands
+     at the same weight in the frame. It was 62% while the component ran
+     the full width of the page under its caption; in the spread it has
+     only 62% of the width, so it is allowed the taller band.
+     ========================================================== */
+  var fitLog = [];
+  (function fit() {
+    var items = $$('.stage > .fit');
+    function run() {
+      var vh = window.innerHeight;
+      var cap = 0.72 * vh;
+      /* under 900 the chapter is at least one screen rather than exactly one,
+         and the component stands at its own size: nothing to fit */
+      var flow = window.innerWidth < 900;
+      fitLog = [];
+      items.forEach(function (el) {
+        if (flow) {
+          el.style.transform = ''; el.__s = 1;
+          fitLog.push({ id: (el.closest('section') || {}).id, mode: 'flow' });
+          return;
+        }
+        var band = el.parentNode.clientHeight;
+        el.style.transform = 'translateY(-50%)';
+        var nat = el.offsetHeight, s = 1;
+        if (nat > 0) { s = Math.min(1, band / nat, cap / nat); }
+        el.__s = s;
+        el.style.transform = s < 0.999
+          ? 'translateY(-50%) scale(' + s.toFixed(4) + ')'
+          : 'translateY(-50%)';
+        fitLog.push({ id: (el.closest('section') || {}).id, band: band,
+          col: el.parentNode.clientWidth, natural: nat,
+          scale: +s.toFixed(3), drawn: Math.round(nat * s) });
+      });
+      if (window.__halo) { window.__halo.place(); }
+      if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
+    }
+    window.__fit = { run: run, log: function () { return fitLog; } };
+    run();
+    /* the measure is only true once the page's own faces are in */
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(run); }
+    var w = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (window.innerWidth === w) { return; }
+      w = window.innerWidth; run();
+    });
+  })();
+
+  if (document.readyState === 'complete') { boot(); }
+  else { window.addEventListener('load', boot); }
+})();
+</script>
+<div class="jrail" id="jrail" aria-hidden="true"><i data-for="ch-a"><span>The request</span></i><i data-for="ch-b"><span>The desk</span></i><i data-for="ch-c"><span>The checks</span></i><i data-for="ch-d"><span>The evidence</span></i><i data-for="ch-e"><span>One sentence</span></i><i data-for="ch-f"><span>The letter</span></i><i data-for="ch-g"><span>The decision</span></i></div>
+<script>
+/* the rail follows the chapter in the middle of the screen; it stands only between the hero and the walkthrough */
+(function () {
+  var rail = document.getElementById('jrail'); if (!rail) { return; }
+  var marks = [].slice.call(rail.querySelectorAll('i')), ids = marks.map(function (m) { return m.dataset.for; });
+  function tick() {
+    var mid = innerHeight / 2, cur = -1, inBand = false;
+    var a = document.getElementById('ch-a'), w = document.getElementById('walk');
+    if (a && w) { inBand = a.getBoundingClientRect().top < mid && w.getBoundingClientRect().top > mid; }
+    ids.forEach(function (id, i) { var e = document.getElementById(id); if (e && e.getBoundingClientRect().top <= mid) { cur = i; } });
+    rail.classList.toggle('on', inBand && !document.documentElement.classList.contains('locked'));
+    marks.forEach(function (m, i) { m.classList.toggle('done', i < cur); m.classList.toggle('now', i === cur); });
+  }
+  addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
+})();
+</script>
+<script>
+/* the walkthrough: HLS, native in Safari, hls.js elsewhere, loaded only on open */
+(function () {
+  var open = document.getElementById('wtOpen'), wm = document.getElementById('wm'), v = document.getElementById('wmv'),
+      x = document.getElementById('wmClose'), SRC = 'assets/walk/walkthrough.m3u8', ready = false;
+  if (!open) { return; }
+  function attach() {
+    if (ready) { return Promise.resolve(); } ready = true;
+    if (v.canPlayType('application/vnd.apple.mpegurl')) { v.src = SRC; return Promise.resolve(); }
+    return new Promise(function (res) {
+      var sc = document.createElement('script');
+      sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js';
+      sc.onload = function () { if (window.Hls && Hls.isSupported()) { var h = new Hls(); h.loadSource(SRC); h.attachMedia(v); } else { v.src = SRC; } res(); };
+      sc.onerror = function () { v.src = SRC; res(); };
+      document.head.appendChild(sc);
+    });
+  }
+  function show() {
+    var hv = document.getElementById('film-video'); if (hv && !hv.paused) { hv.pause(); }
+    wm.hidden = false; document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(function () { wm.classList.add('on'); });
+    attach().then(function () { var p = v.play(); if (p && p.catch) { p.catch(function () {}); } });
+    x.focus();
+  }
+  function hide() { v.pause(); wm.classList.remove('on'); document.documentElement.style.overflow = ''; setTimeout(function () { wm.hidden = true; open.focus(); }, 450); }
+  open.addEventListener('click', show); x.addEventListener('click', hide);
+  wm.addEventListener('click', function (e) { if (e.target === wm) { hide(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wm.hidden) { hide(); } });
+})();
+</script>
+</body>
+</html>
