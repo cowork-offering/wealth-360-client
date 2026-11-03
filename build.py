@@ -176,13 +176,13 @@ CH.append(chapter('ch-g', 8, 'You decide. Salesforce does the rest.',
   facts(('On the record', '4', 'steps, from one confirmation'), ('Confirmed by', 'A named person, never an agent'), ('The control', 'Staged, read back, then confirmed')),
   '<div class="decide" id="decide">' + lift('hale-plan', DRAWER + (616,), vh=640) + lift('hale-saved', DRAWER + (616,), vh=640, cls='after') + '</div>'))
 
-# the walkthrough: a second film, seven minutes
+# the walkthrough: a second film, six minutes
 CH.append('''<section class="walk" id="walk">
   <div class="wrap">
-    <p class="eyebrow chno">The walkthrough<span class="dot">&middot;</span>7 minutes</p>
+    <p class="eyebrow chno">The walkthrough<span class="dot">&middot;</span>6 minutes</p>
     <h2 class="head">One case, end to end.</h2>
-    <p class="sub">What it is, what it is worth, how it is built, and a bereavement and a complaint worked live in the sandbox.</p>
-    <button class="wt rise" data-rise type="button" id="wtOpen" aria-label="Play the seven minute walkthrough">
+    <p class="sub">What it is, what it is worth, one bereavement worked live in the sandbox, and the layer that joins every system.</p>
+    <button class="wt rise" data-rise type="button" id="wtOpen" aria-label="Play the six minute walkthrough">
       <img src="assets/film/walk-poster.jpg" alt="" loading="lazy" decoding="async" />
       <span class="wt-play" aria-hidden="true"><svg viewBox="0 0 13 14"><path d="M1 1.2 12 7 1 12.8Z" fill="currentColor"/></svg><span>Watch the walkthrough</span></span>
     </button>
